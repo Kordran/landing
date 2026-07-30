@@ -14,23 +14,26 @@ export default function Footer() {
         </div>
 
         <div className="md:col-span-4 space-y-3 text-[15px]">
-          <a
-            href="mailto:contact@kordran.com"
-            className="block text-accent hover:underline"
-          >
-            contact@kordran.com
-          </a>
           <p className="font-mono text-[12px] tracking-[0.06em] uppercase text-text-secondary">
-            Southern California · Baja California
+            Southern California · Baja California · North America
           </p>
-          <a
-            href="https://www.linkedin.com/company/kordran"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block text-text-secondary transition-colors hover:text-accent"
-          >
-            LinkedIn
-          </a>
+          <div className="flex items-center gap-4">
+            <a
+              href="mailto:contact@kordran.com"
+              className="text-accent hover:underline"
+            >
+              Email
+            </a>
+            <span className="text-border">·</span>
+            <a
+              href="https://www.linkedin.com/company/kordran"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-text-secondary transition-colors hover:text-accent"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
 
         <div className="md:col-span-3 md:text-right space-y-3 text-[14px] text-text-secondary">

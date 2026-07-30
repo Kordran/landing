@@ -84,7 +84,9 @@ export default function ContactForm() {
           />
         </div>
         <div className="form-field">
-          <label htmlFor="phone">Phone (optional)</label>
+          <label htmlFor="phone">
+            Phone <span className="normal-case tracking-normal">(optional)</span>
+          </label>
           <input id="phone" name="phone" type="tel" autoComplete="tel" />
         </div>
         <div className="form-field md:col-span-2">
@@ -93,12 +95,12 @@ export default function ContactForm() {
         </div>
         <div className="form-field md:col-span-2">
           <label htmlFor="unresolved">
-            What happens if it remains unresolved?
+            What happens if the situation remains unresolved?
           </label>
           <textarea id="unresolved" name="unresolved" required />
         </div>
         <div className="form-field md:col-span-2">
-          <label htmlFor="timeline">Desired timeline</label>
+          <label htmlFor="timeline">Required timeline</label>
           <input id="timeline" name="timeline" type="text" required />
         </div>
       </div>

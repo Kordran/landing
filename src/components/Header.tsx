@@ -6,7 +6,6 @@ import Link from "next/link";
 const navLinks = [
   { href: "/#mandates", label: "Mandates" },
   { href: "/#approach", label: "Approach" },
-  { href: "/#why", label: "About" },
 ];
 
 export default function Header() {
@@ -30,7 +29,7 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 border-b border-border bg-bg transition-[height,background] duration-200 ${
+        className={`fixed inset-x-0 top-0 z-50 border-b border-border bg-bg transition-[height] duration-200 ${
           scrolled ? "h-[72px]" : "h-20"
         }`}
       >
@@ -73,7 +72,9 @@ export default function Header() {
       <div
         id="mobile-menu"
         className={`fixed inset-0 z-40 bg-bg pt-20 transition-opacity duration-200 md:hidden ${
-          menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+          menuOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
         }`}
       >
         <nav className="container flex flex-col border-t border-border">
