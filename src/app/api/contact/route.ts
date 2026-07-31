@@ -4,9 +4,8 @@ type ContactPayload = {
   name?: string;
   company?: string;
   email?: string;
-  phone?: string;
   situation?: string;
-  unresolved?: string;
+  area?: string;
   timeline?: string;
 };
 
@@ -26,12 +25,11 @@ export async function POST(request: Request) {
   const name = body.name?.trim() || "";
   const company = body.company?.trim() || "";
   const email = body.email?.trim() || "";
-  const phone = body.phone?.trim() || "";
   const situation = body.situation?.trim() || "";
-  const unresolved = body.unresolved?.trim() || "";
+  const area = body.area?.trim() || "";
   const timeline = body.timeline?.trim() || "";
 
-  if (!name || !company || !email || !situation || !unresolved || !timeline) {
+  if (!name || !company || !email || !situation) {
     return NextResponse.json(
       { error: "Please complete all required fields." },
       { status: 400 }
@@ -49,9 +47,8 @@ export async function POST(request: Request) {
     name,
     company,
     email,
-    phone: phone || null,
     situation,
-    unresolved,
+    area,
     timeline,
     receivedAt: new Date().toISOString(),
   };
@@ -73,19 +70,16 @@ export async function POST(request: Request) {
           from: fromEmail,
           to: [toEmail],
           reply_to: email,
-          subject: `Situation discussion — ${company}`,
+          subject: `Contact inquiry - ${company}`,
           text: [
             `Name: ${name}`,
             `Company: ${company}`,
             `Email: ${email}`,
-            `Phone: ${phone || "—"}`,
-            `Timeline: ${timeline}`,
+            `Area: ${area || "Not specified"}`,
+            `Timeline: ${timeline || "Not specified"}`,
             "",
-            "What is happening?",
+            "What is happening, and what result do you need?",
             situation,
-            "",
-            "What happens if it remains unresolved?",
-            unresolved,
           ].join("\n"),
         }),
       });

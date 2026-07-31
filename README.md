@@ -30,7 +30,7 @@ Without `RESEND_API_KEY`, contact form submissions are validated and logged serv
 
 ## Pages
 
-- `/` — landing page
-- `/privacy` — privacy policy
-- `/terms` — terms of use
-- `POST /api/contact` — situation discussion form
+- `/` - landing page
+- `/privacy` - privacy policy
+- `/terms` - terms of use
+- `POST /api/contact` - situation discussion form

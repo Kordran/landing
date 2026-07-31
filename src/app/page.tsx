@@ -1,237 +1,130 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HeroSection from "@/components/HeroSection";
 import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
-
-const calledWhen = [
-  "A critical supplier is missing commitments.",
-  "A production or sourcing transition has stalled.",
-  "Costs have increased without a credible explanation.",
-  "The issue crosses procurement, engineering, quality, logistics, trade, and finance.",
-  "The normal organization cannot close the problem.",
-  "The cost of delay is increasing.",
-];
-
-const mandates = [
-  {
-    number: "01",
-    title: "Supplier Recovery",
-    lead: "Restore delivery, quality, capacity, and commercial control at critical suppliers.",
-    detail:
-      "Kordran works directly with the supplier, identifies the true constraint, establishes a recovery plan, and develops alternate capacity where required.",
-  },
-  {
-    number: "02",
-    title: "Production Relocation",
-    lead: "Move production across suppliers, regions, and borders.",
-    detail:
-      "Kordran identifies alternatives, assesses facilities, negotiates terms, manages qualification, and stabilizes initial production.",
-  },
-  {
-    number: "03",
-    title: "Landed-Cost Recovery",
-    lead: "Resolve leakage across supplier pricing, materials, freight, duties, and transaction data.",
-    detail:
-      "Kordran reconstructs the economics, challenges unsupported costs, coordinates recoveries, and installs lasting controls.",
-  },
-  {
-    number: "04",
-    title: "Operational Stabilization",
-    lead: "Restore control in failed ramps, plant transfers, acquisitions, inventory crises, and other industrial special situations.",
-    detail: null,
-  },
-];
-
-const stages = [
-  {
-    number: "01",
-    title: "Establish the facts",
-    copy: "We reconstruct the actual technical, operational, and commercial situation—not merely what existing systems report.",
-  },
-  {
-    number: "02",
-    title: "Go to the source",
-    copy: "We work directly with the supplier, facility, warehouse, logistics operation, or border where the issue originates.",
-  },
-  {
-    number: "03",
-    title: "Execute the solution",
-    copy: "We negotiate, source, qualify, coordinate, and implement. Recommendations are incomplete until the operation changes.",
-  },
-  {
-    number: "04",
-    title: "Build lasting control",
-    copy: "We install the ownership, systems, and operating cadence required to prevent recurrence.",
-  },
-];
 
 export default function HomePage() {
   return (
     <>
       <Header />
       <main className="flex-1 pt-20">
-        {/* 1. HERO */}
-        <section className="border-b border-border">
-          <div className="container py-24 md:py-32 lg:py-40">
-            <p className="label mb-8">Industrial special situations</p>
-            <h1 className="max-w-[14ch] text-[48px] font-medium leading-[0.98] tracking-[-0.04em] text-text sm:text-[64px] lg:text-[84px]">
-              Critical industrial problems, solved at the source.
-            </h1>
-            <div className="mt-10 max-w-2xl space-y-5 text-[18px] leading-[1.55] text-text-secondary md:text-[19px]">
-              <p>
-                Kordran deploys hands-on operating teams to resolve critical
-                supplier failures, production transitions, landed-cost problems,
-                and industrial disruptions.
-              </p>
-              <p>
-                We establish the facts, go directly to the source, and remain
-                accountable through execution.
-              </p>
-            </div>
-            <a href="#discuss" className="cta-link mt-10 text-[16px]">
-              Discuss a situation →
-            </a>
-          </div>
-        </section>
+        <HeroSection />
 
-        {/* 2. WHEN TO CALL */}
+        {/* 2. Why the problem exists */}
         <section className="section border-b border-border">
           <div className="container">
             <Reveal>
-              <div className="grid gap-10 md:grid-cols-12">
-                <div className="md:col-span-4">
-                  <p className="section-label !mb-0">Kordran is called when</p>
+              <div className="grid gap-14 md:grid-cols-2 md:gap-x-16 lg:gap-x-24">
+                <div>
+                  <h2 className="text-heading max-w-[18ch] text-text">
+                    Supply-chain cost rarely arrives with a clean explanation.
+                  </h2>
+                  <p className="text-body mt-10 text-text-secondary md:mt-12">
+                    A supplier price increase may combine materials, freight,
+                    duties, volume, and commercial assumptions. Customs treatment
+                    may vary across brokers or entries. Potential recoveries may
+                    depend on records held separately by finance, supply chain,
+                    logistics, trade, and engineering.
+                  </p>
                 </div>
-                <ul className="md:col-span-8">
-                  {calledWhen.map((item) => (
-                    <li
-                      key={item}
-                      className="border-t border-border py-5 text-[18px] leading-snug text-text md:text-[20px] last:border-b"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <div className="md:pt-1">
+                  <br/>
+                  <p className="text-statement statement-rule max-w-[22ch] text-text mt-48">
+                    Each function holds part of the evidence. No one owns the
+                    complete economic problem.
+                  </p>
+                  <p className="text-body mt-10 text-text-secondary">
+                    Kordran connects the records, determines what the evidence
+                    supports, and drives the issue through resolution.
+                  </p>
+                </div>
               </div>
             </Reveal>
           </div>
         </section>
 
-        {/* 3. MANDATES */}
-        <section id="mandates" className="section border-b border-border">
+        {/* 3. Diagnostic */}
+        <section id="diagnostic" className="section border-b border-border">
           <div className="container">
-            <Reveal>
-              <p className="section-label">Mandates</p>
-            </Reveal>
-
-            <div className="mt-4 border-t border-border">
-              {mandates.map((mandate) => (
-                <Reveal
-                  key={mandate.number}
-                  as="article"
-                  className="grid gap-6 border-b border-border py-10 transition-colors duration-200 hover:bg-hover-gray md:grid-cols-12 md:gap-10 md:py-12"
-                >
-                  <div className="md:col-span-4">
-                    <p className="font-mono text-[12px] tracking-[0.08em] text-accent">
-                      {mandate.number}
-                    </p>
-                    <h2 className="mt-4 text-[24px] font-medium tracking-[-0.02em] uppercase sm:text-[28px]">
-                      {mandate.title}
-                    </h2>
-                  </div>
-                  <div className="md:col-span-8 space-y-4">
-                    <p className="text-[18px] leading-[1.5] text-text md:text-[20px]">
-                      {mandate.lead}
-                    </p>
-                    {mandate.detail ? (
-                      <p className="text-[17px] leading-[1.55] text-text-secondary md:text-[18px]">
-                        {mandate.detail}
-                      </p>
-                    ) : null}
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 4. HOW KORDRAN WORKS */}
-        <section id="approach" className="dark-section bg-dark text-white">
-          <div className="container section">
-            <Reveal>
-              <p className="section-label">How Kordran works</p>
-            </Reveal>
-
-            <div className="mt-6 border-t border-[#2c3236]">
-              {stages.map((stage) => (
-                <Reveal
-                  key={stage.number}
-                  className="grid gap-4 border-b border-[#2c3236] py-8 md:grid-cols-12 md:gap-10 md:py-10"
-                >
-                  <div className="md:col-span-4">
-                    <p className="font-mono text-[13px] tracking-[0.06em] text-[#9bb0c0]">
-                      {stage.number} — {stage.title}
-                    </p>
-                  </div>
-                  <p className="md:col-span-8 text-[17px] leading-[1.55] text-[#c8ccd0] md:text-[18px]">
-                    {stage.copy}
-                  </p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 5. CLOSING CTA */}
-        <section id="discuss" className="section">
-          <div className="container">
-            <Reveal>
-              <div className="mb-20 max-w-3xl border-b border-border pb-16 md:mb-24 md:pb-20">
-                <h2 className="text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-[44px] lg:text-[52px]">
-                  One team owns the complete problem.
-                </h2>
-                <div className="mt-10 space-y-4 text-[18px] leading-[1.55] text-text-secondary md:text-[19px]">
-                  <p>Software identifies exceptions.</p>
-                  <p>Specialists handle individual functions.</p>
-                  <p>Internal teams own separate pieces.</p>
-                  <p className="pt-2 text-text">
-                    Kordran connects the full operating chain and remains
-                    accountable for the defined outcome.
-                  </p>
-                </div>
-                <p className="mt-10 text-[18px] font-medium tracking-[-0.01em] text-text md:text-[20px]">
-                  One team. One mandate. One accountable outcome.
+            <Reveal className="grid gap-14 grid-cols-2 md:gap-x-16 lg:gap-x-24">
+              <h2 className="col-span-1 text-heading max-w-[16ch] text-text">
+                Landed-Cost Recovery Diagnostic
+              </h2>
+              <div className="col-span-1 text-body max-w-2xl space-y-6 text-text-secondary">
+                <p>
+                  A fixed-scope review of purchasing, supplier, import, and
+                  logistics activity. It identifies credible recovery
+                  opportunities, estimates the exposure, evaluates the
+                  supporting evidence, and defines the action required to
+                  pursue them.
+                </p>
+                <p>
+                  A typical review covers one legal entity, up to twelve months
+                  of activity, and a defined group of suppliers, parts,
+                  freight lanes, or import categories. Work generally takes
+                  two to four weeks after the required records and stakeholder
+                  access are available.
                 </p>
               </div>
+            </Reveal>
+          </div>
+        </section>
 
-              <div className="grid gap-12 md:grid-cols-12 md:gap-14">
-                <div className="md:col-span-5">
-                  <h2 className="max-w-[14ch] text-[36px] font-medium leading-[1.05] tracking-[-0.03em] sm:text-[44px] lg:text-[48px]">
-                    When the cost of delay is increasing, the problem needs an
-                    owner.
-                  </h2>
-                  <p className="mt-8 max-w-md text-[18px] leading-[1.55] text-text-secondary">
-                    Tell us what is happening, what has already been tried, and
-                    what happens if the situation remains unresolved.
-                  </p>
-                  <a href="#contact-form" className="cta-link mt-8 text-[16px]">
-                    Discuss a situation →
-                  </a>
-                  <div className="mt-10 space-y-3">
-                    <p className="font-mono text-[12px] tracking-[0.08em] text-text-secondary uppercase">
-                      Confidential initial discussion
-                    </p>
-                    <p className="font-mono text-[12px] tracking-[0.06em] text-text-secondary uppercase">
-                      Southern California · Baja California · North America
-                    </p>
-                  </div>
-                </div>
-
-                <div id="contact-form" className="md:col-span-7">
-                  <ContactForm />
-                </div>
+        {/* 4. Recovery + contact */}
+        <section id="contact" className="section">
+          <div className="container">
+            <Reveal className="editorial-block text-center max-w-4xl mx-auto">
+              <h2 className="text-heading text-text text-center">
+                Identifying the opportunity is only the beginning.
+              </h2>
+              <div className="text-body mt-10 space-y-6 text-text-secondary">
+                <p>
+                  Kordran can remain through validation and recovery: resolving
+                  data gaps, coordinating internal stakeholders, working with
+                  suppliers and brokers, preparing commercial claims, escalating
+                  decisions, and implementing approved corrections.
+                </p>
+                <p>
+                  Where the underlying issue is systemic, we strengthen the
+                  controls connecting parts, purchasing, suppliers, brokers,
+                  imports, logistics activity, and financial reporting.
+                </p>
+                <p>
+                  Best suited to businesses with meaningful supplier, freight,
+                  duty, or import spend and enough transaction complexity that
+                  the answer cannot be found in one system.
+                </p>
               </div>
             </Reveal>
+
+            <div className="mt-20 grid items-start gap-14 border-t border-border pt-16 md:mt-28 md:grid-cols-12 md:gap-x-16 md:pt-20">
+              <Reveal className="md:col-span-5">
+                <h2 className="text-heading statement-rule text-text">
+                  Bring us the problem.
+                </h2>
+                <div className="text-body mt-8 space-y-5 text-text-secondary">
+                  <p>
+                    You do not need to know the exact cause. Tell us what
+                    changed, where the cost is appearing, what has already been
+                    attempted, and what result the business needs.
+                  </p>
+                  <p>
+                    Submitted information is reviewed confidentially to
+                    determine whether the situation fits Kordran&apos;s scope.
+                  </p>
+                </div>
+                <p className="mt-12 font-mono text-[12px] tracking-[0.08em] text-text-secondary uppercase">
+                  Confidential initial discussion
+                </p>
+              </Reveal>
+
+              <div id="contact-form" className="md:col-span-7">
+                <Reveal delay={150}>
+                  <ContactForm />
+                </Reveal>
+              </div>
+            </div>
           </div>
         </section>
       </main>

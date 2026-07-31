@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter_Tight, IBM_Plex_Mono } from "next/font/google";
+import { Inter_Tight, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -16,15 +16,24 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+
+
 export const metadata: Metadata = {
-  title: "Kordran — Industrial Special Situations",
+  title: "Kordran - Supply-Chain Value Recovery",
   description:
-    "Kordran deploys hands-on operating teams to resolve critical supplier failures, production transitions, landed-cost problems, and industrial disruptions—from diagnosis through execution.",
+    "Kordran identifies and pursues avoidable cost across supplier pricing, freight, duties, tariffs, and import operations for companies with complex hardware supply chains.",
   metadataBase: new URL("https://kordran.com"),
   openGraph: {
-    title: "Kordran — Industrial Special Situations",
+    title: "Kordran - Supply-Chain Value Recovery",
     description:
-      "Critical industrial problems, solved at the source. One team. One mandate. One accountable outcome.",
+      "Find the cost. Recover the value. Fix the system. Landed-cost recovery for complex hardware supply chains.",
     type: "website",
     locale: "en_US",
     siteName: "Kordran",
@@ -45,7 +54,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${interTight.variable} ${ibmPlexMono.variable} h-full`}
+      className={`${interTight.variable} ${ibmPlexMono.variable} ${instrumentSerif.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-bg text-text antialiased">
         {children}

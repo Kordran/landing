@@ -24,9 +24,8 @@ export default function ContactForm() {
           name: data.get("name"),
           company: data.get("company"),
           email: data.get("email"),
-          phone: data.get("phone"),
           situation: data.get("situation"),
-          unresolved: data.get("unresolved"),
+          area: data.get("area"),
           timeline: data.get("timeline"),
         }),
       });
@@ -46,19 +45,21 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="border border-border p-8 md:p-10">
+      <div className="form-success border border-border p-10 md:p-12">
         <p className="label mb-4">Received</p>
-        <p className="max-w-xl text-[20px] leading-relaxed text-text">
-          Your message has been received. Kordran will review the situation and
-          respond directly.
+        <p className="text-body max-w-xl text-text">
+          Your message has been received. Submitted information is reviewed
+          confidentially to determine whether the problem fits Kordran&apos;s
+          scope.
         </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={onSubmit} className="border border-border p-8 md:p-10">
-      <div className="grid gap-6 md:grid-cols-2">
+    <form onSubmit={onSubmit} className="border border-border p-10 md:p-12">
+      <p className="label mb-10">Request a review</p>
+      <div className="grid gap-7 md:grid-cols-2">
         <div className="form-field">
           <label htmlFor="name">Name</label>
           <input id="name" name="name" type="text" required autoComplete="name" />
@@ -73,7 +74,7 @@ export default function ContactForm() {
             autoComplete="organization"
           />
         </div>
-        <div className="form-field">
+        <div className="form-field md:col-span-2">
           <label htmlFor="email">Work email</label>
           <input
             id="email"
@@ -83,30 +84,39 @@ export default function ContactForm() {
             autoComplete="email"
           />
         </div>
+        <div className="form-field md:col-span-2">
+          <label htmlFor="situation">
+            What is happening, and what result do you need?
+          </label>
+          <textarea id="situation" name="situation" required rows={6} />
+        </div>
         <div className="form-field">
-          <label htmlFor="phone">
-            Phone <span className="normal-case tracking-normal">(optional)</span>
-          </label>
-          <input id="phone" name="phone" type="tel" autoComplete="tel" />
+          <label htmlFor="area">Area of concern (optional)</label>
+          <select id="area" name="area" defaultValue="">
+            <option value="" disabled>
+              Select if known
+            </option>
+            <option value="landed-cost">Landed cost / duties / freight</option>
+            <option value="supplier-pricing">Supplier pricing</option>
+            <option value="trade-customs">Trade and customs operations</option>
+            <option value="other">Other / not sure</option>
+          </select>
         </div>
-        <div className="form-field md:col-span-2">
-          <label htmlFor="situation">What is happening?</label>
-          <textarea id="situation" name="situation" required />
-        </div>
-        <div className="form-field md:col-span-2">
-          <label htmlFor="unresolved">
-            What happens if the situation remains unresolved?
-          </label>
-          <textarea id="unresolved" name="unresolved" required />
-        </div>
-        <div className="form-field md:col-span-2">
-          <label htmlFor="timeline">Required timeline</label>
-          <input id="timeline" name="timeline" type="text" required />
+        <div className="form-field">
+          <label htmlFor="timeline">Approximate timeline (optional)</label>
+          <input
+            id="timeline"
+            name="timeline"
+            type="text"
+            placeholder="e.g. This quarter"
+          />
         </div>
       </div>
 
       {status === "error" ? (
-        <p className="mt-6 text-[15px] text-accent">{error}</p>
+        <p className="mt-6 text-[15px] text-accent" role="alert">
+          {error}
+        </p>
       ) : null}
 
       <div className="mt-8">
@@ -115,7 +125,7 @@ export default function ContactForm() {
           className="form-submit"
           disabled={status === "submitting"}
         >
-          {status === "submitting" ? "Submitting…" : "Submit situation →"}
+          {status === "submitting" ? "Submitting…" : "Request a review"}
         </button>
       </div>
     </form>
