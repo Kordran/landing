@@ -4,8 +4,15 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms - Kordran",
+  title: "Terms",
   description: "Terms of use for the Kordran website.",
+  alternates: {
+    canonical: "/terms",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function TermsPage() {

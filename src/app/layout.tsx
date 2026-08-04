@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import { Inter_Tight, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 import Script from "next/script";
+import {
+  defaultTitle,
+  legalName,
+  ogDescription,
+  siteDescription,
+  siteName,
+  siteUrl,
+} from "@/lib/site";
 import "./globals.css";
 
 const interTight = Inter_Tight({
@@ -23,25 +31,58 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
-
+const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
-  title: "Kordran - Supply-Chain Value Recovery",
-  description:
-    "Kordran identifies and pursues avoidable cost across supplier pricing, freight, duties, tariffs, and import operations for companies with complex hardware supply chains.",
-  metadataBase: new URL("https://kordran.com"),
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: defaultTitle,
+    template: `%s | ${siteName}`,
+  },
+  description: siteDescription,
+  applicationName: siteName,
+  authors: [{ name: legalName, url: siteUrl }],
+  creator: legalName,
+  publisher: legalName,
+  keywords: [
+    "landed cost recovery",
+    "supply-chain value recovery",
+    "duties and tariffs",
+    "freight cost recovery",
+    "supplier pricing review",
+    "import operations",
+    "hardware supply chain",
+  ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "Kordran - Supply-Chain Value Recovery",
-    description:
-      "Find the cost. Recover the value. Fix the system. Landed-cost recovery for complex hardware supply chains.",
-    type: "website",
+    title: defaultTitle,
+    description: ogDescription,
+    url: siteUrl,
+    siteName,
     locale: "en_US",
-    siteName: "Kordran",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: defaultTitle,
+    description: ogDescription,
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
+  ...(googleVerification
+    ? { verification: { google: googleVerification } }
+    : {}),
 };
 
 export default function RootLayout({

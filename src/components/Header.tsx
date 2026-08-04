@@ -23,13 +23,13 @@ export default function Header() {
 
   const menuLinks = [
     { href: "/#diagnostic", label: "Diagnostic" },
-    { href: "/#contact", label: "Request a review ↗" },
+    { href: "/#contact", label: "Request a review" },
   ];
 
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-[height,background-color,backdrop-filter] duration-300 ${
+        className={`site-header fixed inset-x-0 top-0 z-50 transition-[height,background-color,backdrop-filter] duration-300 ${
           scrolled
             ? "h-[72px] border-b border-border bg-bg/95 backdrop-blur-sm"
             : "h-20 border-b border-transparent bg-bg"
@@ -52,7 +52,10 @@ export default function Header() {
               Diagnostic
             </a>
             <a href="/#contact" className="nav-cta">
-              Request a review ↗
+              Request a review{" "}
+              <span className="nav-cta-arrow" aria-hidden="true">
+                ↗
+              </span>
             </a>
           </nav>
 
@@ -90,6 +93,14 @@ export default function Header() {
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
+              {link.href === "/#contact" ? (
+                <>
+                  {" "}
+                  <span className="nav-cta-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                </>
+              ) : null}
             </a>
           ))}
         </nav>
