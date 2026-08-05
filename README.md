@@ -43,5 +43,7 @@ Without `RESEND_API_KEY`, contact form submissions are validated and logged serv
 - `/llms-full.txt` - fuller plain-text site summary for LLM agents
 - `/manifest.webmanifest` - web app manifest
 - Open Graph / Twitter images generated via App Router conventions
+- Brand logos: `public/logos/`
+- Favicons: `public/favicon.ico`, `public/favicon.svg`, `public/favicon-96x96.png`, `public/apple-touch-icon.png`, `public/web-app-manifest-*.png`
 
 Production site URL: https://kordran.com

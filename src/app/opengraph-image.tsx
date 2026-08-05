@@ -21,15 +21,46 @@ export default function OpenGraphImage() {
           fontFamily: "Helvetica Neue, Arial, sans-serif",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            fontSize: 28,
-            fontWeight: 600,
-            letterSpacing: "0.22em",
-          }}
-        >
-          KORDRAN
+        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          <div
+            style={{
+              display: "flex",
+              width: 48,
+              height: 48,
+              position: "relative",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                width: 22,
+                height: 22,
+                background: "#1C3D57",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                right: 0,
+                bottom: 0,
+                width: 22,
+                height: 22,
+                background: "#161A1D",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 28,
+              fontWeight: 600,
+              letterSpacing: "0.22em",
+            }}
+          >
+            KORDRAN
+          </div>
         </div>
         <div
           style={{

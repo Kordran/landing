@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -38,10 +39,15 @@ export default function Header() {
         <div className="container flex h-full items-center justify-between gap-6">
           <Link
             href="/"
-            className="font-sans text-[15px] font-medium tracking-[0.2em] text-text"
+            className="inline-flex items-center"
+            aria-label="Kordran home"
             onClick={() => setMenuOpen(false)}
           >
-            KORDRAN
+            <Logo
+              variant="full"
+              priority
+              className="h-7 w-auto md:h-8"
+            />
           </Link>
 
           <nav className="hidden items-center gap-8 md:flex">

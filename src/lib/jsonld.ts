@@ -1,3 +1,4 @@
+import { logos } from "@/lib/logos";
 import {
   contactEmail,
   legalName,
@@ -24,6 +25,8 @@ export function getHomeJsonLd() {
         url: siteUrl,
         email: contactEmail,
         description: siteDescription,
+        logo: `${siteUrl}${logos.fullColorLight}`,
+        image: `${siteUrl}${logos.fullColorLight}`,
         sameAs: [linkedInUrl],
       },
       {

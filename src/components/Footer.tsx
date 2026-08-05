@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function Footer() {
   return (
@@ -6,9 +7,7 @@ export default function Footer() {
       <div className="container">
         <div className="grid gap-10 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-5">
-            <p className="mb-4 text-[17px] font-medium tracking-[0.18em]">
-              KORDRAN
-            </p>
+            <Logo variant="full" className="mb-5 h-8 w-auto" />
             <p className="max-w-sm text-[15px] leading-relaxed text-text-secondary">
               Supply-chain value recovery and execution for companies with
               complex hardware supply chains.
