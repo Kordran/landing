@@ -1,7 +1,7 @@
 # Kordran - full summary for language models
 
 Source: https://kordran.com/
-Entity: Kordran Group, Inc.
+Entity: Kordran Inc.
 Contact: contact@kordran.com
 LinkedIn: https://www.linkedin.com/company/kordran
 
@@ -55,4 +55,4 @@ Prospective clients can request a review at https://kordran.com/#contact without
 
 ## Important disclaimer
 
-Kordran Group, Inc. is not a law firm or customs broker. Formal customs advice, legal interpretation, and regulated filings are handled or reviewed by appropriately qualified specialists.
+Kordran Inc. is not a law firm or customs broker. Formal customs advice, legal interpretation, and regulated filings are handled or reviewed by appropriately qualified specialists.

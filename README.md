@@ -1,6 +1,6 @@
 # Kordran Landing
 
-Supply-chain value recovery landing site for Kordran Group, Inc.
+Supply-chain value recovery landing site for Kordran Inc.
 
 ## Stack
 

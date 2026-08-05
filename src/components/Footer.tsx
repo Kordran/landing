@@ -13,7 +13,7 @@ export default function Footer() {
               complex hardware supply chains.
             </p>
             <p className="mt-4 text-[14px] leading-relaxed text-text-secondary">
-              Kordran Group, Inc. is not a law firm or customs broker. Formal
+              Kordran Inc. is not a law firm or customs broker. Formal
               customs advice, legal interpretation, and regulated filings are
               handled or reviewed by appropriately qualified specialists.
             </p>
@@ -39,7 +39,7 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-3 md:text-right space-y-3 text-[14px] text-text-secondary">
-            <p>© 2026 Kordran Group, Inc.</p>
+            <p>© 2026 Kordran Inc.</p>
             <p className="space-x-3">
               <Link
                 href="/privacy"

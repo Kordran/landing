@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy",
-  description: "Privacy policy for Kordran Group, Inc.",
+  description: "Privacy policy for Kordran Inc.",
   alternates: {
     canonical: "/privacy",
   },
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
           <h1>Privacy</h1>
           <p>Last updated: July 30, 2026</p>
           <p>
-            Kordran Group, Inc. (“Kordran,” “we,” “us”) respects the
+            Kordran Inc. (“Kordran,” “we,” “us”) respects the
             confidentiality of information shared through this website,
             particularly information concerning supply-chain cost, trade, and
             operating matters.

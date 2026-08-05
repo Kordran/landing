@@ -194,10 +194,9 @@ select {
   gap: 0.35em;
   width: fit-content;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text);
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 2px;
+  border-bottom: 0.5px solid var(--border);
   transition:
     color var(--duration-fast) var(--ease-out),
     border-color var(--duration-fast) var(--ease-out);

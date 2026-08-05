@@ -30,7 +30,7 @@ export default function TermsPage() {
           <p>Last updated: July 30, 2026</p>
           <p>
             By using this website, you agree to these terms of use. This site is
-            operated by Kordran Group, Inc. (“Kordran”).
+            operated by Kordran Inc. (“Kordran”).
           </p>
 
           <h2>Purpose of the site</h2>

@@ -2,7 +2,7 @@ export const siteUrl = "https://kordran.com";
 
 export const siteName = "Kordran";
 
-export const legalName = "Kordran Group, Inc.";
+export const legalName = "Kordran Inc.";
 
 export const contactEmail = "contact@kordran.com";
 
