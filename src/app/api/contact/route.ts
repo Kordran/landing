@@ -49,11 +49,16 @@ export async function POST(request: Request) {
   try {
     supabase = getSupabaseAdmin();
   } catch (error) {
-    console.error("Supabase contact storage is not configured", {
-      message: error instanceof Error ? error.message : "Unknown error",
-    });
+    const message =
+      error instanceof Error ? error.message : "Supabase is not configured.";
+    console.error("Supabase contact storage is not configured:", message);
     return NextResponse.json(
-      { error: "Unable to submit your request. Please try again later." },
+      {
+        error:
+          process.env.NODE_ENV === "development"
+            ? message
+            : "Unable to submit your request. Please try again later.",
+      },
       { status: 503 }
     );
   }
@@ -76,9 +81,18 @@ export async function POST(request: Request) {
     console.error("Supabase contact insert failed", {
       code: insertError?.code,
       message: insertError?.message,
+      details: insertError?.details,
+      hint: insertError?.hint,
     });
     return NextResponse.json(
-      { error: "Unable to submit your request. Please try again later." },
+      {
+        error:
+          process.env.NODE_ENV === "development"
+            ? `Supabase insert failed: ${insertError?.message || "unknown error"}${
+                insertError?.hint ? ` (${insertError.hint})` : ""
+              }`
+            : "Unable to submit your request. Please try again later.",
+      },
       { status: 503 }
     );
   }

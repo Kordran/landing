@@ -9,12 +9,19 @@ export function getSupabaseAdmin() {
     return adminClient;
   }
 
-  const url = process.env.SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.SUPABASE_URL?.trim();
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
 
   if (!url || !serviceRoleKey) {
+    const missing = [
+      !url ? "SUPABASE_URL" : null,
+      !serviceRoleKey ? "SUPABASE_SERVICE_ROLE_KEY" : null,
+    ]
+      .filter(Boolean)
+      .join(", ");
+
     throw new Error(
-      "SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be configured."
+      `Missing required environment variable(s): ${missing}. Copy .env.example to .env.local and restart the dev server.`
     );
   }
 

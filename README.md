@@ -17,7 +17,16 @@ npm run dev
 
 ## Environment
 
-Required for contact-form storage:
+Copy the example file and fill in real values:
+
+```bash
+cp .env.example .env.local
+```
+
+Restart `npm run dev` after changing env vars. See [`.env.example`](.env.example)
+for the full list.
+
+Required for contact-form storage (server-only):
 
 ```bash
 SUPABASE_URL=https://your-project.supabase.co
