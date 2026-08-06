@@ -17,6 +17,16 @@ npm run dev
 
 ## Environment
 
+Required for contact-form storage:
+
+```bash
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+`SUPABASE_SERVICE_ROLE_KEY` is server-only. Never expose it in client code or
+rename it with a `NEXT_PUBLIC_` prefix.
+
 Optional:
 
 ```bash
@@ -27,9 +37,28 @@ CONTACT_TO_EMAIL=contact@kordran.com
 CONTACT_FROM_EMAIL="Kordran Website <noreply@yourdomain.com>"
 ```
 
-Without `RESEND_API_KEY`, contact form submissions are validated and logged server-side so the UI flow can be tested.
+Without `RESEND_API_KEY`, contact submissions are still stored in Supabase and
+marked `not_configured` for notification status.
 
 `GOOGLE_SITE_VERIFICATION` populates the Google Search Console meta tag when set.
+
+## Supabase
+
+The contact form writes to `public.contact_submissions` through the server-only
+route at `POST /api/contact`. Row Level Security is enabled and no browser role
+has access to the table.
+
+Apply the schema in
+`supabase/migrations/20260806_create_contact_submissions.sql` to the existing
+Supabase project. With the Supabase CLI linked to the project:
+
+```bash
+npx supabase db push
+```
+
+Alternatively, run the migration contents in the Supabase SQL editor. After the
+migration is applied, add `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` to the
+deployment environment and redeploy.
 
 ## Pages and discovery
 

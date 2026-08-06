@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
 
 type ContactPayload = {
   name?: string;
@@ -43,15 +44,68 @@ export async function POST(request: Request) {
     );
   }
 
-  const submission = {
-    name,
-    company,
-    email,
-    situation,
-    area,
-    timeline,
-    receivedAt: new Date().toISOString(),
-  };
+  let supabase: ReturnType<typeof getSupabaseAdmin>;
+
+  try {
+    supabase = getSupabaseAdmin();
+  } catch (error) {
+    console.error("Supabase contact storage is not configured", {
+      message: error instanceof Error ? error.message : "Unknown error",
+    });
+    return NextResponse.json(
+      { error: "Unable to submit your request. Please try again later." },
+      { status: 503 }
+    );
+  }
+
+  const { data: submission, error: insertError } = await supabase
+    .from("contact_submissions")
+    .insert({
+      name,
+      company,
+      email,
+      situation,
+      area: area || null,
+      timeline: timeline || null,
+      notification_status: "pending",
+    })
+    .select("id")
+    .single();
+
+  if (insertError || !submission) {
+    console.error("Supabase contact insert failed", {
+      code: insertError?.code,
+      message: insertError?.message,
+    });
+    return NextResponse.json(
+      { error: "Unable to submit your request. Please try again later." },
+      { status: 503 }
+    );
+  }
+
+  const submissionId = submission.id as string;
+
+  async function updateNotificationStatus(
+    status: "sent" | "failed" | "not_configured",
+    notificationError: string | null = null
+  ) {
+    const { error } = await supabase
+      .from("contact_submissions")
+      .update({
+        notification_status: status,
+        notification_error: notificationError,
+      })
+      .eq("id", submissionId);
+
+    if (error) {
+      console.error("Supabase notification status update failed", {
+        submissionId,
+        status,
+        code: error.code,
+        message: error.message,
+      });
+    }
+  }
 
   const resendKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.CONTACT_TO_EMAIL || "contact@kordran.com";
@@ -85,21 +139,37 @@ export async function POST(request: Request) {
       });
 
       if (!response.ok) {
-        console.error("Resend error", await response.text());
+        await updateNotificationStatus(
+          "failed",
+          `Resend returned HTTP ${response.status}.`
+        );
+        console.error("Resend contact notification failed", {
+          submissionId,
+          status: response.status,
+        });
         return NextResponse.json(
           { error: "Unable to deliver message. Please email contact@kordran.com." },
           { status: 502 }
         );
       }
+
+      await updateNotificationStatus("sent");
     } catch (error) {
-      console.error("Contact delivery failed", error);
+      await updateNotificationStatus(
+        "failed",
+        "The notification request could not be completed."
+      );
+      console.error("Contact notification request failed", {
+        submissionId,
+        message: error instanceof Error ? error.message : "Unknown error",
+      });
       return NextResponse.json(
         { error: "Unable to deliver message. Please email contact@kordran.com." },
         { status: 502 }
       );
     }
   } else {
-    console.info("Contact submission received", submission);
+    await updateNotificationStatus("not_configured");
   }
 
   return NextResponse.json({ ok: true });
