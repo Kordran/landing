@@ -60,7 +60,7 @@ export default function Header() {
             <a href="/#contact" className="nav-cta">
               Request a review{" "}
               <span className="nav-cta-arrow" aria-hidden="true">
-                ↗
+                {">"}
               </span>
             </a>
           </nav>
@@ -103,7 +103,7 @@ export default function Header() {
                 <>
                   {" "}
                   <span className="nav-cta-arrow" aria-hidden="true">
-                    ↗
+                    {">"}
                   </span>
                 </>
               ) : null}

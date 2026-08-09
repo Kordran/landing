@@ -213,7 +213,7 @@ select {
 }
 
 .nav-cta:hover .nav-cta-arrow {
-  transform: translate(2px, -2px);
+  transform: translateX(2px);
 }
 
 .nav-cta:focus-visible {

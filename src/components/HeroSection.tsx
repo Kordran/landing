@@ -38,7 +38,10 @@ export default function HeroSection() {
             companies with complex hardware supply chains.
           </p>
           <a href="#contact" className="nav-cta">
-            Request a review <span className="nav-cta-arrow" aria-hidden="true">↗</span>
+            Request a review{" "}
+            <span className="nav-cta-arrow" aria-hidden="true">
+              {">"}
+            </span>
           </a>
         </div>
       </div>
