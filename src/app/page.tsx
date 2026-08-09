@@ -89,7 +89,7 @@ export default function HomePage() {
               </p>
             </div>
             <a href="#discuss" className="cta-link mt-10 text-[16px]">
-              Discuss a situation →
+              Discuss a situation >
             </a>
           </div>
         </section>
@@ -215,7 +215,7 @@ export default function HomePage() {
                     what happens if the situation remains unresolved.
                   </p>
                   <a href="#contact-form" className="cta-link mt-8 text-[16px]">
-                    Discuss a situation →
+                    Discuss a situation >
                   </a>
                   <div className="mt-10 space-y-3">
                     <p className="font-mono text-[12px] tracking-[0.08em] text-text-secondary uppercase">

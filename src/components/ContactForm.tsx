@@ -115,7 +115,7 @@ export default function ContactForm() {
           className="form-submit"
           disabled={status === "submitting"}
         >
-          {status === "submitting" ? "Submitting…" : "Submit situation →"}
+          {status === "submitting" ? "Submitting…" : "Submit situation >"}
         </button>
       </div>
     </form>

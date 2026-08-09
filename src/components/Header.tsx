@@ -53,7 +53,7 @@ export default function Header() {
               </a>
             ))}
             <a href="/#discuss" className="cta-link text-[14px]">
-              Discuss a situation →
+              Discuss a situation >
             </a>
           </nav>
 
@@ -93,7 +93,7 @@ export default function Header() {
             className="border-b border-border py-6 text-[18px] text-text"
             onClick={() => setMenuOpen(false)}
           >
-            Discuss a situation →
+            Discuss a situation >
           </a>
         </nav>
       </div>
