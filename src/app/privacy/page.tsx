@@ -16,7 +16,7 @@ export default function PrivacyPage() {
         <div className="container legal-content section max-w-[900px]">
           <p className="label mb-6">
             <Link href="/" className="hover:underline">
-              ← Kordran
+              < Kordran
             </Link>
           </p>
           <h1>Privacy</h1>
