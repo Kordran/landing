@@ -6,6 +6,7 @@ import {
   siteDescription,
   siteName,
   siteUrl,
+  xUrl,
 } from "@/lib/site";
 
 const organizationId = `${siteUrl}/#organization`;
@@ -27,7 +28,7 @@ export function getHomeJsonLd() {
         description: siteDescription,
         logo: `${siteUrl}${logos.fullColorLight}`,
         image: `${siteUrl}${logos.fullColorLight}`,
-        sameAs: [linkedInUrl],
+        sameAs: [linkedInUrl, xUrl],
       },
       {
         "@type": "WebSite",

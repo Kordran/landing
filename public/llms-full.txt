@@ -4,6 +4,7 @@ Source: https://kordran.com/
 Entity: Kordran Inc.
 Contact: contact@kordran.com
 LinkedIn: https://www.linkedin.com/company/kordran
+X: https://x.com/kordran_
 
 ## Positioning
 

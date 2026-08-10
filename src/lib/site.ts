@@ -8,6 +8,8 @@ export const contactEmail = "contact@kordran.com";
 
 export const linkedInUrl = "https://www.linkedin.com/company/kordran";
 
+export const xUrl = "https://x.com/kordran_";
+
 export const siteDescription =
   "Kordran identifies and pursues avoidable cost across supplier pricing, freight, duties, tariffs, and import operations for companies with complex hardware supply chains.";
 

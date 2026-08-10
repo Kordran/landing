@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import { contactEmail, linkedInUrl, xUrl } from "@/lib/site";
 
 export default function Footer() {
   return (
@@ -21,19 +22,29 @@ export default function Footer() {
 
           <div className="md:col-span-4 space-y-3 text-[15px]">
             <a
-              href="mailto:contact@kordran.com"
+              href={`mailto:${contactEmail}`}
               className="text-accent transition-colors hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
             >
-              contact@kordran.com
+              {contactEmail}
             </a>
             <div>
               <a
-                href="https://www.linkedin.com/company/kordran"
+                href={linkedInUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-text-secondary transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
               >
                 LinkedIn
+              </a>
+            </div>
+            <div>
+              <a
+                href={xUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-secondary transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              >
+                X
               </a>
             </div>
           </div>
