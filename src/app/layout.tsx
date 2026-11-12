@@ -28,7 +28,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
 
 export const viewport: Viewport = {
-  themeColor: "#F5F3EE",
+  themeColor: "#FFFFFF",
   colorScheme: "light",
 };
 

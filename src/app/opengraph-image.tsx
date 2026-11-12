@@ -15,8 +15,8 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#F5F3EE",
-          color: "#172322",
+          background: "#FFFFFF",
+          color: "#161A1D",
           padding: "64px 72px 56px",
           fontFamily: "Helvetica Neue, Arial, sans-serif",
         }}
@@ -62,7 +62,7 @@ export default function OpenGraphImage() {
               display: "flex",
               fontSize: 18,
               letterSpacing: "0.14em",
-              color: "#173B38",
+              color: "#1C3D57",
               textTransform: "uppercase",
             }}
           >
@@ -87,7 +87,7 @@ export default function OpenGraphImage() {
           style={{
             display: "flex",
             background: "#FFFFFF",
-            border: "1px solid #D5D8D1",
+            border: "1px solid #D8DDE1",
           }}
         >
           <div
@@ -99,7 +99,7 @@ export default function OpenGraphImage() {
               flex: 1,
             }}
           >
-            <div style={{ display: "flex", fontSize: 14, color: "#52605A" }}>
+            <div style={{ display: "flex", fontSize: 14, color: "#5C6770" }}>
               Agreed unit price
             </div>
             <div style={{ display: "flex", fontSize: 32, fontWeight: 500 }}>
@@ -113,10 +113,10 @@ export default function OpenGraphImage() {
               gap: 8,
               padding: "18px 28px",
               flex: 1,
-              borderLeft: "1px solid #D5D8D1",
+              borderLeft: "1px solid #D8DDE1",
             }}
           >
-            <div style={{ display: "flex", fontSize: 14, color: "#52605A" }}>
+            <div style={{ display: "flex", fontSize: 14, color: "#5C6770" }}>
               Billed unit price
             </div>
             <div
@@ -124,7 +124,7 @@ export default function OpenGraphImage() {
                 display: "flex",
                 fontSize: 32,
                 fontWeight: 500,
-                color: "#985135",
+                color: "#1C3D57",
               }}
             >
               $44.00
@@ -137,10 +137,10 @@ export default function OpenGraphImage() {
               gap: 8,
               padding: "18px 28px",
               flex: 1.15,
-              borderLeft: "1px solid #D5D8D1",
+              borderLeft: "1px solid #D8DDE1",
             }}
           >
-            <div style={{ display: "flex", fontSize: 14, color: "#52605A" }}>
+            <div style={{ display: "flex", fontSize: 14, color: "#5C6770" }}>
               Illustrative difference
             </div>
             <div
@@ -148,7 +148,7 @@ export default function OpenGraphImage() {
                 display: "flex",
                 fontSize: 32,
                 fontWeight: 500,
-                color: "#985135",
+                color: "#1C3D57",
               }}
             >
               $2.00 / unit

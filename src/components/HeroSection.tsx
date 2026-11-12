@@ -1,3 +1,4 @@
+import Image from "next/image";
 import TrackLink from "@/components/TrackLink";
 import {
   example,
@@ -36,7 +37,19 @@ export default function HeroSection() {
           </div>
         </div>
 
-        <figure className="sheet specimen">
+        <div className="hero-panel">
+          <figure className="hero-photo">
+            <Image
+              src="/photos/machined-housing.jpg"
+              alt="Precision-machined aluminum block with a countersunk bore. Illustrative material photograph, not a customer part."
+              width={864}
+              height={1152}
+              priority
+              sizes="(min-width: 900px) 46vw, 100vw"
+              className="hero-photo-img"
+            />
+          </figure>
+        <figure className="sheet specimen specimen-joined">
           <figcaption className="specimen-mast">
             <span className="mark" aria-hidden="true" />
             {illustrativeLabel}
@@ -67,6 +80,7 @@ export default function HeroSection() {
             </span>
           </div>
         </figure>
+        </div>
       </div>
     </section>
   );

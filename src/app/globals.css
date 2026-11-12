@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #f5f3ee;
-  --ink: #172322;
-  --mineral: #173b38;
-  --support: #52605a;
-  --line: #d5d8d1;
-  --line-strong: #7e8680;
+  --bg: #ffffff;
+  --ink: #161a1d;
+  --teal: #1c3d57;
+  --support: #5c6770;
+  --line: #d8dde1;
+  --line-strong: #7c8790;
   --surface: #ffffff;
-  --oxide: #985135;
+  --cool: #f4f6f7;
+  --mist: #c5d4de;
   --header-h: 72px;
   --page: 1200px;
   --pad: 22px;
@@ -21,8 +22,8 @@
   --color-text: var(--ink);
   --color-text-secondary: var(--support);
   --color-border: var(--line);
-  --color-accent: var(--mineral);
-  --color-oxide: var(--oxide);
+  --color-accent: var(--teal);
+  --color-cool: var(--cool);
   --color-surface: var(--surface);
   --font-sans: var(--font-instrument-sans);
   --font-mono: var(--font-ibm-plex-mono);
@@ -75,7 +76,7 @@ body {
 }
 
 ::selection {
-  background: var(--mineral);
+  background: var(--teal);
   color: #ffffff;
 }
 
@@ -111,7 +112,7 @@ select {
 }
 
 :focus-visible {
-  outline: 2px solid var(--mineral);
+  outline: 2px solid var(--teal);
   outline-offset: 3px;
 }
 
@@ -137,7 +138,7 @@ select {
   top: 8px;
   z-index: 80;
   transform: translateY(-140%);
-  background: var(--mineral);
+  background: var(--teal);
   color: #ffffff;
   padding: 10px 14px;
   font-size: 14px;
@@ -173,7 +174,7 @@ select {
   line-height: 1.4;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: var(--mineral);
+  color: var(--teal);
 }
 
 .mark {
@@ -181,54 +182,58 @@ select {
   width: 7px;
   height: 7px;
   margin-right: 8px;
-  background: var(--oxide);
+  background: var(--teal);
   transform: translateY(-1px);
 }
 
 .display {
-  max-width: 12em;
-  font-size: clamp(2.375rem, 0.25rem + 4.15vw, 4.05rem);
+  max-width: 14em;
+  font-size: clamp(2.25rem, 1rem + 2.6vw, 3.5rem);
   font-weight: 500;
-  line-height: 0.98;
-  letter-spacing: -0.035em;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
 .heading {
-  max-width: 16em;
-  font-size: clamp(1.75rem, 0.9rem + 2vw, 2.75rem);
+  max-width: 18em;
+  font-size: clamp(1.75rem, 1.05rem + 1.35vw, 2.375rem);
   font-weight: 500;
-  line-height: 1.12;
-  letter-spacing: -0.03em;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
 .lede {
   max-width: 38rem;
-  margin-top: 18px;
+  margin-top: 14px;
   color: var(--support);
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.55;
   text-wrap: pretty;
 }
 
 .statement {
-  max-width: 14em;
-  font-size: clamp(1.625rem, 1rem + 1.4vw, 2.25rem);
+  max-width: 16em;
+  font-size: clamp(1.75rem, 1.05rem + 1.2vw, 2.25rem);
   font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
 .section {
   position: relative;
-  padding: 56px 0;
+  padding: 48px 0;
   border-bottom: 1px solid var(--line);
 }
 
 .section-contact {
   border-bottom: none;
+}
+
+.section-method {
+  background: var(--cool);
 }
 
 #approach,
@@ -254,9 +259,9 @@ select {
   justify-content: center;
   min-height: 48px;
   padding: 0 18px;
-  background: var(--mineral);
+  background: var(--teal);
   color: #ffffff;
-  border: 1px solid var(--mineral);
+  border: 1px solid var(--teal);
   font-size: 15px;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -296,7 +301,7 @@ select {
 }
 
 .inline-link {
-  color: var(--mineral);
+  color: var(--teal);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
@@ -315,14 +320,64 @@ select {
 }
 
 .hero {
-  padding: 40px 0 56px;
+  padding: 32px 0 40px;
   border-bottom: 1px solid var(--line);
 }
 
 .hero-grid {
   display: grid;
   align-items: start;
-  gap: 36px;
+  gap: 28px;
+}
+
+.hero-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--line-strong);
+  border-left: 3px solid var(--teal);
+  background: #ffffff;
+}
+
+.hero-photo,
+.work-photo {
+  margin: 0;
+}
+
+.hero-photo {
+  overflow: hidden;
+  background: var(--cool);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-photo-img,
+.work-photo-img {
+  display: block;
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.hero-photo-img {
+  object-position: 68% 28%;
+}
+
+.work-photo-img {
+  height: 280px;
+  object-position: 50% 45%;
+}
+
+.photo-caption {
+  margin-top: 8px;
+  color: var(--support);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+}
+
+.specimen-joined {
+  border: none;
 }
 
 .hero .lede {
@@ -342,7 +397,7 @@ select {
   justify-content: flex-start;
   gap: 8px 16px;
   padding: 12px 16px;
-  background: var(--bg);
+  background: var(--cool);
   border-bottom: 1px solid var(--line);
   color: var(--ink);
   font-family: var(--mono);
@@ -398,7 +453,7 @@ select {
 
 .specimen-price {
   margin-top: 8px;
-  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 1.875rem);
+  font-size: clamp(1.375rem, 1.05rem + 0.8vw, 1.625rem);
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.03em;
@@ -407,7 +462,7 @@ select {
 .specimen-price-exception,
 .field-row.is-exception dd,
 .summary-result .num {
-  color: var(--oxide);
+  color: var(--teal);
 }
 
 .specimen-delta {
@@ -426,7 +481,7 @@ select {
 }
 
 .specimen-delta .num {
-  color: var(--oxide);
+  color: var(--teal);
   font-family: var(--sans);
   font-size: 18px;
   font-weight: 500;
@@ -467,7 +522,7 @@ select {
 }
 
 .issues h3 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.25;
@@ -502,12 +557,12 @@ select {
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.08em;
-  color: var(--mineral);
+  color: var(--teal);
 }
 
 .stage-title {
   margin-top: 10px;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.2;
@@ -519,23 +574,32 @@ select {
 }
 
 .principle {
-  margin-top: 36px;
+  margin-top: 28px;
+  padding: 24px 24px 28px;
+  background: var(--teal);
+  color: #ffffff;
+}
+
+.principle .kicker {
+  color: var(--mist);
 }
 
 .principle-lines {
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 
 .principle-lines p {
-  font-size: clamp(1.35rem, 1rem + 0.9vw, 1.75rem);
+  color: #ffffff;
+  font-size: clamp(1.2rem, 0.95rem + 0.6vw, 1.5rem);
   font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
 }
 
 .record {
-  margin-top: 32px;
+  margin-top: 28px;
+  border-left: 3px solid var(--teal);
 }
 
 .doc-head {
@@ -610,7 +674,7 @@ select {
 }
 
 .summary-result .num {
-  font-size: clamp(1.5rem, 1rem + 1.2vw, 2rem);
+  font-size: clamp(1.375rem, 1rem + 0.8vw, 1.75rem);
 }
 
 .formula {
@@ -657,7 +721,8 @@ select {
   letter-spacing: -0.02em;
 }
 
-.split {
+.split,
+.work-split {
   display: grid;
   gap: 36px;
 }
@@ -760,7 +825,7 @@ select {
 
 .form-error {
   margin-top: 16px;
-  color: var(--oxide);
+  color: var(--teal);
   font-size: 15px;
   line-height: 1.5;
 }
@@ -943,7 +1008,7 @@ select {
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--mineral);
+  color: var(--teal);
 }
 
 @media (min-width: 720px) {
@@ -959,10 +1024,8 @@ select {
   }
 
   .issues li {
-    grid-template-columns: 15rem minmax(0, 28rem);
-    gap: 32px;
-    align-items: baseline;
-    padding: 20px 0;
+    gap: 4px;
+    padding: 16px 0;
   }
 
   .summary {
@@ -983,12 +1046,11 @@ select {
 
 @media (min-width: 800px) {
   .section {
-    padding: 72px 0;
+    padding: 60px 0;
   }
 
   .lede {
-    margin-top: 20px;
-    font-size: 18px;
+    margin-top: 16px;
   }
 
   .stages {
@@ -1026,13 +1088,24 @@ select {
   }
 
   .split,
-  .trust-grid {
+  .trust-grid,
+  .work-split {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 48px 64px;
+    gap: 40px 48px;
+    align-items: center;
   }
 
   .section-trust {
-    padding-block: 72px;
+    padding-block: 60px;
+  }
+
+  .hero-photo-img {
+    height: 340px;
+  }
+
+  .work-photo-img {
+    height: 100%;
+    min-height: 280px;
   }
 
   .logo {
@@ -1042,13 +1115,13 @@ select {
 
 @media (min-width: 900px) {
   .hero {
-    padding: 64px 0 80px;
+    padding: 40px 0 48px;
   }
 
   .hero-grid {
-    grid-template-columns: minmax(0, 1.28fr) minmax(260px, 0.72fr);
-    gap: 48px;
-    align-items: center;
+    grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+    gap: 40px;
+    align-items: start;
   }
 
   .nav-desktop {
