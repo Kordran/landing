@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ExampleRecord from "@/components/ExampleRecord";
 import ExampleSeen from "@/components/ExampleSeen";
+import ReconcileMark from "@/components/ReconcileMark";
 import ContactForm from "@/components/ContactForm";
 import Reveal from "@/components/Reveal";
 import TrackLink from "@/components/TrackLink";
@@ -101,43 +102,37 @@ function SceneImage({
 export default function HomePage() {
   return (
     <>
-      <link rel="preload" as="image" href="/scenes/foundry.jpg" />
       <JsonLd data={getHomeJsonLd()} />
-      <Header initialTone="on-dark" />
-      <main id="content" className="site-main site-main-overlay">
-        <section
-          className="scene scene-hero"
-          data-header="on-dark"
-          aria-labelledby="hero-heading"
-        >
-          <SceneImage src="/scenes/foundry.jpg" priority />
-          <div className="scene-scrim" aria-hidden="true" />
-          <div className="container">
-            <div className="scene-copy">
-            <p className="kicker">Kordran / Industrial cost intelligence</p>
-            <h1 id="hero-heading" className="display">
-              Supplier costs.
-              <br />
-              Verified and resolved.
-            </h1>
-            <p className="lede">
-              We identify purchasing-cost discrepancies and work with
-              manufacturers to resolve them.
-            </p>
-            <div className="cta-row">
-              <TrackLink
-                href="#contact"
-                className="btn"
-                event="cta_click"
-                eventParams={{ location: "hero", target: "contact" }}
-              >
-                Discuss a supplier issue
-              </TrackLink>
-              <a href="#approach" className="text-action">
-                How we work
-              </a>
+      <Header initialTone="on-light" />
+      <main id="content" className="site-main">
+        <section className="section hero-editorial" data-header="on-light" aria-labelledby="hero-heading">
+          <div className="container hero-editorial-grid">
+            <div>
+              <p className="kicker">Kordran / Industrial cost intelligence</p>
+              <h1 id="hero-heading" className="display">
+                Supplier costs.
+                <br />
+                Verified and resolved.
+              </h1>
+              <p className="lede">
+                We identify purchasing-cost discrepancies and work with
+                manufacturers to resolve them.
+              </p>
+              <div className="cta-row">
+                <TrackLink
+                  href="#contact"
+                  className="btn"
+                  event="cta_click"
+                  eventParams={{ location: "hero", target: "contact" }}
+                >
+                  Discuss a supplier issue
+                </TrackLink>
+                <a href="#approach" className="text-action">
+                  How we work
+                </a>
+              </div>
             </div>
-            </div>
+            <ReconcileMark />
           </div>
         </section>
 
@@ -170,24 +165,25 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section
-          className="scene scene-complexity"
-          data-header="on-dark"
-          aria-labelledby="complexity-heading"
-        >
-          <SceneImage src="/scenes/shop.jpg" />
-          <div className="scene-scrim scene-scrim-right" aria-hidden="true" />
-          <div className="container">
-          <Reveal className="scene-copy scene-copy-end">
-            <p className="kicker">Scale</p>
-            <h2 id="complexity-heading" className="heading">
-              Complex operations. Complex costs.
-            </h2>
-            <p className="lede">
-              Across suppliers, contracts, and purchasing systems, small
-              inconsistencies can become meaningful financial exposure.
-            </p>
-          </Reveal>
+        <section className="section band" data-header="on-light" aria-labelledby="work-heading">
+          <div className="container work-pair">
+            <Reveal>
+              <p className="kicker">Intelligence</p>
+              <h2 id="work-heading" className="heading">
+                Establish what the records support.
+              </h2>
+              <p className="lede">
+                We reconcile agreements, quotations, and the prices that were
+                billed.
+              </p>
+            </Reveal>
+            <Reveal delay={100}>
+              <p className="kicker">Execution</p>
+              <h2 className="heading">Stay through the correction.</h2>
+              <p className="lede">
+                We work with procurement on a supported commercial outcome.
+              </p>
+            </Reveal>
           </div>
         </section>
 
@@ -250,28 +246,6 @@ export default function HomePage() {
                 </li>
               ))}
             </Reveal>
-          </div>
-        </section>
-
-        <section
-          className="scene scene-execute"
-          data-header="on-dark"
-          aria-labelledby="execute-heading"
-        >
-          <SceneImage src="/scenes/mill.jpg" />
-          <div className="scene-scrim" aria-hidden="true" />
-          <div className="container">
-          <Reveal className="scene-copy">
-            <p className="kicker">Execution</p>
-            <h2 id="execute-heading" className="heading">
-              We don&apos;t stop at the finding.
-            </h2>
-            <p className="lede">
-              We work alongside procurement teams to resolve supplier issues,
-              secure supported corrections, and prevent recurrence.
-            </p>
-            <p className="scene-note">Intelligence meets execution.</p>
-          </Reveal>
           </div>
         </section>
 
