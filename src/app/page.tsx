@@ -31,16 +31,19 @@ export const metadata: Metadata = {
 
 const issues = [
   {
+    index: "01",
     title: "Price discrepancies",
-    body: "Billed prices that differ from agreed terms.",
+    body: "Billed prices differ from agreed terms.",
   },
   {
+    index: "02",
     title: "Supplier increases",
-    body: "New prices that need commercial review.",
+    body: "Revised prices require commercial review.",
   },
   {
+    index: "03",
     title: "Persistent surcharges",
-    body: "Charges that continue after terms change.",
+    body: "Charges can continue after their contractual basis changes.",
   },
 ];
 
@@ -48,18 +51,24 @@ const stages = [
   {
     index: "01",
     title: "Verify",
-    body: "We reconcile pricing records, agreements, and purchasing history to establish what the evidence supports.",
+    body: "Establish the facts through agreements, pricing records, and purchasing history.",
   },
   {
     index: "02",
     title: "Resolve",
-    body: "We work with your team to pursue supported corrections and resolve supplier disputes.",
+    body: "Work with your team to pursue supported corrections and commercial solutions.",
   },
   {
     index: "03",
     title: "Prevent",
-    body: "We help implement controls that reduce repeat discrepancies.",
+    body: "Address the underlying controls that allow recurring discrepancies.",
   },
+];
+
+const startingPoints = [
+  "Supplier quotation or price notice",
+  "Previous pricing",
+  "Relevant agreement or purchasing record",
 ];
 
 function SceneImage({
@@ -97,16 +106,15 @@ export default function HomePage() {
           <SceneImage src="/scenes/foundry.jpg" priority />
           <div className="scene-scrim" aria-hidden="true" />
           <div className="container scene-copy">
-            <p className="kicker">Supplier cost intelligence + execution</p>
+            <p className="kicker">Kordran / Industrial cost intelligence</p>
             <h1 id="hero-heading" className="display">
               Supplier costs.
               <br />
               Verified and resolved.
             </h1>
             <p className="lede">
-              Kordran helps industrial manufacturers identify pricing
-              discrepancies, resolve supplier issues, and prevent repeat
-              charges.
+              We identify purchasing-cost discrepancies and work with
+              manufacturers to resolve them.
             </p>
             <div className="cta-row">
               <TrackLink
@@ -118,40 +126,54 @@ export default function HomePage() {
                 Discuss a supplier issue
               </TrackLink>
               <a href="#approach" className="text-action">
-                See how it works
+                How we work
               </a>
             </div>
           </div>
         </section>
 
         <section
-          className="scene scene-problem"
-          data-header="on-dark"
+          id="problem"
+          className="section chapter"
+          data-header="on-light"
           aria-labelledby="problem-heading"
         >
-          <SceneImage src="/scenes/shop.jpg" />
-          <div className="scene-scrim" aria-hidden="true" />
-          <div className="container scene-copy">
+          <div className="container">
             <p className="kicker">Problem</p>
             <h2 id="problem-heading" className="heading">
               The price agreed isn&apos;t always the price paid.
             </h2>
             <p className="lede">
               Supplier prices change. Contracts get revised. Surcharges
-              persist. The differences can be difficult to trace—and costly to
-              leave unresolved.
+              persist. The differences can be costly—and difficult to trace.
             </p>
-            <ul className="issues">
+            <ul className="issues issues-board">
               {issues.map((issue) => (
                 <li key={issue.title}>
+                  <p className="stage-index">{issue.index}</p>
                   <h3>{issue.title}</h3>
                   <p>{issue.body}</p>
                 </li>
               ))}
             </ul>
-            <p className="scene-note">
-              For manufacturers buying industrial equipment, electromechanical
-              assemblies, and precision components.
+          </div>
+        </section>
+
+        <section
+          className="scene scene-complexity"
+          data-header="on-dark"
+          aria-labelledby="complexity-heading"
+        >
+          <SceneImage src="/scenes/shop.jpg" />
+          <div className="scene-scrim scene-scrim-right" aria-hidden="true" />
+          <div className="container scene-copy scene-copy-end">
+            <p className="kicker">Scale</p>
+            <h2 id="complexity-heading" className="heading">
+              Complex operations. Complex costs.
+            </h2>
+            <p className="lede">
+              Across suppliers, contracts, and purchasing systems, small
+              inconsistencies can become meaningful financial exposure.
             </p>
           </div>
         </section>
@@ -164,15 +186,22 @@ export default function HomePage() {
           tabIndex={-1}
         >
           <div className="container">
-            <p className="kicker">Example</p>
+            <p className="kicker">Evidence</p>
             <h2 id="example-heading" className="heading">
-              Illustrative supplier price discrepancy
+              Find the difference.
             </h2>
+            <p className="lede">
+              We reconcile purchasing records against agreed terms to identify
+              and quantify potential discrepancies.
+            </p>
             <ExampleSeen>
               <ExampleRecord />
             </ExampleSeen>
             <div className="example-note">
-              <p>A pricing difference is a finding, not yet a recovery.</p>
+              <p>
+                Illustrative example. Potential exposure before contractual
+                validation—not a confirmed recovery.
+              </p>
               <p>
                 Kordran reviews the relevant agreement, validates eligible
                 transactions, and works toward an authorized commercial
@@ -184,23 +213,17 @@ export default function HomePage() {
 
         <section
           id="approach"
-          className="scene scene-resolve"
-          data-header="on-dark"
+          className="section chapter"
+          data-header="on-light"
           aria-labelledby="approach-heading"
           tabIndex={-1}
         >
           <div id="diagnostic" className="alias-anchor" />
-          <SceneImage src="/scenes/mill.jpg" />
-          <div className="scene-scrim" aria-hidden="true" />
-          <div className="container scene-copy">
-            <p className="kicker">Method</p>
+          <div className="container">
+            <p className="kicker">Approach</p>
             <h2 id="approach-heading" className="heading">
-              We don&apos;t stop at the finding.
+              From finding to resolution.
             </h2>
-            <p className="lede">
-              Verification is the start. Kordran stays through the correction,
-              and the control that keeps the charge from returning.
-            </p>
             <ol className="stages">
               {stages.map((stage) => (
                 <li key={stage.index}>
@@ -214,35 +237,73 @@ export default function HomePage() {
         </section>
 
         <section
-          id="contact"
-          className="scene scene-close"
+          className="scene scene-execute"
           data-header="on-dark"
-          aria-labelledby="close-heading"
+          aria-labelledby="execute-heading"
+        >
+          <SceneImage src="/scenes/mill.jpg" />
+          <div className="scene-scrim" aria-hidden="true" />
+          <div className="container scene-copy">
+            <p className="kicker">Execution</p>
+            <h2 id="execute-heading" className="heading">
+              We don&apos;t stop at the finding.
+            </h2>
+            <p className="lede">
+              We work alongside procurement teams to resolve supplier issues,
+              secure supported corrections, and prevent recurrence.
+            </p>
+            <p className="scene-note">Intelligence meets execution.</p>
+          </div>
+        </section>
+
+        <section
+          id="contact"
+          className="section chapter"
+          data-header="on-light"
+          aria-labelledby="contact-heading"
           tabIndex={-1}
         >
-          <SceneImage src="/scenes/works.jpg" />
-          <div className="scene-scrim scene-scrim-close" aria-hidden="true" />
-          <div className="container scene-close-grid">
-            <div className="scene-copy">
-              <p className="kicker">Contact</p>
-              <h2 id="close-heading" className="heading">
-                Find the cost. Recover the value. Fix the system.
+          <div className="container contact-grid">
+            <div className="contact-aside">
+              <p className="kicker">Engagement</p>
+              <h2 id="contact-heading" className="heading">
+                Start with one supplier.
               </h2>
               <p className="lede">
-                Tell us what changed. We&apos;ll determine whether Kordran is a
-                fit.
+                Bring us a pricing discrepancy, disputed charge, or supplier
+                increase. We&apos;ll help establish whether Kordran is a fit.
               </p>
-              <p className="scene-note">
-                Start with one supplier — a price increase, a disputed charge,
-                or a purchasing discrepancy.
-              </p>
+              <p className="kicker list-kicker">Useful if you have them</p>
+              <ul className="input-list">
+                {startingPoints.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
               <p className="contact-mail">
                 <a className="inline-link" href={`mailto:${contactEmail}`}>
                   {contactEmail}
                 </a>
               </p>
             </div>
-            <ContactForm variant="scene" />
+            <ContactForm />
+          </div>
+        </section>
+
+        <section
+          className="scene scene-close"
+          data-header="on-dark"
+          aria-labelledby="close-heading"
+        >
+          <SceneImage src="/scenes/works.jpg" />
+          <div className="scene-scrim scene-scrim-close" aria-hidden="true" />
+          <div className="container scene-close-statement">
+            <h2 id="close-heading" className="display close-display">
+              Find the cost.
+              <br />
+              Recover the value.
+              <br />
+              Fix the system.
+            </h2>
           </div>
           <Footer overlay />
         </section>
