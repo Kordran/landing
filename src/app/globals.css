@@ -531,7 +531,7 @@ select {
 
 .principle {
   margin-top: 28px;
-  padding: 22px 0 26px;
+  padding: 24px 28px 28px;
   background: var(--teal);
   color: #ffffff;
 }
