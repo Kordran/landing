@@ -12,7 +12,10 @@
   --mist: #c5d4de;
   --header-h: 72px;
   --page: 1200px;
-  --pad: 22px;
+  --pad: 24px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 180ms;
+  --duration-reveal: 480ms;
   --sans: var(--font-instrument-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
   --mono: var(--font-ibm-plex-mono), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 }
@@ -43,7 +46,7 @@
 
 @media (min-width: 1280px) {
   :root {
-    --pad: 40px;
+    --pad: 48px;
   }
 }
 
@@ -167,7 +170,7 @@ select {
 }
 
 .kicker {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 500;
@@ -206,7 +209,7 @@ select {
 
 .lede {
   max-width: 38rem;
-  margin-top: 14px;
+  margin-top: 16px;
   color: var(--support);
   font-size: 16px;
   line-height: 1.55;
@@ -224,7 +227,7 @@ select {
 
 .section {
   position: relative;
-  padding: 48px 0;
+  padding: 64px 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -267,7 +270,14 @@ select {
   font-weight: 500;
   letter-spacing: -0.01em;
   cursor: pointer;
-  transition: background-color 160ms ease, border-color 160ms ease;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .btn:hover {
@@ -294,7 +304,7 @@ select {
   font-size: 15px;
   font-weight: 500;
   border-bottom: 1px solid var(--line);
-  transition: border-color 160ms ease;
+  transition: border-color var(--duration-fast) var(--ease-out);
 }
 
 .text-action:hover {
@@ -1002,7 +1012,7 @@ select {
 
 @media (min-width: 800px) {
   .section {
-    padding: 60px 0;
+    padding: 96px 0;
   }
 
   .lede {
@@ -1157,14 +1167,26 @@ select {
   color: #ffffff;
 }
 
-.scene-bg {
+.scene-motion {
   position: absolute;
-  inset: 0;
+  inset: -6%;
   z-index: 0;
-  width: 100%;
-  height: 100%;
+}
+
+.scene-bg {
   object-fit: cover;
   object-position: center center;
+}
+
+.site-header {
+  transition:
+    background-color 200ms var(--ease-out),
+    border-color 200ms var(--ease-out);
+}
+
+.nav-link,
+.menu-button {
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 .scene-scrim {
@@ -1440,13 +1462,111 @@ select {
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .reveal[data-ready="true"]:not(.is-in) {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--duration-reveal) var(--ease-out),
+      transform var(--duration-reveal) var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal-stagger[data-ready="true"]:not(.is-in) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-stagger[data-ready="true"]:not(.is-in) > * {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  .reveal-stagger.is-in > * {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--duration-reveal) var(--ease-out),
+      transform var(--duration-reveal) var(--ease-out);
+  }
+
+  .reveal-stagger.is-in > *:nth-child(1) {
+    transition-delay: 40ms;
+  }
+
+  .reveal-stagger.is-in > *:nth-child(2) {
+    transition-delay: 120ms;
+  }
+
+  .reveal-stagger.is-in > *:nth-child(3) {
+    transition-delay: 200ms;
+  }
+
+  .scene-hero .scene-motion {
+    animation: scene-drift-hero linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+
+  .scene-complexity .scene-motion {
+    animation: scene-drift-pan linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+
+  .scene-execute .scene-motion {
+    animation: scene-drift-settle linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+}
+
+@keyframes scene-drift-hero {
+  from {
+    transform: scale(1.045) translate3d(0, -1.5%, 0);
+  }
+  to {
+    transform: scale(1.02) translate3d(0, 1.5%, 0);
+  }
+}
+
+@keyframes scene-drift-pan {
+  from {
+    transform: scale(1.03) translate3d(2%, 0, 0);
+  }
+  to {
+    transform: scale(1.03) translate3d(-2%, 0, 0);
+  }
+}
+
+@keyframes scene-drift-settle {
+  from {
+    transform: scale(1.04) translate3d(0, 1%, 0);
+  }
+  to {
+    transform: scale(1) translate3d(0, -1%, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
   .btn,
-  .text-action {
+  .text-action,
+  .nav-link,
+  .menu-button,
+  .site-header {
     transition: none;
+  }
+
+  .btn:active:not(:disabled) {
+    transform: none;
   }
 }

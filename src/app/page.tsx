@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import ExampleRecord from "@/components/ExampleRecord";
 import ExampleSeen from "@/components/ExampleSeen";
 import ContactForm from "@/components/ContactForm";
+import Reveal from "@/components/Reveal";
 import TrackLink from "@/components/TrackLink";
 import JsonLd from "@/components/JsonLd";
 import { getHomeJsonLd } from "@/lib/jsonld";
@@ -79,15 +80,17 @@ function SceneImage({
   priority?: boolean;
 }) {
   return (
-    <Image
-      className="scene-bg"
-      src={src}
-      alt=""
-      fill
-      sizes="100vw"
-      priority={priority}
-      aria-hidden
-    />
+    <div className="scene-motion">
+      <Image
+        className="scene-bg"
+        src={src}
+        alt=""
+        fill
+        sizes="100vw"
+        priority={priority}
+        aria-hidden
+      />
+    </div>
   );
 }
 
@@ -139,15 +142,17 @@ export default function HomePage() {
           aria-labelledby="problem-heading"
         >
           <div className="container">
-            <p className="kicker">Problem</p>
-            <h2 id="problem-heading" className="heading">
-              The price agreed isn&apos;t always the price paid.
-            </h2>
-            <p className="lede">
-              Supplier prices change. Contracts get revised. Surcharges
-              persist. The differences can be costly—and difficult to trace.
-            </p>
-            <ul className="issues issues-board">
+            <Reveal>
+              <p className="kicker">Problem</p>
+              <h2 id="problem-heading" className="heading">
+                The price agreed isn&apos;t always the price paid.
+              </h2>
+              <p className="lede">
+                Supplier prices change. Contracts get revised. Surcharges
+                persist. The differences can be costly—and difficult to trace.
+              </p>
+            </Reveal>
+            <Reveal as="ul" className="issues issues-board reveal-stagger" delay={80}>
               {issues.map((issue) => (
                 <li key={issue.title}>
                   <p className="stage-index">{issue.index}</p>
@@ -155,7 +160,7 @@ export default function HomePage() {
                   <p>{issue.body}</p>
                 </li>
               ))}
-            </ul>
+            </Reveal>
           </div>
         </section>
 
@@ -186,17 +191,22 @@ export default function HomePage() {
           tabIndex={-1}
         >
           <div className="container">
-            <p className="kicker">Evidence</p>
-            <h2 id="example-heading" className="heading">
-              Find the difference.
-            </h2>
-            <p className="lede">
-              We reconcile purchasing records against agreed terms to identify
-              and quantify potential discrepancies.
-            </p>
-            <ExampleSeen>
-              <ExampleRecord />
-            </ExampleSeen>
+            <Reveal>
+              <p className="kicker">Evidence</p>
+              <h2 id="example-heading" className="heading">
+                Find the difference.
+              </h2>
+              <p className="lede">
+                We reconcile purchasing records against agreed terms to identify
+                and quantify potential discrepancies.
+              </p>
+            </Reveal>
+            <Reveal delay={100}>
+              <ExampleSeen>
+                <ExampleRecord />
+              </ExampleSeen>
+            </Reveal>
+            <Reveal delay={180}>
             <div className="example-note">
               <p>
                 Illustrative example. Potential exposure before contractual
@@ -208,6 +218,7 @@ export default function HomePage() {
                 correction.
               </p>
             </div>
+            </Reveal>
           </div>
         </section>
 
@@ -220,11 +231,13 @@ export default function HomePage() {
         >
           <div id="diagnostic" className="alias-anchor" />
           <div className="container">
-            <p className="kicker">Approach</p>
-            <h2 id="approach-heading" className="heading">
-              From finding to resolution.
-            </h2>
-            <ol className="stages">
+            <Reveal>
+              <p className="kicker">Approach</p>
+              <h2 id="approach-heading" className="heading">
+                From finding to resolution.
+              </h2>
+            </Reveal>
+            <Reveal as="ol" className="stages reveal-stagger" delay={80}>
               {stages.map((stage) => (
                 <li key={stage.index}>
                   <p className="stage-index">{stage.index}</p>
@@ -232,7 +245,7 @@ export default function HomePage() {
                   <p className="stage-body">{stage.body}</p>
                 </li>
               ))}
-            </ol>
+            </Reveal>
           </div>
         </section>
 
@@ -264,7 +277,7 @@ export default function HomePage() {
           tabIndex={-1}
         >
           <div className="container contact-grid">
-            <div className="contact-aside">
+            <Reveal className="contact-aside">
               <p className="kicker">Engagement</p>
               <h2 id="contact-heading" className="heading">
                 Start with one supplier.
@@ -284,8 +297,10 @@ export default function HomePage() {
                   {contactEmail}
                 </a>
               </p>
-            </div>
-            <ContactForm />
+            </Reveal>
+            <Reveal delay={100}>
+              <ContactForm />
+            </Reveal>
           </div>
         </section>
 
