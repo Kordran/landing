@@ -1057,11 +1057,10 @@ select {
   .issues-board li:last-child {
     border-top: none;
     border-bottom: none;
-    padding: 22px 28px 0 0;
+    padding: 24px;
   }
 
   .issues-board li + li {
-    padding-left: 28px;
     border-left: 1px solid var(--line);
   }
 
@@ -1167,15 +1166,25 @@ select {
   color: #ffffff;
 }
 
+.scene {
+  display: grid;
+}
+
 .scene-motion {
-  position: absolute;
-  inset: -6%;
+  position: relative;
+  grid-area: 1 / 1;
   z-index: 0;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  background: #141c22;
 }
 
 .scene-bg {
-  object-fit: cover;
-  object-position: center center;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 .site-header {
@@ -1218,27 +1227,39 @@ select {
     linear-gradient(180deg, rgba(8, 14, 20, 0.55) 0%, rgba(8, 14, 20, 0.62) 42%, rgba(8, 14, 20, 0.86) 100%);
 }
 
-.scene-hero {
-  display: flex;
-  align-items: center;
-  min-height: 100svh;
-  padding: calc(var(--header-h) + 28px) 0 56px;
-}
-
+.scene-hero,
 .scene-complexity,
-.scene-execute {
-  display: flex;
-  align-items: center;
-  min-height: 82svh;
-  padding: calc(var(--header-h) + 24px) 0 48px;
+.scene-execute,
+.scene-close {
+  display: grid;
+  min-height: 0;
+  padding: 0;
 }
 
-.scene-close {
+.scene > .container,
+.scene-close-stack {
+  grid-area: 1 / 1;
+  z-index: 2;
+  align-self: center;
+  padding-block: 72px;
+}
+
+.scene-close-stack {
+  align-self: stretch;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  min-height: 90svh;
-  padding-top: calc(var(--header-h) + 48px);
+  justify-content: space-between;
+  min-height: 100%;
+  padding-block: 0;
+}
+
+.scene-close-statement {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding-block: 72px 24px;
+  text-align: center;
 }
 
 .scene-copy-end {
@@ -1465,7 +1486,7 @@ select {
 @media (prefers-reduced-motion: no-preference) {
   .reveal[data-ready="true"]:not(.is-in) {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(22px);
   }
 
   .reveal.is-in {
@@ -1484,7 +1505,7 @@ select {
 
   .reveal-stagger[data-ready="true"]:not(.is-in) > * {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(22px);
   }
 
   .reveal-stagger.is-in > * {
@@ -1507,23 +1528,6 @@ select {
     transition-delay: 200ms;
   }
 
-  .scene-hero .scene-motion {
-    animation: scene-drift-hero linear both;
-    animation-timeline: view();
-    animation-range: cover 0% cover 100%;
-  }
-
-  .scene-complexity .scene-motion {
-    animation: scene-drift-pan linear both;
-    animation-timeline: view();
-    animation-range: cover 0% cover 100%;
-  }
-
-  .scene-execute .scene-motion {
-    animation: scene-drift-settle linear both;
-    animation-timeline: view();
-    animation-range: cover 0% cover 100%;
-  }
 }
 
 @keyframes scene-drift-hero {

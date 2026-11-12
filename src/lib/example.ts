@@ -8,8 +8,7 @@ export const example = {
   units: 18_000,
 } as const;
 
-export const illustrativeLabel =
-  "Illustrative example — not a customer result";
+export const illustrativeLabel = "Illustrative example";
 
 export const unitDelta = example.billedUnit - example.agreedUnit;
 export const potentialDiscrepancy = example.units * unitDelta;

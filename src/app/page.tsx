@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ExampleRecord from "@/components/ExampleRecord";
@@ -81,14 +80,19 @@ function SceneImage({
 }) {
   return (
     <div className="scene-motion">
-      <Image
+      {/* The file is already the full painting. Skipping the image optimizer avoids a smaller derivative. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         className="scene-bg"
         src={src}
         alt=""
-        fill
-        sizes="100vw"
-        priority={priority}
-        aria-hidden
+        width={1672}
+        height={941}
+        decoding="async"
+        aria-hidden="true"
+        {...(priority
+          ? { fetchPriority: "high" as const }
+          : { loading: "lazy" as const })}
       />
     </div>
   );
@@ -108,7 +112,8 @@ export default function HomePage() {
         >
           <SceneImage src="/scenes/foundry.jpg" priority />
           <div className="scene-scrim" aria-hidden="true" />
-          <div className="container scene-copy">
+          <div className="container">
+            <div className="scene-copy">
             <p className="kicker">Kordran / Industrial cost intelligence</p>
             <h1 id="hero-heading" className="display">
               Supplier costs.
@@ -131,6 +136,7 @@ export default function HomePage() {
               <a href="#approach" className="text-action">
                 How we work
               </a>
+            </div>
             </div>
           </div>
         </section>
@@ -171,7 +177,8 @@ export default function HomePage() {
         >
           <SceneImage src="/scenes/shop.jpg" />
           <div className="scene-scrim scene-scrim-right" aria-hidden="true" />
-          <div className="container scene-copy scene-copy-end">
+          <div className="container">
+          <Reveal className="scene-copy scene-copy-end">
             <p className="kicker">Scale</p>
             <h2 id="complexity-heading" className="heading">
               Complex operations. Complex costs.
@@ -180,6 +187,7 @@ export default function HomePage() {
               Across suppliers, contracts, and purchasing systems, small
               inconsistencies can become meaningful financial exposure.
             </p>
+          </Reveal>
           </div>
         </section>
 
@@ -207,17 +215,13 @@ export default function HomePage() {
               </ExampleSeen>
             </Reveal>
             <Reveal delay={180}>
-            <div className="example-note">
-              <p>
-                Illustrative example. Potential exposure before contractual
-                validation—not a confirmed recovery.
-              </p>
-              <p>
-                Kordran reviews the relevant agreement, validates eligible
-                transactions, and works toward an authorized commercial
-                correction.
-              </p>
-            </div>
+              <div className="example-note">
+                <p>
+                  Kordran reviews the relevant agreement, validates eligible
+                  transactions, and works toward an authorized commercial
+                  correction.
+                </p>
+              </div>
             </Reveal>
           </div>
         </section>
@@ -256,7 +260,8 @@ export default function HomePage() {
         >
           <SceneImage src="/scenes/mill.jpg" />
           <div className="scene-scrim" aria-hidden="true" />
-          <div className="container scene-copy">
+          <div className="container">
+          <Reveal className="scene-copy">
             <p className="kicker">Execution</p>
             <h2 id="execute-heading" className="heading">
               We don&apos;t stop at the finding.
@@ -266,6 +271,7 @@ export default function HomePage() {
               secure supported corrections, and prevent recurrence.
             </p>
             <p className="scene-note">Intelligence meets execution.</p>
+          </Reveal>
           </div>
         </section>
 
@@ -311,16 +317,18 @@ export default function HomePage() {
         >
           <SceneImage src="/scenes/works.jpg" />
           <div className="scene-scrim scene-scrim-close" aria-hidden="true" />
-          <div className="container scene-close-statement">
-            <h2 id="close-heading" className="display close-display">
-              Find the cost.
-              <br />
-              Recover the value.
-              <br />
-              Fix the system.
-            </h2>
+          <div className="scene-close-stack">
+            <Reveal className="container scene-close-statement">
+              <h2 id="close-heading" className="display close-display">
+                Find the cost.
+                <br />
+                Recover the value.
+                <br />
+                Fix the system.
+              </h2>
+            </Reveal>
+            <Footer overlay />
           </div>
-          <Footer overlay />
         </section>
       </main>
     </>
