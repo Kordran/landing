@@ -326,58 +326,14 @@ select {
 
 .hero-grid {
   display: grid;
-  align-items: start;
-  gap: 28px;
+  align-items: center;
+  justify-items: stretch;
+  gap: 32px;
 }
 
-.hero-panel {
-  display: flex;
-  flex-direction: column;
+.hero-copy,
+.specimen {
   min-width: 0;
-  border: 1px solid var(--line-strong);
-  border-left: 3px solid var(--teal);
-  background: #ffffff;
-}
-
-.hero-photo,
-.work-photo {
-  margin: 0;
-}
-
-.hero-photo {
-  overflow: hidden;
-  background: var(--cool);
-  border-bottom: 1px solid var(--line);
-}
-
-.hero-photo-img,
-.work-photo-img {
-  display: block;
-  width: 100%;
-  height: 240px;
-  object-fit: cover;
-}
-
-.hero-photo-img {
-  object-position: 68% 28%;
-}
-
-.work-photo-img {
-  height: 280px;
-  object-position: 50% 45%;
-}
-
-.photo-caption {
-  margin-top: 8px;
-  color: var(--support);
-  font-family: var(--mono);
-  font-size: 11px;
-  line-height: 1.45;
-  letter-spacing: 0.01em;
-}
-
-.specimen-joined {
-  border: none;
 }
 
 .hero .lede {
@@ -575,7 +531,7 @@ select {
 
 .principle {
   margin-top: 28px;
-  padding: 24px 24px 28px;
+  padding: 22px 0 26px;
   background: var(--teal);
   color: #ffffff;
 }
@@ -599,7 +555,6 @@ select {
 
 .record {
   margin-top: 28px;
-  border-left: 3px solid var(--teal);
 }
 
 .doc-head {
@@ -1070,7 +1025,15 @@ select {
 
   .principle-lines {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 28px;
+    gap: 0;
+  }
+
+  .principle-lines p {
+    padding-right: 28px;
+  }
+
+  .principle-lines p + p {
+    padding-left: 28px;
   }
 
   .env {
@@ -1099,15 +1062,6 @@ select {
     padding-block: 60px;
   }
 
-  .hero-photo-img {
-    height: 340px;
-  }
-
-  .work-photo-img {
-    height: 100%;
-    min-height: 280px;
-  }
-
   .logo {
     height: 28px;
   }
@@ -1119,9 +1073,9 @@ select {
   }
 
   .hero-grid {
-    grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
-    gap: 40px;
-    align-items: start;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
   }
 
   .nav-desktop {

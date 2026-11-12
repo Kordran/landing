@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
@@ -206,31 +205,14 @@ export default function HomePage() {
         </section>
 
         <section className="section section-trust" aria-labelledby="trust-heading">
-          <div className="container work-split">
-            <figure className="work-photo">
-              <Image
-                src="/photos/inspection.jpg"
-                alt="Hands measuring a machined aluminum component with a caliper."
-                width={1152}
-                height={864}
-                sizes="(min-width: 800px) 46vw, 100vw"
-                className="work-photo-img"
-              />
-              <figcaption className="photo-caption">
-                Illustrative photograph of inspection work. Not a Kordran
-                employee or customer.
-              </figcaption>
-            </figure>
-            <div>
-              <p className="kicker">Working model</p>
-              <h2 id="trust-heading" className="statement">
-                Direct analysis. Hands-on resolution.
-              </h2>
-              <p className="lede">
-                We work alongside procurement and finance teams—from the
-                initial finding through an approved corrective action.
-              </p>
-            </div>
+          <div className="container trust-grid">
+            <h2 id="trust-heading" className="statement">
+              Direct analysis. Hands-on resolution.
+            </h2>
+            <p>
+              We work alongside procurement and finance teams—from the initial
+              finding through an approved corrective action.
+            </p>
           </div>
         </section>
 
