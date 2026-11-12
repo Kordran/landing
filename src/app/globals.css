@@ -1236,6 +1236,68 @@ select {
   padding: 0;
 }
 
+@media (max-width: 767px) {
+  .scene-hero,
+  .scene-complexity,
+  .scene-execute,
+  .scene-close {
+    min-height: 100svh;
+  }
+
+  .scene-motion {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  .scene-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+  }
+
+  .scene-hero .scene-bg {
+    object-position: center 42%;
+  }
+
+  .scene-complexity .scene-bg {
+    object-position: 62% center;
+  }
+
+  .scene-execute .scene-bg {
+    object-position: center 55%;
+  }
+
+  .scene-close .scene-bg {
+    object-position: center 40%;
+  }
+}
+
+@media (min-width: 768px) {
+  .scene-hero {
+    min-height: 100svh;
+  }
+
+  .scene-hero .scene-motion {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  .scene-hero .scene-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center 45%;
+  }
+}
+
 .scene > .container,
 .scene-close-stack {
   grid-area: 1 / 1;
