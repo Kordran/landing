@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
-import Reveal from "@/components/Reveal";
+import ExampleRecord from "@/components/ExampleRecord";
+import ExampleSeen from "@/components/ExampleSeen";
 import ContactForm from "@/components/ContactForm";
 import JsonLd from "@/components/JsonLd";
 import { getHomeJsonLd } from "@/lib/jsonld";
-import { defaultTitle, ogDescription, siteDescription } from "@/lib/site";
+import { contactEmail, defaultTitle, ogDescription, siteDescription } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: { absolute: defaultTitle },
@@ -22,125 +23,220 @@ export const metadata: Metadata = {
   },
 };
 
+const issues = [
+  {
+    title: "Price discrepancies",
+    body: "Billed prices that differ from agreed terms.",
+  },
+  {
+    title: "Supplier increases",
+    body: "New prices that need commercial review.",
+  },
+  {
+    title: "Persistent surcharges",
+    body: "Charges that continue after terms change.",
+  },
+];
+
+const stages = [
+  {
+    index: "01",
+    title: "Verify",
+    body: "We reconcile pricing records, agreements, and purchasing history to establish what the evidence supports.",
+  },
+  {
+    index: "02",
+    title: "Resolve",
+    body: "We work with your team to pursue supported corrections and resolve supplier disputes.",
+  },
+  {
+    index: "03",
+    title: "Prevent",
+    body: "We help implement controls that reduce repeat discrepancies.",
+  },
+];
+
+const environments = [
+  "Industrial equipment",
+  "Electromechanical assemblies",
+  "Precision manufactured components",
+];
+
+const inputs = [
+  "Supplier quotation or price notice",
+  "Previous pricing",
+  "Relevant agreement or purchasing record",
+];
+
 export default function HomePage() {
   return (
     <>
       <JsonLd data={getHomeJsonLd()} />
       <Header />
-      <main className="flex-1 pt-20">
+      <main id="content" className="site-main">
         <HeroSection />
 
-        {/* 2. Why the problem exists */}
-        <section className="section border-b border-border">
+        <section className="section" aria-labelledby="problem-heading">
           <div className="container">
-            <div className="grid gap-14 md:grid-cols-2 md:gap-x-16 lg:gap-x-24">
-              <Reveal>
-                <h2 className="text-heading max-w-[18ch] text-text">
-                  Supply-chain cost rarely arrives with a clean explanation.
-                </h2>
-                <p className="text-body mt-10 text-text-secondary md:mt-12">
-                  A supplier price increase may combine materials, freight,
-                  duties, volume, and commercial assumptions. Customs treatment
-                  may vary across brokers or entries. Potential recoveries may
-                  depend on records held separately by finance, supply chain,
-                  logistics, trade, and engineering.
-                </p>
-              </Reveal>
-              <Reveal delay={140} className="md:pt-1">
-                <p className="text-statement statement-rule max-w-[36ch] text-text md:mt-48 md:max-w-[22ch]">
-                  Each function holds part of the evidence. No one owns the
-                  complete economic problem.
-                </p>
-                <p className="text-body mt-10 text-text-secondary">
-                  Kordran connects the records, determines what the evidence
-                  supports, and drives the issue through resolution.
-                </p>
-              </Reveal>
+            <p className="kicker">Problem</p>
+            <h2 id="problem-heading" className="heading">
+              The price you agreed to isn&apos;t always the price you pay.
+            </h2>
+            <p className="lede">
+              Supplier prices change. Contracts get revised. Surcharges
+              persist. The differences can be difficult to trace—and costly to
+              leave unresolved.
+            </p>
+            <ul className="issues">
+              {issues.map((issue) => (
+                <li key={issue.title}>
+                  <h3>{issue.title}</h3>
+                  <p>{issue.body}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section
+          id="approach"
+          className="section"
+          aria-labelledby="approach-heading"
+          tabIndex={-1}
+        >
+          <div id="diagnostic" className="alias-anchor" />
+          <div className="container">
+            <p className="kicker">Method</p>
+            <h2 id="approach-heading" className="heading">
+              From discrepancy to correction.
+            </h2>
+            <ol className="stages">
+              {stages.map((stage) => (
+                <li key={stage.index}>
+                  <p className="stage-index">{stage.index}</p>
+                  <h3 className="stage-title">{stage.title}</h3>
+                  <p className="stage-body">{stage.body}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="principle">
+              <p className="kicker">Working principle</p>
+              <div className="principle-lines">
+                <p>Find the cost.</p>
+                <p>Recover the value.</p>
+                <p>Fix the system.</p>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* 3. Diagnostic */}
-        <section id="diagnostic" className="section border-b border-border">
+        <section
+          id="example"
+          className="section"
+          aria-labelledby="example-heading"
+          tabIndex={-1}
+        >
           <div className="container">
-            <Reveal className="md:grid gap-14 grid-cols-2 md:gap-x-16 lg:gap-x-24">
-              <h2 className="col-span-1 text-heading max-w-[16ch] text-text">
-                Landed-Cost Recovery Diagnostic
-              </h2>
-              <div className="col-span-1  mt-10 md:mt-0 text-body max-w-2xl space-y-6 text-text-secondary">
-                <p>
-                  A fixed-scope review of purchasing, supplier, import, and
-                  logistics activity. It identifies credible recovery
-                  opportunities, estimates the exposure, evaluates the
-                  supporting evidence, and defines the action required to
-                  pursue them.
-                </p>
-                <p>
-                  A typical review covers one legal entity, up to twelve months
-                  of activity, and a defined group of suppliers, parts,
-                  freight lanes, or import categories. Work generally takes
-                  two to four weeks after the required records and stakeholder
-                  access are available.
-                </p>
-              </div>
-            </Reveal>
+            <p className="kicker">Example</p>
+            <h2 id="example-heading" className="heading">
+              Illustrative supplier price discrepancy
+            </h2>
+            <ExampleSeen>
+              <ExampleRecord />
+            </ExampleSeen>
+            <div className="example-note">
+              <p>A pricing difference is a finding, not yet a recovery.</p>
+              <p>
+                Kordran reviews the relevant agreement, validates eligible
+                transactions, and works toward an authorized commercial
+                correction.
+              </p>
+            </div>
           </div>
         </section>
 
-        {/* 4. Recovery + contact */}
-        <section id="contact" className="section">
+        <section id="fit" className="section" aria-labelledby="fit-heading">
           <div className="container">
-            <Reveal className="editorial-block md:text-center max-w-4xl mx-auto">
-              <h2 className="text-heading text-text md:text-center">
-                Identifying the opportunity is only the beginning.
+            <p className="kicker">Fit</p>
+            <h2 id="fit-heading" className="heading">
+              Built for complex industrial purchasing.
+            </h2>
+            <p className="lede">
+              For manufacturers managing multiple suppliers, changing prices,
+              and purchasing records spread across systems.
+            </p>
+            <p className="kicker list-kicker">Purchasing environments</p>
+            <ul className="env">
+              {environments.map((environment) => (
+                <li key={environment}>{environment}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section
+          id="engagement"
+          className="section"
+          aria-labelledby="engagement-heading"
+        >
+          <div className="container split">
+            <div>
+              <p className="kicker">Engagement</p>
+              <h2 id="engagement-heading" className="heading">
+                Start with one supplier.
               </h2>
-              <div className="text-body mt-10 space-y-6 text-text-secondary">
-                <p>
-                  Kordran can remain through validation and recovery: resolving
-                  data gaps, coordinating internal stakeholders, working with
-                  suppliers and brokers, preparing commercial claims, escalating
-                  decisions, and implementing approved corrections.
-                </p>
-                <p>
-                  Where the underlying issue is systemic, we strengthen the
-                  controls connecting parts, purchasing, suppliers, brokers,
-                  imports, logistics activity, and financial reporting.
-                </p>
-                <p>
-                  Best suited to businesses with meaningful supplier, freight,
-                  duty, or import spend and enough transaction complexity that
-                  the answer cannot be found in one system.
-                </p>
-              </div>
-            </Reveal>
-
-            <div className="mt-20 grid items-start gap-14 border-t border-border pt-16 md:mt-28 md:grid-cols-12 md:gap-x-16 md:pt-20">
-              <Reveal className="md:col-span-5">
-                <h2 className="text-heading statement-rule text-text">
-                  Bring us the problem.
-                </h2>
-                <div className="text-body mt-8 space-y-5 text-text-secondary">
-                  <p>
-                    You do not need to know the exact cause. Tell us what
-                    changed, where the cost is appearing, what has already been
-                    attempted, and what result the business needs.
-                  </p>
-                  <p>
-                    Submitted information is reviewed confidentially to
-                    determine whether the situation fits Kordran&apos;s scope.
-                  </p>
-                </div>
-                <p className="mt-12 font-mono text-[12px] tracking-[0.08em] text-text-secondary uppercase">
-                  Confidential initial discussion
-                </p>
-              </Reveal>
-
-              <div id="contact-form" className="md:col-span-7">
-                <Reveal delay={150}>
-                  <ContactForm />
-                </Reveal>
-              </div>
+              <p className="lede">
+                Bring a price increase, disputed charge, or purchasing
+                discrepancy. We&apos;ll help establish the facts and define the
+                next step.
+              </p>
             </div>
+            <div>
+              <p className="kicker">Often enough to begin</p>
+              <ul className="input-list">
+                {inputs.map((input) => (
+                  <li key={input}>{input}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="section section-trust" aria-labelledby="trust-heading">
+          <div className="container trust-grid">
+            <h2 id="trust-heading" className="statement">
+              Direct analysis. Hands-on resolution.
+            </h2>
+            <p>
+              We work alongside procurement and finance teams—from the initial
+              finding through an approved corrective action.
+            </p>
+          </div>
+        </section>
+
+        <section
+          id="contact"
+          className="section section-contact"
+          aria-labelledby="contact-heading"
+          tabIndex={-1}
+        >
+          <div className="container contact-grid">
+            <div className="contact-aside">
+              <p className="kicker">Contact</p>
+              <h2 id="contact-heading" className="heading">
+                Have a supplier cost issue?
+              </h2>
+              <p className="lede">
+                Tell us what changed. We&apos;ll determine whether Kordran is a
+                fit.
+              </p>
+              <p className="contact-mail">
+                <a className="inline-link" href={`mailto:${contactEmail}`}>
+                  {contactEmail}
+                </a>
+              </p>
+            </div>
+            <ContactForm />
           </div>
         </section>
       </main>

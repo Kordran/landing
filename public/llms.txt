@@ -1,10 +1,12 @@
 # Kordran
 
-> Supply-chain value recovery for companies with complex hardware supply chains.
+> Supplier cost verification and resolution for industrial manufacturers.
 
-Kordran Inc. identifies and pursues avoidable cost across supplier pricing, freight, duties, tariffs, and import operations. The primary commercial starting point is the Landed-Cost Recovery Diagnostic.
+Kordran helps manufacturers identify pricing discrepancies, resolve supplier issues, and prevent repeat charges. The work covers supplier pricing and contract reconciliation, unsupported or incorrectly implemented charges, and commercial follow-through after a finding.
 
-Kordran is not a law firm or customs broker. Formal customs advice, legal interpretation, and regulated filings are handled or reviewed by appropriately qualified specialists.
+An illustrative price comparison on the homepage is hypothetical. It is not a customer result, and a pricing difference is not itself a recovery.
+
+Kordran Inc. is not a law firm, customs broker, lender, or regulated financial institution.
 
 ## Site
 
@@ -16,5 +18,6 @@ Kordran is not a law firm or customs broker. Formal customs advice, legal interp
 ## Contact
 
 - Email: contact@kordran.com
+- Discuss a supplier issue: https://kordran.com/#contact
 - LinkedIn: https://www.linkedin.com/company/kordran
 - X: https://x.com/kordran_

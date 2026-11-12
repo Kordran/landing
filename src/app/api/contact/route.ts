@@ -37,6 +37,20 @@ export async function POST(request: Request) {
     );
   }
 
+  if (
+    name.length > 200 ||
+    company.length > 200 ||
+    email.length > 320 ||
+    situation.length > 5000 ||
+    area.length > 200 ||
+    timeline.length > 200
+  ) {
+    return NextResponse.json(
+      { error: "Please shorten the message and try again." },
+      { status: 400 }
+    );
+  }
+
   if (!isValidEmail(email)) {
     return NextResponse.json(
       { error: "Please provide a valid work email." },
@@ -138,15 +152,15 @@ export async function POST(request: Request) {
           from: fromEmail,
           to: [toEmail],
           reply_to: email,
-          subject: `Contact inquiry - ${company}`,
+          subject: `Supplier cost inquiry - ${company}`,
           text: [
             `Name: ${name}`,
             `Company: ${company}`,
             `Email: ${email}`,
-            `Area: ${area || "Not specified"}`,
-            `Timeline: ${timeline || "Not specified"}`,
+            ...(area ? [`Area: ${area}`] : []),
+            ...(timeline ? [`Timeline: ${timeline}`] : []),
             "",
-            "What is happening, and what result do you need?",
+            "Issue:",
             situation,
           ].join("\n"),
         }),

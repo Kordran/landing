@@ -19,7 +19,7 @@ export default function TermsPage() {
   return (
     <>
       <Header />
-      <main className="flex-1 pt-20">
+      <main id="content" className="site-main">
         <div className="container legal-content section max-w-[900px]">
           <p className="label mb-6">
             <Link href="/" className="hover:underline">
@@ -27,7 +27,7 @@ export default function TermsPage() {
             </Link>
           </p>
           <h1>Terms</h1>
-          <p>Last updated: July 30, 2026</p>
+          <p>Last updated: November 11, 2026</p>
           <p>
             By using this website, you agree to these terms of use. This site is
             operated by Kordran Inc. (“Kordran”).
@@ -36,9 +36,9 @@ export default function TermsPage() {
           <h2>Purpose of the site</h2>
           <p>
             This website provides general information about Kordran’s
-            supply-chain value recovery and execution work. Nothing on this site
+            supplier cost verification and resolution work. Nothing on this site
             constitutes an offer of services, a commitment to engage, legal
-            advice, or a guarantee of outcomes.
+            advice, financial advice, or a guarantee of outcomes.
           </p>
 
           <h2>No customer relationship</h2>

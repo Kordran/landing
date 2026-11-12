@@ -19,7 +19,7 @@ export default function PrivacyPage() {
   return (
     <>
       <Header />
-      <main className="flex-1 pt-20">
+      <main id="content" className="site-main">
         <div className="container legal-content section max-w-[900px]">
           <p className="label mb-6">
             <Link href="/" className="hover:underline">
@@ -27,20 +27,19 @@ export default function PrivacyPage() {
             </Link>
           </p>
           <h1>Privacy</h1>
-          <p>Last updated: July 30, 2026</p>
+          <p>Last updated: November 11, 2026</p>
           <p>
             Kordran Inc. (“Kordran,” “we,” “us”) respects the
             confidentiality of information shared through this website,
-            particularly information concerning supply-chain cost, trade, and
-            operating matters.
+            particularly information concerning supplier pricing and
+            purchasing matters.
           </p>
 
           <h2>Information we collect</h2>
           <p>
             When you submit the contact form, we collect the details you
-            provide, which may include your name, company, work email, a
-            description of what is happening and the result you need, and
-            optional context such as area of concern and timeline.
+            provide: your name, company, work email, and a brief description
+            of the supplier cost issue.
           </p>
           <p>
             We may also collect basic technical data such as browser type,

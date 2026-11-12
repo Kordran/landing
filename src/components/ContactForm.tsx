@@ -1,12 +1,19 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { track } from "@/lib/analytics";
+import { contactEmail } from "@/lib/site";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
+  const successRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (status === "success") successRef.current?.focus();
+  }, [status]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -25,19 +32,26 @@ export default function ContactForm() {
           company: data.get("company"),
           email: data.get("email"),
           situation: data.get("situation"),
-          area: data.get("area"),
-          timeline: data.get("timeline"),
         }),
       });
 
       if (!response.ok) {
         const payload = await response.json().catch(() => null);
-        throw new Error(payload?.error || "Unable to submit. Please try again.");
+        const raw =
+          typeof payload?.error === "string"
+            ? payload.error
+            : "Unable to submit. Please try again.";
+        const message = /environment variable|supabase/i.test(raw)
+          ? "Unable to submit your request. Please try again later."
+          : raw;
+        throw new Error(message);
       }
 
+      track("contact_submit", { status: "success" });
       setStatus("success");
       form.reset();
     } catch (err) {
+      track("contact_submit", { status: "error" });
       setStatus("error");
       setError(err instanceof Error ? err.message : "Unable to submit.");
     }
@@ -45,21 +59,28 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="form-success border border-border p-10 md:p-12">
-        <p className="label mb-4">Received</p>
-        <p className="text-body max-w-xl text-text">
-          Your message has been received. Submitted information is reviewed
-          confidentially to determine whether the problem fits Kordran&apos;s
-          scope.
+      <div className="form-success" role="status">
+        <p className="kicker">Received</p>
+        <h3 ref={successRef} tabIndex={-1}>
+          Inquiry received.
+        </h3>
+        <p>We&apos;ll review it and reply if Kordran is a fit.</p>
+        <p>
+          You can also write to{" "}
+          <a className="inline-link" href={`mailto:${contactEmail}`}>
+            {contactEmail}
+          </a>
+          .
         </p>
       </div>
     );
   }
 
+  const showEmailHint = !error.includes(contactEmail);
+
   return (
-    <form onSubmit={onSubmit} className="border border-border p-10 md:p-12">
-      <p className="label mb-10">Request a review</p>
-      <div className="grid gap-7 md:grid-cols-2">
+    <form className="form-sheet" onSubmit={onSubmit}>
+      <div className="form-grid">
         <div className="form-field">
           <label htmlFor="name">Name</label>
           <input id="name" name="name" type="text" required autoComplete="name" />
@@ -74,7 +95,7 @@ export default function ContactForm() {
             autoComplete="organization"
           />
         </div>
-        <div className="form-field md:col-span-2">
+        <div className="form-field form-field-wide">
           <label htmlFor="email">Work email</label>
           <input
             id="email"
@@ -82,51 +103,53 @@ export default function ContactForm() {
             type="email"
             required
             autoComplete="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
           />
         </div>
-        <div className="form-field md:col-span-2">
-          <label htmlFor="situation">
-            What is happening, and what result do you need?
-          </label>
-          <textarea id="situation" name="situation" required rows={6} />
-        </div>
-        <div className="form-field">
-          <label htmlFor="area">Area of concern (optional)</label>
-          <select id="area" name="area" defaultValue="">
-            <option value="" disabled>
-              Select if known
-            </option>
-            <option value="landed-cost">Landed cost / duties / freight</option>
-            <option value="supplier-pricing">Supplier pricing</option>
-            <option value="trade-customs">Trade and customs operations</option>
-            <option value="other">Other / not sure</option>
-          </select>
-        </div>
-        <div className="form-field">
-          <label htmlFor="timeline">Approximate timeline (optional)</label>
-          <input
-            id="timeline"
-            name="timeline"
-            type="text"
-            placeholder="e.g. This quarter"
+        <div className="form-field form-field-wide">
+          <label htmlFor="situation">Brief description of the issue</label>
+          <textarea
+            id="situation"
+            name="situation"
+            required
+            rows={5}
+            aria-describedby="situation-hint"
           />
+          <p id="situation-hint" className="form-hint">
+            Describe the issue in general terms. Please don&apos;t include
+            contracts, invoices, or pricing files.
+          </p>
         </div>
       </div>
 
       {status === "error" ? (
-        <p className="mt-6 text-[15px] text-accent" role="alert">
-          {error}
+        <p className="form-error" role="alert">
+          <strong>Error.</strong> {error}
+          {showEmailHint ? (
+            <>
+              {" "}
+              You can also email{" "}
+              <a className="inline-link" href={`mailto:${contactEmail}`}>
+                {contactEmail}
+              </a>
+              .
+            </>
+          ) : null}
         </p>
       ) : null}
 
-      <div className="mt-8">
+      <div className="form-actions">
         <button
           type="submit"
-          className="form-submit"
+          className="btn"
           disabled={status === "submitting"}
+          aria-busy={status === "submitting"}
         >
-          {status === "submitting" ? "Submitting…" : "Request a review"}
+          {status === "submitting" ? "Sending…" : "Send inquiry"}
         </button>
+        <p className="form-required">All fields are required.</p>
       </div>
     </form>
   );

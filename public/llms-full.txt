@@ -8,52 +8,62 @@ X: https://x.com/kordran_
 
 ## Positioning
 
-Kordran identifies and pursues avoidable cost across supplier pricing, freight, duties, tariffs, and import operations for companies with complex hardware supply chains.
+Kordran helps industrial manufacturers verify supplier pricing, resolve purchasing-cost discrepancies, and prevent recurring charges.
 
-Thesis:
+The public offer is supplier cost intelligence and execution: investigation of purchasing prices, contract discrepancies, surcharges, and supplier price increases, followed by commercial work to resolve supported issues.
+
+Kordran does not advertise lending, inventory financing, private credit, or investment services.
+
+Working principle:
 - Find the cost.
 - Recover the value.
 - Fix the system.
 
-## Problem
+## What Kordran handles
 
-Supply-chain cost rarely arrives with a clean explanation. A supplier price increase may combine materials, freight, duties, volume, and commercial assumptions. Customs treatment may vary across brokers or entries. Potential recoveries may depend on records held separately by finance, supply chain, logistics, trade, and engineering.
+- Price discrepancies: billed prices that differ from agreed terms.
+- Supplier increases: new prices that need commercial review.
+- Persistent surcharges: charges that continue after terms change.
 
-Core issue: each function holds part of the evidence; no one owns the complete economic problem.
+Not every discrepancy is misconduct or a recoverable overpayment.
 
-Kordran connects the records, determines what the evidence supports, and drives the issue through resolution.
+## Method
 
-## Landed-Cost Recovery Diagnostic
+1. Verify. Reconcile pricing records, agreements, and purchasing history to establish what the evidence supports.
+2. Resolve. Work with the customer's team to pursue supported corrections and resolve supplier disputes.
+3. Prevent. Help implement controls that reduce repeat discrepancies.
 
-A fixed-scope review of purchasing, supplier, import, and logistics activity. It identifies credible recovery opportunities, estimates exposure, evaluates supporting evidence, and defines the action required to pursue them.
+Kordran remains involved after the analysis, through an approved corrective action. Engagements are established by a separate written agreement.
 
-Typical scope:
-- One legal entity
-- Up to twelve months of activity
-- A defined group of suppliers, parts, freight lanes, or import categories
-- Generally two to four weeks after required records and stakeholder access are available
+## Illustrative example
 
-Result: a prioritized opportunity register showing estimated exposure, supporting evidence, confidence, and required action.
+The homepage shows a hypothetical supplier price discrepancy. It is labeled as an illustrative example and is not a customer result.
 
-The diagnostic can stand alone or transition into a separately authorized recovery engagement.
+- Agreed unit price: $42
+- Billed unit price: $44
+- Units reviewed: 18,000
+- Potential discrepancy: $36,000
+- Formula: 18,000 × ($44 − $42) = $36,000
 
-## Recovery and control
+A pricing difference is a finding, not yet a recovery. Kordran reviews the relevant agreement, validates eligible transactions, and works toward an authorized commercial correction.
 
-Identifying the opportunity is only the beginning. Kordran can remain through validation and recovery: resolving data gaps, coordinating internal stakeholders, working with suppliers and brokers, preparing commercial claims, escalating decisions, and implementing approved corrections.
+## Who it is for
 
-Where the underlying issue is systemic, Kordran strengthens the controls connecting parts, purchasing, suppliers, brokers, imports, logistics activity, and financial reporting.
+Manufacturers managing multiple suppliers, changing prices, and purchasing records spread across systems. Relevant environments include industrial equipment, electromechanical assemblies, and precision manufactured components. These are target environments, not a list of customers.
 
-Best suited to businesses with meaningful supplier, freight, duty, or import spend and enough transaction complexity that the answer cannot be found in one system.
+A first conversation can start with one supplier: a price increase, disputed charge, or purchasing discrepancy. Useful inputs are a supplier quotation or price notice, previous pricing, and a relevant agreement or purchasing record.
 
 ## Contact
 
-Prospective clients can request a review at https://kordran.com/#contact without needing to know the exact cause. Submitted information is reviewed confidentially to determine whether the situation fits Kordran's scope.
+Qualified visitors can start a conversation at https://kordran.com/#contact or email contact@kordran.com.
+
+The public form asks for name, company, work email, and a brief description of the issue. It asks people not to include contracts, invoices, or pricing files. Submitted information is reviewed to determine whether Kordran is a fit.
 
 ## Legal pages
 
 - Privacy: https://kordran.com/privacy
 - Terms: https://kordran.com/terms
 
-## Important disclaimer
+## Important limits
 
-Kordran Inc. is not a law firm or customs broker. Formal customs advice, legal interpretation, and regulated filings are handled or reviewed by appropriately qualified specialists.
+Kordran Inc. is not a law firm, customs broker, lender, or regulated financial institution. The site does not state client counts, savings, recovered amounts, years of operation, certifications, or guaranteed turnaround times. Nothing on the site is a guarantee of outcomes.

@@ -1,49 +1,72 @@
-"use client";
-
-import type { CSSProperties } from "react";
-
-const thesisLines = [
-  "Find the cost.",
-  "Recover the value.",
-  "Fix the system.",
-];
+import TrackLink from "@/components/TrackLink";
+import {
+  example,
+  formatUsd,
+  illustrativeLabel,
+  unitDelta,
+} from "@/lib/example";
 
 export default function HeroSection() {
   return (
-    <section className="hero-thesis border-b border-border">
-      <div className="container grid min-h-[calc(100vh-5rem)] grid-rows-[1fr_auto] py-14 md:py-16 lg:py-20">
-        <h1 className="text-display max-w-[14ch] self-start pt-4 text-text md:pt-8">
-          {thesisLines.map((line, index) => (
-            <span
-              key={line}
-              className="hero-line"
-              style={
-                {
-                  "--hero-delay": `${90 + index * 110}ms`,
-                } as CSSProperties
-              }
-            >
-              {line}
-            </span>
-          ))}
-        </h1>
-
-        <div
-          className="hero-reveal mt-20 flex max-w-md flex-col gap-8 justify-self-start md:mt-0 md:max-w-sm md:justify-self-end lg:max-w-md"
-          style={{ "--hero-delay": "480ms" } as CSSProperties}
-        >
-          <p className="text-body text-text-secondary">
-            Kordran identifies and pursues avoidable cost across supplier
-            pricing, freight, duties, tariffs, and import operations for
-            companies with complex hardware supply chains.
+    <section className="hero" aria-labelledby="hero-heading">
+      <div className="container hero-grid">
+        <div className="hero-copy">
+          <p className="kicker">Supplier cost intelligence + execution</p>
+          <h1 id="hero-heading" className="display">
+            Supplier costs.
+            <br />
+            Verified and resolved.
+          </h1>
+          <p className="lede">
+            Kordran helps industrial manufacturers identify pricing
+            discrepancies, resolve supplier issues, and prevent repeat charges.
           </p>
-          <a href="#contact" className="nav-cta">
-            Request a review{" "}
-            <span className="nav-cta-arrow" aria-hidden="true">
-              {">"}
-            </span>
-          </a>
+          <div className="cta-row">
+            <TrackLink
+              href="#contact"
+              className="btn"
+              event="cta_click"
+              eventParams={{ location: "hero", target: "contact" }}
+            >
+              Discuss a supplier issue
+            </TrackLink>
+            <a href="#approach" className="text-action">
+              See how it works
+            </a>
+          </div>
         </div>
+
+        <figure className="sheet specimen">
+          <figcaption className="specimen-mast">
+            <span className="mark" aria-hidden="true" />
+            {illustrativeLabel}
+          </figcaption>
+          <div className="specimen-grid">
+            <div className="specimen-col">
+              <p className="specimen-k">Agreement</p>
+              <p className="specimen-ref">{example.agreementRef}</p>
+              <p className="specimen-label">Unit price</p>
+              <p className="num specimen-price">
+                {formatUsd(example.agreedUnit, 2)}
+              </p>
+            </div>
+            <div className="specimen-col">
+              <p className="specimen-k">Invoice</p>
+              <p className="specimen-ref">{example.invoiceRef}</p>
+              <p className="specimen-label">Unit price</p>
+              <p className="num specimen-price specimen-price-exception">
+                {formatUsd(example.billedUnit, 2)}
+              </p>
+            </div>
+          </div>
+          <div className="specimen-delta">
+            <span>Difference</span>
+            <span className="num">
+              {formatUsd(unitDelta, 2)}
+              <span className="per">per unit</span>
+            </span>
+          </div>
+        </figure>
       </div>
     </section>
   );

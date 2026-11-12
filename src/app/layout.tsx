@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Inter_Tight, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
 import Script from "next/script";
 import {
   defaultTitle,
@@ -11,9 +11,10 @@ import {
 } from "@/lib/site";
 import "./globals.css";
 
-const interTight = Inter_Tight({
-  variable: "--font-inter-tight",
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
   subsets: ["latin"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -24,14 +25,12 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  subsets: ["latin"],
-  weight: ["400"],
-  display: "swap",
-});
-
 const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
+
+export const viewport: Viewport = {
+  themeColor: "#F5F3EE",
+  colorScheme: "light",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -45,13 +44,13 @@ export const metadata: Metadata = {
   creator: legalName,
   publisher: legalName,
   keywords: [
-    "landed cost recovery",
-    "supply-chain value recovery",
-    "duties and tariffs",
-    "freight cost recovery",
-    "supplier pricing review",
-    "import operations",
-    "hardware supply chain",
+    "supplier cost verification",
+    "supplier pricing discrepancies",
+    "purchase price variance",
+    "contract price reconciliation",
+    "supplier surcharge review",
+    "industrial procurement",
+    "manufacturing purchasing costs",
   ],
   alternates: {
     canonical: "/",
@@ -110,9 +109,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${interTight.variable} ${ibmPlexMono.variable} ${instrumentSerif.variable} h-full`}
+      className={`${instrumentSans.variable} ${ibmPlexMono.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col bg-bg text-text antialiased">
+      <body className="min-h-full flex flex-col antialiased">
+        <a className="skip-link" href="#content">
+          Skip to content
+        </a>
         {children}
         {gaId ? (
           <>

@@ -11,9 +11,9 @@ export const linkedInUrl = "https://www.linkedin.com/company/kordran";
 export const xUrl = "https://x.com/kordran_";
 
 export const siteDescription =
-  "Kordran identifies and pursues avoidable cost across supplier pricing, freight, duties, tariffs, and import operations for companies with complex hardware supply chains.";
+  "Kordran helps industrial manufacturers verify supplier pricing, resolve purchasing-cost discrepancies, and prevent recurring charges.";
 
-export const ogDescription =
-  "Find the cost. Recover the value. Fix the system. Landed-cost recovery for complex hardware supply chains.";
+export const ogDescription = siteDescription;
 
-export const defaultTitle = "Kordran | Supply-Chain Value Recovery";
+export const defaultTitle =
+  "Kordran | Supplier Cost Verification & Resolution";

@@ -1,6 +1,7 @@
 import { logos } from "@/lib/logos";
 import {
   contactEmail,
+  defaultTitle,
   legalName,
   linkedInUrl,
   siteDescription,
@@ -43,7 +44,7 @@ export function getHomeJsonLd() {
         "@type": "WebPage",
         "@id": webpageId,
         url: siteUrl,
-        name: "Kordran | Supply-Chain Value Recovery",
+        name: defaultTitle,
         description: siteDescription,
         isPartOf: { "@id": websiteId },
         about: { "@id": organizationId },
@@ -53,13 +54,11 @@ export function getHomeJsonLd() {
       {
         "@type": "ProfessionalService",
         "@id": serviceId,
-        name: "Landed-Cost Recovery Diagnostic",
-        url: `${siteUrl}/#diagnostic`,
-        description:
-          "A fixed-scope review that identifies credible recovery opportunities across supplier pricing, freight, duties, tariffs, and import operations, estimates exposure, evaluates supporting evidence, and defines the action required to pursue them.",
+        name: "Supplier cost verification and resolution",
+        url: siteUrl,
+        description: siteDescription,
         provider: { "@id": organizationId },
-        areaServed: "Worldwide",
-        serviceType: "Supply-chain value recovery",
+        serviceType: "Supplier pricing integrity",
       },
     ],
   };
