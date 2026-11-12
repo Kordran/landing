@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import HeroSection from "@/components/HeroSection";
 import ExampleRecord from "@/components/ExampleRecord";
 import ExampleSeen from "@/components/ExampleSeen";
 import ContactForm from "@/components/ContactForm";
+import TrackLink from "@/components/TrackLink";
 import JsonLd from "@/components/JsonLd";
 import { getHomeJsonLd } from "@/lib/jsonld";
-import { contactEmail, defaultTitle, ogDescription, siteDescription } from "@/lib/site";
+import {
+  contactEmail,
+  defaultTitle,
+  ogDescription,
+  siteDescription,
+} from "@/lib/site";
 
 export const metadata: Metadata = {
   title: { absolute: defaultTitle },
@@ -56,39 +62,85 @@ const stages = [
   },
 ];
 
-const environments = [
-  "Industrial equipment",
-  "Electromechanical assemblies",
-  "Precision manufactured components",
-];
-
-const inputs = [
-  "Supplier quotation or price notice",
-  "Previous pricing",
-  "Relevant agreement or purchasing record",
-];
+function SceneImage({
+  src,
+  priority = false,
+}: {
+  src: string;
+  priority?: boolean;
+}) {
+  return (
+    <Image
+      className="scene-bg"
+      src={src}
+      alt=""
+      fill
+      sizes="100vw"
+      priority={priority}
+      aria-hidden
+    />
+  );
+}
 
 export default function HomePage() {
   return (
     <>
+      <link rel="preload" as="image" href="/scenes/foundry.jpg" />
       <JsonLd data={getHomeJsonLd()} />
-      <Header />
-      <main id="content" className="site-main">
-        <HeroSection />
+      <Header initialTone="on-dark" />
+      <main id="content" className="site-main site-main-overlay">
+        <section
+          className="scene scene-hero"
+          data-header="on-dark"
+          aria-labelledby="hero-heading"
+        >
+          <SceneImage src="/scenes/foundry.jpg" priority />
+          <div className="scene-scrim" aria-hidden="true" />
+          <div className="container scene-copy">
+            <p className="kicker">Supplier cost intelligence + execution</p>
+            <h1 id="hero-heading" className="display">
+              Supplier costs.
+              <br />
+              Verified and resolved.
+            </h1>
+            <p className="lede">
+              Kordran helps industrial manufacturers identify pricing
+              discrepancies, resolve supplier issues, and prevent repeat
+              charges.
+            </p>
+            <div className="cta-row">
+              <TrackLink
+                href="#contact"
+                className="btn"
+                event="cta_click"
+                eventParams={{ location: "hero", target: "contact" }}
+              >
+                Discuss a supplier issue
+              </TrackLink>
+              <a href="#approach" className="text-action">
+                See how it works
+              </a>
+            </div>
+          </div>
+        </section>
 
-        <section className="section" aria-labelledby="problem-heading">
-          <div className="container split">
-            <div>
+        <section
+          className="scene scene-problem"
+          data-header="on-dark"
+          aria-labelledby="problem-heading"
+        >
+          <SceneImage src="/scenes/shop.jpg" />
+          <div className="scene-scrim" aria-hidden="true" />
+          <div className="container scene-copy">
             <p className="kicker">Problem</p>
             <h2 id="problem-heading" className="heading">
-              The price you agreed to isn&apos;t always the price you pay.
+              The price agreed isn&apos;t always the price paid.
             </h2>
             <p className="lede">
               Supplier prices change. Contracts get revised. Surcharges
               persist. The differences can be difficult to trace—and costly to
               leave unresolved.
             </p>
-            </div>
             <ul className="issues">
               {issues.map((issue) => (
                 <li key={issue.title}>
@@ -97,44 +149,17 @@ export default function HomePage() {
                 </li>
               ))}
             </ul>
-          </div>
-        </section>
-
-        <section
-          id="approach"
-          className="section section-method"
-          aria-labelledby="approach-heading"
-          tabIndex={-1}
-        >
-          <div id="diagnostic" className="alias-anchor" />
-          <div className="container">
-            <p className="kicker">Method</p>
-            <h2 id="approach-heading" className="heading">
-              From discrepancy to correction.
-            </h2>
-            <ol className="stages">
-              {stages.map((stage) => (
-                <li key={stage.index}>
-                  <p className="stage-index">{stage.index}</p>
-                  <h3 className="stage-title">{stage.title}</h3>
-                  <p className="stage-body">{stage.body}</p>
-                </li>
-              ))}
-            </ol>
-            <div className="principle">
-              <p className="kicker">Working principle</p>
-              <div className="principle-lines">
-                <p>Find the cost.</p>
-                <p>Recover the value.</p>
-                <p>Fix the system.</p>
-              </div>
-            </div>
+            <p className="scene-note">
+              For manufacturers buying industrial equipment, electromechanical
+              assemblies, and precision components.
+            </p>
           </div>
         </section>
 
         <section
           id="example"
-          className="section"
+          className="section evidence"
+          data-header="on-light"
           aria-labelledby="example-heading"
           tabIndex={-1}
         >
@@ -157,80 +182,59 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="fit" className="section" aria-labelledby="fit-heading">
-          <div className="container">
-            <p className="kicker">Fit</p>
-            <h2 id="fit-heading" className="heading">
-              Built for complex industrial purchasing.
+        <section
+          id="approach"
+          className="scene scene-resolve"
+          data-header="on-dark"
+          aria-labelledby="approach-heading"
+          tabIndex={-1}
+        >
+          <div id="diagnostic" className="alias-anchor" />
+          <SceneImage src="/scenes/mill.jpg" />
+          <div className="scene-scrim" aria-hidden="true" />
+          <div className="container scene-copy">
+            <p className="kicker">Method</p>
+            <h2 id="approach-heading" className="heading">
+              We don&apos;t stop at the finding.
             </h2>
             <p className="lede">
-              For manufacturers managing multiple suppliers, changing prices,
-              and purchasing records spread across systems.
+              Verification is the start. Kordran stays through the correction,
+              and the control that keeps the charge from returning.
             </p>
-            <p className="kicker list-kicker">Purchasing environments</p>
-            <ul className="env">
-              {environments.map((environment) => (
-                <li key={environment}>{environment}</li>
+            <ol className="stages">
+              {stages.map((stage) => (
+                <li key={stage.index}>
+                  <p className="stage-index">{stage.index}</p>
+                  <h3 className="stage-title">{stage.title}</h3>
+                  <p className="stage-body">{stage.body}</p>
+                </li>
               ))}
-            </ul>
-          </div>
-        </section>
-
-        <section
-          id="engagement"
-          className="section"
-          aria-labelledby="engagement-heading"
-        >
-          <div className="container split">
-            <div>
-              <p className="kicker">Engagement</p>
-              <h2 id="engagement-heading" className="heading">
-                Start with one supplier.
-              </h2>
-              <p className="lede">
-                Bring a price increase, disputed charge, or purchasing
-                discrepancy. We&apos;ll help establish the facts and define the
-                next step.
-              </p>
-            </div>
-            <div>
-              <p className="kicker">Often enough to begin</p>
-              <ul className="input-list">
-                {inputs.map((input) => (
-                  <li key={input}>{input}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section className="section section-trust" aria-labelledby="trust-heading">
-          <div className="container trust-grid">
-            <h2 id="trust-heading" className="statement">
-              Direct analysis. Hands-on resolution.
-            </h2>
-            <p>
-              We work alongside procurement and finance teams—from the initial
-              finding through an approved corrective action.
-            </p>
+            </ol>
           </div>
         </section>
 
         <section
           id="contact"
-          className="section section-contact"
-          aria-labelledby="contact-heading"
+          className="scene scene-close"
+          data-header="on-dark"
+          aria-labelledby="close-heading"
           tabIndex={-1}
         >
-          <div className="container contact-grid">
-            <div className="contact-aside">
+          <SceneImage src="/scenes/works.jpg" />
+          <div className="scene-scrim scene-scrim-close" aria-hidden="true" />
+          <div className="container scene-close-grid">
+            <div className="scene-copy">
               <p className="kicker">Contact</p>
-              <h2 id="contact-heading" className="heading">
-                Have a supplier cost issue?
+              <h2 id="close-heading" className="heading">
+                Find the cost. Recover the value. Fix the system.
               </h2>
               <p className="lede">
                 Tell us what changed. We&apos;ll determine whether Kordran is a
                 fit.
+              </p>
+              <p className="scene-note">
+                Start with one supplier — a price increase, a disputed charge,
+                or a purchasing discrepancy.
               </p>
               <p className="contact-mail">
                 <a className="inline-link" href={`mailto:${contactEmail}`}>
@@ -238,11 +242,11 @@ export default function HomePage() {
                 </a>
               </p>
             </div>
-            <ContactForm />
+            <ContactForm variant="scene" />
           </div>
+          <Footer overlay />
         </section>
       </main>
-      <Footer />
     </>
   );
 }

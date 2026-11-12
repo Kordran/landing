@@ -2,12 +2,20 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 import { contactEmail, linkedInUrl, xUrl } from "@/lib/site";
 
-export default function Footer() {
+export default function Footer({
+  overlay = false,
+}: {
+  overlay?: boolean;
+}) {
   return (
-    <footer className="site-footer">
+    <footer className={`site-footer${overlay ? " is-overlay" : ""}`}>
       <div className="container footer-grid">
         <div className="footer-brand">
-          <Logo variant="full" className="logo" />
+          <Logo
+            variant="full"
+            surface={overlay ? "dark" : "light"}
+            className="logo"
+          />
           <p>
             Supplier cost verification and resolution for industrial
             manufacturers.

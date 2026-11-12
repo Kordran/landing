@@ -1127,6 +1127,263 @@ select {
   }
 }
 
+.site-main-overlay {
+  padding-top: 0;
+}
+
+.scene {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+.scene-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.scene-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(8, 14, 20, 0.84) 0%,
+    rgba(8, 14, 20, 0.72) 38%,
+    rgba(8, 14, 20, 0.34) 64%,
+    rgba(8, 14, 20, 0.14) 100%
+  );
+}
+
+.scene-scrim-close {
+  background:
+    linear-gradient(180deg, transparent 0%, transparent 62%, rgba(8, 14, 20, 0.78) 100%),
+    linear-gradient(
+      90deg,
+      rgba(8, 14, 20, 0.84) 0%,
+      rgba(8, 14, 20, 0.74) 46%,
+      rgba(8, 14, 20, 0.4) 100%
+    );
+}
+
+.scene-hero {
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding: calc(var(--header-h) + 28px) 0 56px;
+}
+
+.scene-problem,
+.scene-resolve {
+  padding: 88px 0;
+}
+
+.scene-close {
+  padding-top: 88px;
+}
+
+.scene-copy,
+.scene-close-grid,
+.scene .site-footer {
+  position: relative;
+  z-index: 2;
+}
+
+.scene-copy {
+  max-width: 40rem;
+}
+
+.scene .kicker,
+.scene .stage-index {
+  color: #d7e4ec;
+}
+
+.scene .display,
+.scene .heading,
+.scene .statement,
+.scene .stage-title,
+.scene .issues h3 {
+  color: #ffffff;
+}
+
+.scene .lede,
+.scene .scene-note,
+.scene .stage-body,
+.scene .issues p,
+.scene .contact-mail {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.scene .text-action {
+  color: #ffffff;
+  border-bottom-color: rgba(255, 255, 255, 0.7);
+}
+
+.scene .text-action:hover {
+  border-bottom-color: #ffffff;
+}
+
+.scene .btn {
+  background: #ffffff;
+  color: var(--teal);
+  border-color: #ffffff;
+}
+
+.scene .btn:hover {
+  background: var(--teal);
+  color: #ffffff;
+  border-color: var(--teal);
+}
+
+.scene .issues,
+.scene .stages {
+  max-width: 40rem;
+}
+
+.scene .issues li,
+.scene .stages li,
+.scene .stages li + li {
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+.scene .stages {
+  grid-template-columns: 1fr;
+}
+
+.scene .stages li,
+.scene .stages li + li {
+  padding-left: 0;
+  border-left: none;
+}
+
+.scene-note {
+  max-width: 38rem;
+  margin-top: 22px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.scene-close-grid {
+  display: grid;
+  gap: 36px;
+  padding-bottom: 28px;
+}
+
+.scene .inline-link {
+  color: #ffffff;
+}
+
+.evidence {
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.site-header.is-on-dark {
+  background: linear-gradient(to bottom, rgba(8, 14, 20, 0.55), rgba(8, 14, 20, 0));
+  border-bottom-color: transparent;
+}
+
+.site-header.is-on-dark .nav-link,
+.site-header.is-on-dark .menu-button {
+  color: #ffffff;
+}
+
+.site-header.is-on-dark .nav-link:hover {
+  color: #d7e4ec;
+}
+
+.site-header.is-on-dark .btn {
+  background: #ffffff;
+  color: var(--teal);
+  border-color: #ffffff;
+}
+
+.site-header.is-on-dark .btn:hover {
+  background: var(--teal);
+  color: #ffffff;
+  border-color: var(--teal);
+}
+
+.form-on-scene {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.form-on-scene .form-field label,
+.form-on-scene .form-hint,
+.form-on-scene .form-required,
+.form-on-scene .form-success p,
+.form-on-scene h3 {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.form-on-scene input,
+.form-on-scene textarea {
+  color: #ffffff;
+  background: transparent;
+  border-bottom-color: rgba(255, 255, 255, 0.55);
+}
+
+.form-on-scene .form-error,
+.form-on-scene .form-error strong {
+  color: #ffffff;
+}
+
+.form-on-scene .inline-link {
+  color: #ffffff;
+}
+
+.site-footer.is-overlay {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(255, 255, 255, 0.32);
+  background: transparent;
+}
+
+.site-footer.is-overlay .footer-brand p,
+.site-footer.is-overlay .footer-legal,
+.site-footer.is-overlay .footer-contact a,
+.site-footer.is-overlay .inline-link {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.site-footer.is-overlay a:hover,
+.site-footer.is-overlay .inline-link:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 800px) {
+  .scene-scrim,
+  .scene-scrim-close {
+    background: linear-gradient(
+      180deg,
+      rgba(8, 14, 20, 0.82) 0%,
+      rgba(8, 14, 20, 0.68) 58%,
+      rgba(8, 14, 20, 0.48) 100%
+    );
+  }
+}
+
+@media (min-width: 900px) {
+  .scene-close-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+
+  .scene .stages {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

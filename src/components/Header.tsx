@@ -11,8 +11,13 @@ const links = [
   { href: "/#contact", label: "Contact" },
 ];
 
-export default function Header() {
+export default function Header({
+  initialTone = "on-light",
+}: {
+  initialTone?: "on-dark" | "on-light";
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [tone, setTone] = useState(initialTone);
   const menuId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -22,6 +27,33 @@ export default function Header() {
     if (window.location.hash !== "#diagnostic") return;
     document.getElementById("approach")?.scrollIntoView();
   }, []);
+
+  useEffect(() => {
+    const scenes = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-header]")
+    );
+    if (!scenes.length) return;
+
+    const update = () => {
+      const marker = 48;
+      let next: "on-dark" | "on-light" = initialTone;
+      for (const scene of scenes) {
+        const box = scene.getBoundingClientRect();
+        if (box.top <= marker && box.bottom > marker) {
+          next = scene.dataset.header === "on-light" ? "on-light" : "on-dark";
+        }
+      }
+      setTone(next);
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [initialTone]);
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 900px)");
@@ -76,7 +108,7 @@ export default function Header() {
   }
 
   return (
-    <header className="site-header">
+    <header className={`site-header${tone === "on-dark" ? " is-on-dark" : ""}`}>
       <div className="container header-inner">
         <Link
           href="/"
@@ -84,7 +116,12 @@ export default function Header() {
           aria-label="Kordran home"
           onClick={closeMenu}
         >
-          <Logo variant="full" priority className="logo" />
+          <Logo
+            variant="full"
+            surface={tone === "on-dark" ? "dark" : "light"}
+            priority
+            className="logo"
+          />
         </Link>
 
         <nav className="nav-desktop" aria-label="Primary">

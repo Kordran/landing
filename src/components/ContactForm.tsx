@@ -6,7 +6,11 @@ import { contactEmail } from "@/lib/site";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export default function ContactForm() {
+export default function ContactForm({
+  variant = "paper",
+}: {
+  variant?: "paper" | "scene";
+}) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const successRef = useRef<HTMLHeadingElement>(null);
@@ -59,7 +63,7 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="form-success" role="status">
+      <div className={`form-success${variant === "scene" ? " form-on-scene" : ""}`} role="status">
         <p className="kicker">Received</p>
         <h3 ref={successRef} tabIndex={-1}>
           Inquiry received.
@@ -79,7 +83,7 @@ export default function ContactForm() {
   const showEmailHint = !error.includes(contactEmail);
 
   return (
-    <form className="form-sheet" onSubmit={onSubmit}>
+    <form className={`form-sheet${variant === "scene" ? " form-on-scene" : ""}`} onSubmit={onSubmit}>
       <div className="form-grid">
         <div className="form-field">
           <label htmlFor="name">Name</label>
