@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ExampleRecord from "@/components/ExampleRecord";
 import ExampleSeen from "@/components/ExampleSeen";
-import ReconcileMark from "@/components/ReconcileMark";
+import ReconciliationField from "@/components/ReconciliationField";
 import ContactForm from "@/components/ContactForm";
 import Reveal from "@/components/Reveal";
 import TrackLink from "@/components/TrackLink";
@@ -132,7 +132,7 @@ export default function HomePage() {
                 </a>
               </div>
             </div>
-            <ReconcileMark />
+            <ReconciliationField />
           </div>
         </section>
 
