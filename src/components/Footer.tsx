@@ -41,9 +41,7 @@ export default function Footer({
         <div className="footer-legal">
           <p>© 2026 Kordran Inc.</p>
           <p className="footer-nav">
-            <Link href="/#approach">Approach</Link>
-            <span aria-hidden="true"> · </span>
-            <Link href="/#example">Example</Link>
+            <Link href="/approach">Approach</Link>
             <span aria-hidden="true"> · </span>
             <Link href="/#contact">Contact</Link>
           </p>

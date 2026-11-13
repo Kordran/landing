@@ -37,15 +37,23 @@ Kordran remains involved after the analysis, through an approved corrective acti
 
 ## Example
 
-The homepage shows a hypothetical supplier price discrepancy. It is labeled as an example and is not a customer result.
+The homepage shows a hypothetical supplier price discrepancy. It is an example, not a customer result.
 
-- Agreed unit price: $41.50
-- Billed unit price: $45.60
-- Units reviewed: 182,000
-- Potential discrepancy: $746,200
-- Formula: 182,000 × ($45.60 − $41.50) = $746,200
+- Agreed unit price: $42.00
+- Billed unit price: $44.00
+- Units reviewed: 18,000
+- Potential discrepancy: $36,000
+- Formula: 18,000 × ($44.00 − $42.00) = $36,000
 
-A pricing difference is a finding, not yet a recovery. Kordran reviews the relevant agreement, validates eligible transactions, and works toward an authorized commercial correction.
+$36,000 is potential exposure, not an established recovery. The applicable agreement, effective dates, amendments, and eligible transactions must be verified.
+
+The approach page continues the same hypothetical case. If 15,000 of the 18,000 units qualify, the potentially supported difference is $30,000. The other $6,000 is excluded. That supported amount is still not collected cash.
+
+## Pages
+
+- Homepage: https://kordran.com/
+- Approach: https://kordran.com/approach
+- Contact: https://kordran.com/#contact
 
 ## Who it is for
 

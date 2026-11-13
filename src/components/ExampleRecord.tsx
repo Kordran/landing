@@ -95,6 +95,10 @@ export default function ExampleRecord() {
         <span className="sr-only">Calculation. </span>
         {`${formatCount(example.units)} × (${formatUsd(example.billedUnit, 2)} − ${formatUsd(example.agreedUnit, 2)}) = ${formatUsd(potentialDiscrepancy)}`}
       </p>
+      <p className="record-status">
+        Validation status
+        <span>Not established</span>
+      </p>
     </article>
   );
 }

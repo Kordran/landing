@@ -1,23 +1,37 @@
-/** Hypothetical figures used by the public example. */
+/** Hypothetical figures used by the public example. Not a customer result. */
 export const example = {
   item: "Machined housing",
   agreementRef: "PA-4418",
   invoiceRef: "INV-20441",
-  agreedUnit: 41.5,
-  billedUnit: 45.6,
-  units: 182_000,
+  agreedUnit: 42,
+  billedUnit: 44,
+  units: 18_000,
 } as const;
 
 export const illustrativeLabel = "Example";
 
-export const unitDelta =
-  Math.round((example.billedUnit - example.agreedUnit) * 100) / 100;
-export const potentialDiscrepancy =
-  Math.round(example.units * unitDelta * 100) / 100;
+export const caseLabel =
+  "Hypothetical example for illustration only. Not a Kordran customer result.";
 
-if (unitDelta !== 4.1 || potentialDiscrepancy !== 746_200) {
+export const unitDelta = example.billedUnit - example.agreedUnit;
+export const potentialDiscrepancy = example.units * unitDelta;
+
+/** A later validation step in the approach-page case. Still hypothetical. */
+export const qualifiedUnits = 15_000;
+export const excludedUnits = example.units - qualifiedUnits;
+export const supportedExposure = qualifiedUnits * unitDelta;
+export const excludedExposure = excludedUnits * unitDelta;
+
+if (
+  unitDelta !== 2 ||
+  potentialDiscrepancy !== 36_000 ||
+  qualifiedUnits + excludedUnits !== example.units ||
+  supportedExposure !== 30_000 ||
+  excludedExposure !== 6_000 ||
+  potentialDiscrepancy - excludedExposure !== supportedExposure
+) {
   throw new Error(
-    "Example must equal 182,000 × ($45.60 − $41.50) = $746,200."
+    "Example must equal 18,000 × ($44 − $42) = $36,000, with 15,000 qualifying units supporting $30,000."
   );
 }
 

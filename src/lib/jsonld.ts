@@ -15,6 +15,38 @@ const websiteId = `${siteUrl}/#website`;
 const webpageId = `${siteUrl}/#webpage`;
 const serviceId = `${siteUrl}/#service`;
 
+export function getApproachJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": organizationId,
+        name: siteName,
+        url: siteUrl,
+      },
+      {
+        "@type": "WebSite",
+        "@id": websiteId,
+        name: siteName,
+        url: siteUrl,
+        publisher: { "@id": organizationId },
+      },
+      {
+        "@type": "WebPage",
+        "@id": `${siteUrl}/approach#webpage`,
+        url: `${siteUrl}/approach`,
+        name: "Approach | Kordran",
+        description:
+          "How a Kordran engagement investigates supplier pricing, validates exposure, and supports an authorized commercial resolution.",
+        isPartOf: { "@id": websiteId },
+        about: { "@id": organizationId },
+        inLanguage: "en-US",
+      },
+    ],
+  };
+}
+
 export function getHomeJsonLd() {
   return {
     "@context": "https://schema.org",

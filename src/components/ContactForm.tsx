@@ -14,6 +14,7 @@ export default function ContactForm({
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const successRef = useRef<HTMLHeadingElement>(null);
+  const started = useRef(false);
 
   useEffect(() => {
     if (status === "success") successRef.current?.focus();
@@ -83,7 +84,15 @@ export default function ContactForm({
   const showEmailHint = !error.includes(contactEmail);
 
   return (
-    <form className={`form-sheet${variant === "scene" ? " form-on-scene" : ""}`} onSubmit={onSubmit}>
+    <form
+      className={`form-sheet${variant === "scene" ? " form-on-scene" : ""}`}
+      onSubmit={onSubmit}
+      onFocus={() => {
+        if (started.current) return;
+        started.current = true;
+        track("contact_start");
+      }}
+    >
       <div className="form-grid">
         <div className="form-field">
           <label htmlFor="name">Name</label>

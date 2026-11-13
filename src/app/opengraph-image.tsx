@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Kordran. Supplier costs, verified and resolved. Example comparison of a $41.50 agreed unit price and a $45.60 billed unit price.";
+  "Kordran. Supplier costs, verified and resolved. Example comparison of a $42 agreed unit price and a $44 billed unit price.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -103,7 +103,7 @@ export default function OpenGraphImage() {
               Agreed unit price
             </div>
             <div style={{ display: "flex", fontSize: 32, fontWeight: 500 }}>
-              $41.50
+              $42.00
             </div>
           </div>
           <div
@@ -127,7 +127,7 @@ export default function OpenGraphImage() {
                 color: "#1C3D57",
               }}
             >
-              $45.60
+              $44.00
             </div>
           </div>
           <div
@@ -151,7 +151,7 @@ export default function OpenGraphImage() {
                 color: "#1C3D57",
               }}
             >
-              $4.10 / unit
+              $2.00 / unit
             </div>
           </div>
         </div>

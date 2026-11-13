@@ -11,6 +11,7 @@ Kordran Inc. is not a law firm, customs broker, lender, or regulated financial i
 ## Site
 
 - Homepage: https://kordran.com/
+- Approach: https://kordran.com/approach
 - Privacy: https://kordran.com/privacy
 - Terms: https://kordran.com/terms
 - Full summary for LLMs: https://kordran.com/llms-full.txt

@@ -1,6 +1,7 @@
 "use client";
 
-import type { ComponentProps } from "react";
+import type { ComponentProps, MouseEvent } from "react";
+import Link from "next/link";
 import { track } from "@/lib/analytics";
 
 type TrackLinkProps = ComponentProps<"a"> & {
@@ -8,19 +9,25 @@ type TrackLinkProps = ComponentProps<"a"> & {
   eventParams?: Record<string, string | number>;
 };
 
+function isInternal(href: string) {
+  return href.startsWith("/") && !href.startsWith("//");
+}
+
 export default function TrackLink({
   event,
   eventParams,
   onClick,
+  href,
   ...props
 }: TrackLinkProps) {
-  return (
-    <a
-      {...props}
-      onClick={(eventClick) => {
-        track(event, eventParams);
-        onClick?.(eventClick);
-      }}
-    />
-  );
+  const handleClick = (eventClick: MouseEvent<HTMLAnchorElement>) => {
+    track(event, eventParams);
+    onClick?.(eventClick);
+  };
+
+  if (typeof href === "string" && isInternal(href)) {
+    return <Link href={href} {...props} onClick={handleClick} />;
+  }
+
+  return <a href={href} {...props} onClick={handleClick} />;
 }

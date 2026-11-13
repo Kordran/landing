@@ -2,12 +2,13 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Logo from "@/components/Logo";
 import TrackLink from "@/components/TrackLink";
 
 const links = [
-  { href: "/#approach", label: "Approach" },
-  { href: "/#example", label: "Example" },
+  { href: "/", label: "Home" },
+  { href: "/approach", label: "Approach" },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -18,15 +19,17 @@ export default function Header({
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [tone, setTone] = useState(initialTone);
+  const pathname = usePathname();
   const menuId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const returnFocus = useRef(false);
 
-  useEffect(() => {
-    if (window.location.hash !== "#diagnostic") return;
-    document.getElementById("approach")?.scrollIntoView();
-  }, []);
+  function isCurrent(href: string) {
+    if (href === "/") return pathname === "/";
+    if (href.startsWith("/#")) return false;
+    return pathname === href;
+  }
 
   useEffect(() => {
     const scenes = Array.from(
@@ -126,7 +129,12 @@ export default function Header({
 
         <nav className="nav-desktop" aria-label="Primary">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="nav-link">
+            <Link
+              key={link.href}
+              href={link.href}
+              className="nav-link"
+              aria-current={isCurrent(link.href) ? "page" : undefined}
+            >
               {link.label}
             </Link>
           ))}
@@ -167,6 +175,7 @@ export default function Header({
               key={link.href}
               href={link.href}
               className="menu-link"
+              aria-current={isCurrent(link.href) ? "page" : undefined}
               onClick={closeMenu}
             >
               {link.label}
