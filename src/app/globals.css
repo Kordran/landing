@@ -2,14 +2,14 @@
 
 :root {
   --bg: #ffffff;
-  --ink: #132f33;
-  --teal: #17636b;
-  --support: #3e5558;
-  --line: #d3dede;
-  --line-strong: #7d9496;
+  --ink: #161a1d;
+  --teal: #1c3d57;
+  --support: #3e4e5c;
+  --line: #d5dce2;
+  --line-strong: #7a8794;
   --surface: #ffffff;
-  --cool: #eef5f5;
-  --mist: #c5d4de;
+  --cool: #eef2f5;
+  --mist: #d5dee6;
   --header-h: 72px;
   --page: 1200px;
   --pad: 24px;

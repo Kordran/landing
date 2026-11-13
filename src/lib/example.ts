@@ -1,21 +1,23 @@
-/** Hypothetical figures used by the public example. Not a customer result. */
+/** Hypothetical figures used by the public example. */
 export const example = {
   item: "Machined housing",
   agreementRef: "PA-4418",
   invoiceRef: "INV-20441",
-  agreedUnit: 42,
-  billedUnit: 44,
-  units: 18_000,
+  agreedUnit: 41.5,
+  billedUnit: 45.6,
+  units: 182_000,
 } as const;
 
-export const illustrativeLabel = "Illustrative example";
+export const illustrativeLabel = "Example";
 
-export const unitDelta = example.billedUnit - example.agreedUnit;
-export const potentialDiscrepancy = example.units * unitDelta;
+export const unitDelta =
+  Math.round((example.billedUnit - example.agreedUnit) * 100) / 100;
+export const potentialDiscrepancy =
+  Math.round(example.units * unitDelta * 100) / 100;
 
-if (unitDelta !== 2 || potentialDiscrepancy !== 36_000) {
+if (unitDelta !== 4.1 || potentialDiscrepancy !== 746_200) {
   throw new Error(
-    "Illustrative example must equal 18,000 × ($44 − $42) = $36,000."
+    "Example must equal 182,000 × ($45.60 − $41.50) = $746,200."
   );
 }
 

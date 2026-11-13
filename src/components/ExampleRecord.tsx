@@ -52,7 +52,6 @@ export default function ExampleRecord() {
           <span className="mark" aria-hidden="true" />
           {illustrativeLabel}
         </span>
-        <span>Sample records</span>
       </p>
 
       <div className="comparison">
@@ -94,7 +93,7 @@ export default function ExampleRecord() {
 
       <p className="formula">
         <span className="sr-only">Calculation. </span>
-        {`${formatCount(example.units)} × ($${example.billedUnit} − $${example.agreedUnit}) = ${formatUsd(potentialDiscrepancy)}`}
+        {`${formatCount(example.units)} × (${formatUsd(example.billedUnit, 2)} − ${formatUsd(example.agreedUnit, 2)}) = ${formatUsd(potentialDiscrepancy)}`}
       </p>
     </article>
   );
