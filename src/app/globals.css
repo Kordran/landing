@@ -1845,7 +1845,7 @@ details[open] > summary .toggle::after {
 
 .vbars {
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-columns: 64px minmax(0, 1fr);
   column-gap: var(--s-3);
   row-gap: var(--s-3);
   margin-top: var(--s-7);
@@ -1853,7 +1853,7 @@ details[open] > summary .toggle::after {
 
 .vbars-scale {
   position: relative;
-  height: clamp(200px, 26vw, 280px);
+  height: clamp(240px, 34vw, 360px);
   color: var(--on-deep-2);
 }
 
@@ -1863,6 +1863,10 @@ details[open] > summary .toggle::after {
   bottom: calc(var(--at) * 100%);
   transform: translateY(50%);
   white-space: nowrap;
+}
+
+.vbars-scale span:first-child {
+  transform: translateY(100%);
 }
 
 .vbars-scale span:last-child {
@@ -1878,9 +1882,18 @@ details[open] > summary .toggle::after {
 
 .vbars-plot {
   position: relative;
-  align-items: end;
-  height: clamp(200px, 26vw, 280px);
-  border-bottom: 1px solid var(--line-deep);
+  align-items: stretch;
+  height: clamp(240px, 34vw, 360px);
+}
+
+.vbars-zero {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  border-top: 1px solid rgba(244, 242, 237, 0.72);
+  pointer-events: none;
 }
 
 .vbars-grid {
@@ -1907,18 +1920,20 @@ details[open] > summary .toggle::after {
 .vbar-fill {
   position: absolute;
   right: 0;
-  bottom: 0;
   left: 0;
-  height: calc(var(--h) * 100%);
-  transform-origin: center bottom;
+  height: calc(var(--h) * 50%);
 }
 
-.vbar-fill.is-over {
+.vbar-fill.is-loss {
+  top: 50%;
   background: #b5524c;
+  transform-origin: center top;
 }
 
-.vbar-fill.is-back {
+.vbar-fill.is-win {
+  bottom: 50%;
   background: #1f7a52;
+  transform-origin: center bottom;
 }
 
 .vbar-fill.is-ahead {
@@ -1966,11 +1981,11 @@ details[open] > summary .toggle::after {
   height: 10px;
 }
 
-.outcome-legend .is-over {
+.outcome-legend .is-loss {
   background: #b5524c;
 }
 
-.outcome-legend .is-back {
+.outcome-legend .is-win {
   background: #1f7a52;
 }
 

@@ -11,10 +11,21 @@ import {
 
 /**
  * A vertical bar chart of one example over time.
- * Eight quarters climb to the finding. The green in each bar is the
- * opportunity; the red cap is what does not hold. Four more quarters
- * show what is not billed if the price is corrected.
+ * Losses go below zero. Wins go above it.
+ * Eight quarters: the overbilling grows downward, and the opportunity
+ * the records support grows upward. Four more quarters show what is
+ * not billed if the price is corrected.
  */
+
+function signed(value: number): string {
+  if (value === 0) return "$0";
+  const text = formatUsdShort(Math.abs(value));
+  return value > 0 ? `+${text}` : `−${text}`;
+}
+
+function level(value: number): number {
+  return (value + potentialDiscrepancy) / (2 * potentialDiscrepancy);
+}
 
 const HISTORY = 8;
 const FORWARD = 4;
@@ -33,15 +44,21 @@ const saved = Array.from({ length: FORWARD }, (_, index) => ({
   amount: quarter * (index + 1),
 }));
 
-const scale = [potentialDiscrepancy, annualPrevented, 0];
+const scale = [
+  potentialDiscrepancy,
+  annualPrevented,
+  0,
+  -annualPrevented,
+  -potentialDiscrepancy,
+];
 
 export default function LineProfile() {
   return (
     <figure className="outcome">
       <p className="outcome-story">
-        Over two years the difference climbs to {formatUsd(potentialDiscrepancy)}.{" "}
-        {formatUsd(supportedExposure)} of it is an opportunity the records can
-        support. If the price is corrected, the next year is{" "}
+        Below zero, two years of overbilling reach {formatUsd(potentialDiscrepancy)}.
+        Above it, {formatUsd(supportedExposure)} is the opportunity the records
+        can support. If the price is corrected, the next year is{" "}
         {formatUsd(annualPrevented)} not billed.
       </p>
 
@@ -50,28 +67,30 @@ export default function LineProfile() {
           {scale.map((value) => (
             <span
               key={value}
-              style={{ "--at": value / potentialDiscrepancy } as CSSProperties}
+              style={{ "--at": level(value) } as CSSProperties}
             >
-              {value === 0 ? "$0" : formatUsdShort(value)}
+              {signed(value)}
             </span>
           ))}
         </div>
 
         <div className="vbars-plot" aria-hidden="true">
-          <span className="vbars-grid" style={{ "--at": 0.5 } as CSSProperties} />
+          <span className="vbars-zero" />
+          <span className="vbars-grid" style={{ "--at": level(annualPrevented) } as CSSProperties} />
+          <span className="vbars-grid" style={{ "--at": level(-annualPrevented) } as CSSProperties} />
           {found.map((bar) => (
             <div
               key={`found-${bar.step}`}
               className="vbar"
               style={{ "--i": bar.step } as CSSProperties}
-              title={`Quarter ${bar.step}. ${formatUsd(bar.observed)} observed. ${formatUsd(bar.opportunity)} supported.`}
+              title={`Quarter ${bar.step}. Loss ${formatUsd(bar.observed)}. Opportunity ${formatUsd(bar.opportunity)}.`}
             >
               <span
-                className="vbar-fill is-over"
+                className="vbar-fill is-loss"
                 style={{ "--h": bar.observed / potentialDiscrepancy } as CSSProperties}
               />
               <span
-                className="vbar-fill is-back"
+                className="vbar-fill is-win"
                 style={{ "--h": bar.opportunity / potentialDiscrepancy } as CSSProperties}
               />
             </div>
@@ -85,7 +104,7 @@ export default function LineProfile() {
               title={`Quarter ${bar.step} after a corrected price. ${formatUsd(bar.amount)} not billed.`}
             >
               <span
-                className="vbar-fill is-ahead"
+                className="vbar-fill is-win is-ahead"
                 style={{ "--h": bar.amount / potentialDiscrepancy } as CSSProperties}
               />
             </div>
@@ -101,12 +120,12 @@ export default function LineProfile() {
 
       <ul className="outcome-legend micro">
         <li>
-          <i className="is-back" />
-          Opportunity
+          <i className="is-loss" />
+          Loss
         </li>
         <li>
-          <i className="is-over" />
-          Excluded
+          <i className="is-win" />
+          Opportunity
         </li>
         <li>
           <i className="is-ahead" />
@@ -120,10 +139,10 @@ export default function LineProfile() {
       </p>
 
       <ul className="sr-only">
-        <li>After one year, {formatUsd(quarter * 4)} observed.</li>
+        <li>After one year, a loss of {formatUsd(quarter * 4)}.</li>
         <li>
-          After two years, {formatUsd(potentialDiscrepancy)} observed and{" "}
-          {formatUsd(supportedExposure)} supported.
+          After two years, a loss of {formatUsd(potentialDiscrepancy)} and an
+          opportunity of {formatUsd(supportedExposure)}.
         </li>
         <li>
           A year after a corrected price, {formatUsd(annualPrevented)} is not
