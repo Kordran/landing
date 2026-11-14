@@ -19,12 +19,12 @@ const webpageId = `${siteUrl}/#webpage`;
 const serviceId = `${siteUrl}/#service`;
 
 const knowsAbout = [
-  "Supplier overbilling",
-  "Invoice and contract price reconciliation",
-  "Purchase price variance",
-  "Supplier price increases",
-  "Contractual surcharge review",
-  "Industrial procurement cost recovery",
+  "Industrial commercial execution",
+  "Supplier pricing and commercial terms",
+  "Supplier cost disputes",
+  "Engineering-driven supplier cost changes",
+  "Commercial implementation",
+  "Manufacturing procurement",
 ];
 
 function organization() {
@@ -119,15 +119,15 @@ export function getHomeJsonLd() {
       {
         "@type": "ProfessionalService",
         "@id": serviceId,
-        name: "Supplier overbilling investigation",
+        name: "Industrial commercial execution",
         url: siteUrl,
         description: siteDescription,
         provider: { "@id": organizationId },
         serviceType: [
-          "Supplier overbilling investigation",
-          "Contract and invoice reconciliation",
-          "Supplier price increase review",
-          "Contractual surcharge review",
+          "Industrial commercial execution",
+          "Supplier pricing review",
+          "Commercial dispute resolution support",
+          "Commercial implementation",
         ],
         audience: {
           "@type": "BusinessAudience",

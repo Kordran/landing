@@ -23,7 +23,7 @@ export default function TermsPage() {
       <main id="content" className="site-main">
         <div className="container legal-content">
           <h1>Terms</h1>
-          <p>Last updated: November 13, 2026</p>
+          <p>Last updated: November 14, 2026</p>
           <p>
             By using this website, you agree to these terms of use. This site is
             operated by Kordran Inc. (“Kordran”).
@@ -31,12 +31,14 @@ export default function TermsPage() {
 
           <h2>Purpose of the site</h2>
           <p>
-            This website describes how Kordran investigates supplier invoices
-            against agreements, prepares a supported case, and helps a customer
-            pursue a credit or a pricing correction when the customer authorizes
-            it. Illustrations on the site are hypothetical. Nothing here is an
-            offer of services, a commitment to engage, legal advice, financial
-            advice, or a guarantee of a credit, a recovery, or future savings.
+            This website describes how Kordran helps industrial manufacturers
+            investigate a defined commercial issue and carry an approved action
+            through to a verified result. The customer retains supplier
+            relationships and final commercial authority unless a written
+            agreement says otherwise. Illustrations on the site are hypothetical.
+            Nothing here is an offer of services, a commitment to engage, legal
+            advice, financial advice, or a guarantee of a recovery, a price
+            reduction, or future savings.
           </p>
 
           <h2>No customer relationship</h2>

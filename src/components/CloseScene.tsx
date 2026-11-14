@@ -15,11 +15,11 @@ export default function CloseScene() {
           Working principle
         </p>
         <h2 id="close-heading" className="display">
-          Find the cost.
+          Understand the economics.
           <br />
-          Recover the value.
+          Make the decision.
           <br />
-          Fix the system.
+          Execute the work.
         </h2>
       </Reveal>
       <div className="close-art" aria-hidden="true">

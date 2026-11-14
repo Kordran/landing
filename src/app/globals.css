@@ -2150,6 +2150,103 @@ details[open] > summary .toggle::after {
   }
 }
 
+.work-grid {
+  display: grid;
+  margin-top: var(--stack);
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line-strong);
+}
+
+.work-item {
+  padding: var(--s-6) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.work-item .title {
+  margin-top: var(--s-3);
+}
+
+.work-item .body {
+  margin-top: var(--s-3);
+  max-width: 36em;
+}
+
+.problem-list {
+  display: grid;
+  gap: var(--s-4);
+  margin-top: var(--s-6);
+  padding: 0;
+  list-style: none;
+}
+
+.problem-list li {
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--line);
+}
+
+.scenario {
+  margin-top: var(--stack);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--line-strong);
+}
+
+.scenario-figures {
+  display: grid;
+  gap: var(--s-5);
+  margin: var(--s-6) 0;
+}
+
+.scenario-figures dd {
+  margin-top: var(--s-2);
+  font-size: clamp(2rem, 1.2rem + 2vw, 3rem);
+  font-weight: 500;
+  font-stretch: 90%;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.scenario .body + .body {
+  margin-top: var(--s-4);
+}
+
+.pricing-stage,
+.approach-lede,
+.evidence-block {
+  margin-top: var(--s-6);
+}
+
+.approach-lede {
+  max-width: 40em;
+}
+
+@media (min-width: 700px) {
+  .scenario-figures {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .work-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .work-item:nth-child(even) {
+    padding-left: var(--s-6);
+    border-left: 1px solid var(--line);
+  }
+
+  .track-steps.is-four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .track-steps.is-four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 .ledger-figures {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3015,6 +3112,7 @@ details[open] > summary .toggle::after {
 }
 
 .form-field input,
+.form-field select,
 .form-field textarea {
   width: 100%;
   min-height: 48px;
@@ -3026,11 +3124,13 @@ details[open] > summary .toggle::after {
 }
 
 .form-field input:hover,
+.form-field select:hover,
 .form-field textarea:hover {
   border-bottom-color: var(--ink-3);
 }
 
 .form-field input:focus-visible,
+.form-field select:focus-visible,
 .form-field textarea:focus-visible {
   outline: none;
   border-bottom-color: var(--teal);
@@ -3045,6 +3145,12 @@ details[open] > summary .toggle::after {
   min-height: 136px;
   resize: vertical;
   line-height: 1.5;
+}
+
+.form-field select {
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
 }
 
 .form-hint,

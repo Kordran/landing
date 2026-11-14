@@ -23,20 +23,20 @@ export default function PrivacyPage() {
       <main id="content" className="site-main">
         <div className="container legal-content">
           <h1>Privacy</h1>
-          <p>Last updated: November 13, 2026</p>
+          <p>Last updated: November 14, 2026</p>
           <p>
-            Kordran Inc. (“Kordran,” “we,” “us”) investigates supplier
-            invoices against agreements for industrial manufacturers. This
-            policy describes information shared through this website, including
-            notes about supplier pricing.
+            Kordran Inc. (“Kordran,” “we,” “us”) helps industrial manufacturers
+            resolve defined commercial issues, including supplier pricing,
+            disputes, and cost changes. This policy describes information
+            shared through this website.
           </p>
 
           <h2>Information we collect</h2>
           <p>
-            The inquiry form asks for your name, company, work email, and a
-            short description of the problem. We ask about the supplier, how
-            long it has been going on, spending, and records only after we
-            reply, and only if you choose to continue.
+            The inquiry form asks for your name, company, work email, the kind
+            of issue, and a short description. Timing and estimated exposure
+            are optional. Records, agreements, and supplier detail are requested
+            only after we reply, and only if you choose to continue.
           </p>
           <p>
             We may also collect basic technical data such as browser type,
