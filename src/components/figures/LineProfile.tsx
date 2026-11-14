@@ -1,109 +1,190 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import { example, formatCount, formatUsd } from "@/lib/example";
+import {
+  annualPrevented,
+  example,
+  formatCount,
+  formatUsd,
+  formatUsdShort,
+  potentialDiscrepancy,
+  unitDelta,
+} from "@/lib/example";
 
 /**
- * One price line, flat. Bar height is the amount billed above the agreement,
- * on a labeled scale. Moving across an invoice reads that invoice and the
- * running total.
+ * The homepage example as a chart. One part, billed $2.60 over the agreement
+ * every month. Left alone it reaches $312,000. Corrected halfway, the second
+ * half never gets billed. Moving across a month reads both.
  */
 
-const MONTHS = 24;
-/** First invoice billed above the agreement, and the first one back on it. */
-const OVER_FROM = 0;
-const CORRECTED = 8;
+const MONTHS = example.months;
+const CORRECTED = 12;
+const perMonth = Math.round(unitDelta * example.unitsPerMonth);
+const found = perMonth * CORRECTED;
 
-const excess = Math.round((example.billedUnit - example.agreedUnit) * 100) / 100;
-const perInvoice = Math.round(excess * example.unitsPerMonth * 100) / 100;
-const overCount = CORRECTED - OVER_FROM;
-const recovered = perInvoice * overCount;
+const phases = [
+  {
+    id: "verify",
+    at: CORRECTED - 1,
+    label: "Verify",
+    detail: `${formatUsd(found)} found`,
+  },
+  {
+    id: "resolve",
+    at: CORRECTED,
+    label: "Resolve",
+    detail: "Price corrected",
+  },
+  {
+    id: "prevent",
+    at: MONTHS - 1,
+    label: "Prevent",
+    detail: `${formatUsd(annualPrevented)} stopped`,
+  },
+] as const;
 
-const invoices = Array.from({ length: MONTHS }, (_, i) => i >= OVER_FROM && i < CORRECTED);
-
-function through(index: number): number {
-  let count = 0;
-  for (let i = 0; i <= index && i < CORRECTED; i += 1) {
-    if (invoices[i]) count += 1;
-  }
-  return count * perInvoice;
+function aloneThrough(month: number): number {
+  return perMonth * (month + 1);
 }
 
-const ticks = [
-  { at: 1, label: formatUsd(excess, 2) },
-  { at: 0.5, label: formatUsd(excess / 2, 2) },
-];
+function billedThrough(month: number): number {
+  return perMonth * Math.min(month + 1, CORRECTED);
+}
 
 export default function LineProfile() {
-  const [at, setAt] = useState<number | null>(null);
-  const over = at !== null && invoices[at];
-  const total = at === null ? recovered : through(at);
+  const [at, setAt] = useState(MONTHS - 1);
+  const monthOver = at < CORRECTED;
+  const billed = billedThrough(at);
+  const alone = aloneThrough(at);
+  const stopped = alone - billed;
+  const phase = at < CORRECTED ? "verify" : at === CORRECTED ? "resolve" : "prevent";
+
+  const width = 240;
+  const height = 100;
+  const inset = 14;
+  const x = (month: number) => ((month + 0.5) / MONTHS) * width;
+  const y = (value: number) =>
+    inset + (height - inset) * (1 - value / potentialDiscrepancy);
+
+  const aloneLine = Array.from({ length: MONTHS }, (_, month) => {
+    return `${x(month)},${y(aloneThrough(month))}`;
+  }).join(" ");
+
+  const billedLine = Array.from({ length: MONTHS }, (_, month) => {
+    return `${x(month)},${y(billedThrough(month))}`;
+  }).join(" ");
+
+  const billedArea = [
+    `${x(0)},${height}`,
+    billedLine,
+    `${x(MONTHS - 1)},${height}`,
+  ].join(" ");
+
+  const ticks = [potentialDiscrepancy, found, 0];
 
   return (
-    <div className="profile">
-      <p className="profile-head micro">
-        <span>One price line · dollars over the agreement</span>
-        <span className="profile-readout" data-on={at !== null || undefined}>
-          {at === null ? (
-            `${formatCount(overCount)} invoices · ${formatUsd(recovered)} over`
-          ) : (
-            <>
-              <span>Invoice {String(at + 1).padStart(2, "0")}</span>
-              {over
-                ? ` ${formatUsd(example.billedUnit, 2)} billed · ${formatUsd(excess, 2)} over · ${formatUsd(total)} to here`
-                : ` ${formatUsd(example.agreedUnit, 2)} billed · as agreed`}
-            </>
-          )}
+    <figure className="ledger">
+      <figcaption className="profile-head micro">
+        <span>
+          Same example · {formatCount(example.unitsPerMonth)} units a month
         </span>
-      </p>
+        <span className="profile-readout" data-on="true">
+          <span>Month {String(at + 1).padStart(2, "0")}</span>
+          {monthOver
+            ? ` ${formatUsd(example.billedUnit, 2)} billed · ${formatUsd(perMonth)} over`
+            : ` ${formatUsd(example.agreedUnit, 2)} billed · as agreed`}
+        </span>
+      </figcaption>
 
-      <div className="profile-chart">
-        <div className="profile-scale micro" aria-hidden="true">
-          {ticks.map((tick) => (
-            <span key={tick.at} style={{ "--at": tick.at } as CSSProperties}>
-              {tick.label}
+      <div className="ledger-figures">
+        <p>
+          <span className="micro">Billed over</span>
+          <strong className="num">{formatUsd(billed)}</strong>
+        </p>
+        <p>
+          <span className="micro">If left alone</span>
+          <strong className="num">{formatUsd(alone)}</strong>
+        </p>
+        <p className="is-stopped" data-on={stopped > 0 || undefined}>
+          <span className="micro">Stopped</span>
+          <strong className="num">{formatUsd(stopped)}</strong>
+        </p>
+      </div>
+
+      <div className="ledger-chart">
+        <div className="ledger-scale micro" aria-hidden="true">
+          {ticks.map((value) => (
+            <span
+              key={value}
+              style={{ "--at": value / potentialDiscrepancy } as CSSProperties}
+            >
+              {value === 0 ? "$0" : formatUsdShort(value)}
             </span>
           ))}
-          <span style={{ "--at": 0 } as CSSProperties}>Agreed</span>
         </div>
         <div
-          className="profile-plot"
+          className="ledger-plot"
           onPointerMove={(event) => {
             const rect = event.currentTarget.getBoundingClientRect();
             const index = Math.floor(((event.clientX - rect.left) / rect.width) * MONTHS);
             setAt(Math.max(0, Math.min(MONTHS - 1, index)));
           }}
-          onPointerLeave={() => setAt(null)}
         >
-          {ticks.map((tick) => (
-            <span
-              key={tick.at}
-              className="profile-grid"
-              style={{ "--at": tick.at } as CSSProperties}
-              aria-hidden="true"
+          <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" aria-hidden="true">
+            <line className="ledger-grid" x1="0" x2={width} y1={y(found)} y2={y(found)} />
+            <polygon className="ledger-area" points={billedArea} />
+            <polyline className="ledger-billed" points={billedLine} />
+            <polyline className="ledger-alone" points={aloneLine} />
+            <line
+              className="ledger-mark"
+              x1={x(CORRECTED - 0.5)}
+              x2={x(CORRECTED - 0.5)}
+              y1="0"
+              y2={height}
             />
-          ))}
-          {invoices.map((isOver, i) => (
-            <i
-              key={i}
-              className={[
-                isOver ? "is-over" : "",
-                i === CORRECTED ? "is-corrected" : "",
-                i === at ? "is-at" : "",
-              ]
-                .filter(Boolean)
-                .join(" ") || undefined}
-              style={{ "--v": isOver ? 1 : 0, "--i": i } as CSSProperties}
+            <line
+              className="ledger-cursor"
+              x1={x(at)}
+              x2={x(at)}
+              y1="0"
+              y2={height}
             />
-          ))}
+          </svg>
         </div>
       </div>
 
-      <ul className="profile-key micro">
-        <li>Found · {formatUsd(excess, 2)} a unit</li>
-        <li>Corrected back to {formatUsd(example.agreedUnit, 2)}</li>
-        <li>Held there</li>
+      <div className="ledger-phases">
+        {phases.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            aria-pressed={phase === item.id}
+            onClick={() => setAt(item.at)}
+          >
+            <span className="micro">{item.label}</span>
+            <span>{item.detail}</span>
+          </button>
+        ))}
+      </div>
+
+      <ul className="ledger-legend micro">
+        <li>
+          <i className="is-billed" />
+          Billed over the agreement
+        </li>
+        <li>
+          <i className="is-alone" />
+          If the price is left alone
+        </li>
       </ul>
-    </div>
+
+      <p className="sr-only">
+        {formatCount(example.unitsPerMonth)} units a month at {formatUsd(unitDelta, 2)}{" "}
+        over the agreement is {formatUsd(perMonth)} a month. Left alone for{" "}
+        {MONTHS} months that is {formatUsd(potentialDiscrepancy)}. Corrected after{" "}
+        {CORRECTED} months, {formatUsd(found)} has been billed over and the next{" "}
+        {formatUsd(annualPrevented)} is not.
+      </p>
+    </figure>
   );
 }
