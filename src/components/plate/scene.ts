@@ -3,7 +3,6 @@ import {
   BASE,
   CAP_EDGE_OPACITY,
   COLS,
-  DATUM,
   DATUM_OPACITY,
   EDGE_OPACITY,
   FRAME,
@@ -33,7 +32,6 @@ type MountOptions = {
   onReady: () => void;
   onLost: () => void;
   onHover: (hover: PlateHover) => void;
-  onResolve: (count: number, col: number, row: number) => void;
   /**
    * Elements pinned to a tile. Each carries `data-col` and `data-row`; the
    * scene moves it to that tile's top face every frame so labels follow the
@@ -42,11 +40,6 @@ type MountOptions = {
   anchors: () => HTMLElement[];
 };
 
-/** Pointer tilt, in radians at the edge of the stage. */
-const TILT_X = 0.028;
-const TILT_Y = 0.045;
-/** Seconds for the inspection light to cross the plate. */
-const SCAN_PERIOD = 18;
 /** Hero scroll distance, in pixels, over which the excess settles. */
 const SETTLE_SPAN = 460;
 /** Seconds a clicked cap takes to come down. */
@@ -106,8 +99,6 @@ const tileFragment = /* glsl */ `
   uniform float uEdgeOpacity;
   uniform float uCapEdgeOpacity;
   uniform vec3 uBeam;
-  uniform float uScan;
-  uniform float uScanOn;
   uniform vec2 uHover;
   uniform float uHoverOn;
   uniform float uHoverRow;
@@ -125,13 +116,6 @@ const tileFragment = /* glsl */ `
     if (top) color = cap ? uCapTop : uTop;
     else if (abs(vFace.x) > 0.5) color = cap ? uCapLit : uLit;
     else color = cap ? uCapShade : uShade;
-
-    // The inspection light: a narrow band on the flush surface, and a wider
-    // lift on any solid it is passing.
-    float beam = exp(-pow((vAcross - uScan) / 0.3, 2.0)) * uScanOn;
-    float pass = exp(-pow((vOrigin.x - uScan) / 1.2, 2.0)) * uScanOn;
-    if (cap) color = mix(color, uCapEdge, pass * 0.3);
-    else if (top) color = mix(color, uBeam, beam * 0.85);
 
     // The line under the pointer is read across its whole length.
     float onRow = uHoverOn * (1.0 - step(0.5, abs(vOrigin.y - uHoverRow)));
@@ -222,8 +206,6 @@ export function mountPlate(
       uTime,
       uBase: { value: BASE },
       uSettled: { value: SETTLED },
-      uScan: { value: DATUM.x0 },
-      uScanOn: { value: 0 },
       uBeam: { value: rgb(TONES.beam) },
       uHover: { value: new THREE.Vector2(999, 999) },
       uHoverOn,
@@ -291,10 +273,8 @@ export function mountPlate(
   rig.add(new THREE.LineSegments(datumGeometry, datumMaterial));
   disposables.push(datumGeometry, datumMaterial);
 
-  const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   let hoverWanted = 0;
   let hoverKey = "";
-  let resolvedCount = 0;
   let align = 0;
   let raf = 0;
   let running = true;
@@ -395,19 +375,7 @@ export function mountPlate(
     } else {
       hoverWanted = 0;
     }
-    host.style.cursor = next?.raised && !next.resolved ? "pointer" : "";
     options.onHover(next);
-  };
-
-  const resolve = (col: number, row: number) => {
-    const i = capIndex.get(`${col}:${row}`);
-    if (i === undefined || resolveAt[i] < NEVER) return;
-    resolveAt[i] = uTime.value;
-    resolveAttr.needsUpdate = true;
-    resolvedCount += 1;
-    options.onResolve(resolvedCount, col, row);
-    hoverKey = "";
-    setHover({ col, row, raised: true, resolved: true });
   };
 
   const locate = (event: PointerEvent | MouseEvent) => {
@@ -422,8 +390,6 @@ export function mountPlate(
     if (event.pointerType === "touch") return;
     const at = locate(event);
     if (!at) return;
-    pointer.tx = Math.max(-1, Math.min(1, at.nx));
-    pointer.ty = Math.max(-1, Math.min(1, -at.ny));
     const overText =
       event.target instanceof Element &&
       event.target.closest(".hero-body a, .hero-body button, .hero-rail");
@@ -431,23 +397,7 @@ export function mountPlate(
     start();
   };
 
-  const onClick = (event: MouseEvent) => {
-    if (
-      event.target instanceof Element &&
-      event.target.closest("a, button, input, textarea, summary")
-    )
-      return;
-    const at = locate(event);
-    if (!at?.inside) return;
-    const found = pick(at.nx, at.ny);
-    if (found?.raised && !found.resolved) resolve(found.col, found.row);
-    else setHover(found);
-    start();
-  };
-
   const onPointerLeave = () => {
-    pointer.tx = 0;
-    pointer.ty = 0;
     setHover(null);
   };
 
@@ -478,21 +428,9 @@ export function mountPlate(
     uTime.value += dt;
 
     align = readAlign();
-    const ease = Math.min(1, dt * 5);
-    pointer.x += (pointer.tx - pointer.x) * ease;
-    pointer.y += (pointer.ty - pointer.y) * ease;
     uAlign.value = align;
     uHoverOn.value += (hoverWanted - uHoverOn.value) * Math.min(1, dt * 12);
-    rig.rotation.set(pointer.y * TILT_X, pointer.x * TILT_Y, 0);
     rig.updateMatrixWorld();
-
-    // One slow pass, a pause off the plate, then again.
-    const phase = (uTime.value / SCAN_PERIOD) % 1;
-    const travel = Math.min(1, phase / 0.82);
-    const x = DATUM.x0 + (DATUM.x1 - DATUM.x0) * travel;
-    const fade = Math.min(1, travel / 0.06) * Math.min(1, (1 - travel) / 0.06);
-    material.uniforms.uScan.value = x;
-    material.uniforms.uScanOn.value = fade * (1 - align);
 
     renderer.render(scene, camera);
     placeAnchors();
@@ -511,7 +449,7 @@ export function mountPlate(
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
     // Thirty frames a second is smooth for slow travel and halves the cost.
-    const budget = hoverWanted || Math.abs(pointer.tx - pointer.x) > 0.01 ? 1 / 60 : 1 / 30;
+    const budget = hoverWanted ? 1 / 60 : 1 / 30;
     acc += dt;
     if (acc < budget) return;
     const stepDt = Math.min(0.05, acc);
@@ -544,7 +482,6 @@ export function mountPlate(
   });
 
   window.addEventListener("pointermove", onPointerMove, { passive: true });
-  window.addEventListener("click", onClick);
   document.documentElement.addEventListener("pointerleave", onPointerLeave);
   canvas.addEventListener("webglcontextlost", onLost);
   document.addEventListener("visibilitychange", onVisibility);
@@ -561,7 +498,6 @@ export function mountPlate(
     observer.disconnect();
     sizer.disconnect();
     window.removeEventListener("pointermove", onPointerMove);
-    window.removeEventListener("click", onClick);
     document.documentElement.removeEventListener(
       "pointerleave",
       onPointerLeave

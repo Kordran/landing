@@ -10,7 +10,6 @@ import {
 import { formatUsd } from "@/lib/example";
 import {
   BASE,
-  RAISED_COUNT,
   frameFraction,
   tilePrices,
   varianceAt,
@@ -56,8 +55,6 @@ export default function PlateField({
   const figureRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [hover, setHover] = useState<PlateHover>(null);
-  const [resolved, setResolved] = useState(0);
-  const [live, setLive] = useState(false);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -68,7 +65,6 @@ export default function PlateField({
     let cancelled = false;
     const clear = () => {
       figure.removeAttribute("data-live");
-      setLive(false);
       setHover(null);
     };
 
@@ -78,13 +74,9 @@ export default function PlateField({
           if (cancelled || !stageRef.current) return;
           try {
             handle = mountPlate(stageRef.current, {
-              onReady: () => {
-                figure.setAttribute("data-live", "true");
-                setLive(true);
-              },
+              onReady: () => figure.setAttribute("data-live", "true"),
               onLost: clear,
               onHover: setHover,
-              onResolve: (count) => setResolved(count),
               anchors: () =>
                 Array.from(
                   stage.querySelectorAll<HTMLElement>("[data-pin]")
@@ -168,7 +160,6 @@ export default function PlateField({
                     {formatUsd(prices.billed, 2)} billed ·{" "}
                     {formatUsd(prices.agreed, 2)} agreed
                   </span>
-                  <span className="plate-tag-hint">Click to resolve</span>
                 </>
               ) : (
                 <>
@@ -182,21 +173,8 @@ export default function PlateField({
       </div>
 
       <figcaption className="plate-key" aria-hidden="true">
-        <p className="plate-progress" data-done={resolved > 0 || undefined}>
-          {live ? (
-            <>
-              <span className="num">
-                {resolved} / {RAISED_COUNT}
-              </span>
-              {resolved === 0
-                ? "Click a raised tile to correct the price."
-                : resolved === RAISED_COUNT
-                  ? "Every line billed as agreed."
-                  : "corrected."}
-            </>
-          ) : (
-            "Raised tiles are billed above the agreement."
-          )}
+        <p className="plate-progress">
+          Raised tiles are billed above the agreement. Point at one to read it.
         </p>
         <ul className="plate-legend">
           <li>
