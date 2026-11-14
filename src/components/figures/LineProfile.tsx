@@ -17,17 +17,17 @@ import {
 
 /**
  * A trailing total. Each quarter adds $39,000, bright cap on the sum.
- * Recovery is one green bar, the same height as the peak: the whole
- * amount, in one go. After that, savings grow once a year.
+ * Recovery is one green bar, the same height and width as the peak:
+ * the whole amount, in one go. Savings then continue in quarters,
+ * year 3 and year 4, on bars the same width as the cost bars.
  */
 
 const LOSS_Q = 8;
-const SAVE_YEARS = 3;
-const STEPS = LOSS_Q + 1 + SAVE_YEARS;
+const SAVE_Q = 8;
+const STEPS = LOSS_Q + 1 + SAVE_Q;
 const QUARTER = monthlyDifference * 3;
-const CEILING = annualPrevented * SAVE_YEARS;
+const CEILING = potentialDiscrepancy;
 const QUARTER_SHARE = QUARTER / CEILING;
-const YEAR_SHARE = annualPrevented / CEILING;
 
 type Phase = "loss" | "recover" | "save";
 
@@ -50,10 +50,10 @@ const bars: Bar[] = [
     body: potentialDiscrepancy / CEILING,
     signal: 0,
   },
-  ...Array.from({ length: SAVE_YEARS }, (_, index) => ({
+  ...Array.from({ length: SAVE_Q }, (_, index) => ({
     phase: "save" as const,
-    body: (annualPrevented * index) / CEILING,
-    signal: YEAR_SHARE,
+    body: (QUARTER * index) / CEILING,
+    signal: QUARTER_SHARE,
   })),
 ];
 
@@ -93,20 +93,21 @@ function describe(step: number): {
       story: `Recovered in one go. The full ${formatUsd(potentialDiscrepancy)}.`,
     };
   }
-  const year = step - LOSS_Q - 1;
-  const saved = annualPrevented * year;
-  const eachYear = formatUsd(annualPrevented);
+  const saveQuarter = step - LOSS_Q - 1;
+  const saved = QUARTER * saveQuarter;
+  const year = saveQuarter <= 4 ? 3 : 4;
+  const quarter = saveQuarter <= 4 ? saveQuarter : saveQuarter - 4;
   return {
     phase: "save",
     headline: `+${formatUsd(saved)}`,
     label: "Not billed",
-    asideLabel: "This year",
-    aside: `+${eachYear}`,
-    move: `+${eachYear}`,
+    asideLabel: "This quarter",
+    aside: `+${added}`,
+    move: `+${added}`,
     story:
-      year === SAVE_YEARS
-        ? `Year ${year}. ${formatUsd(saved)} is not billed. Each year adds another ${eachYear}, if buying continues.`
-        : `Year ${year}. ${eachYear} not billed. ${formatUsd(saved)} so far.`,
+      saveQuarter === SAVE_Q
+        ? `Year 4. ${formatUsd(saved)} is not billed, the same pace as the two years before, if buying continues.`
+        : `Year ${year}, quarter ${quarter}. ${added} not billed. ${formatUsd(saved)} so far.`,
   };
 }
 
@@ -234,7 +235,7 @@ export default function LineProfile() {
         }}
       >
         <div className="trail-scale micro" aria-hidden="true">
-          {[CEILING, potentialDiscrepancy, annualPrevented, 0].map((value) => (
+          {[CEILING, annualPrevented, 0].map((value) => (
             <span key={value} style={{ "--at": value / CEILING } as CSSProperties}>
               {value === 0 ? "$0" : formatUsdShort(value)}
             </span>
@@ -257,8 +258,8 @@ export default function LineProfile() {
         <div className="trail-axis micro" aria-hidden="true">
           <span>Year 1</span>
           <span>Year 2</span>
-          <span>Recovered</span>
-          <span>Each year</span>
+          <span>Year 3</span>
+          <span>Year 4</span>
         </div>
       </div>
 

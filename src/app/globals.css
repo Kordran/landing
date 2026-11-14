@@ -1945,10 +1945,10 @@ details[open] > summary .toggle::after {
   display: grid;
   grid-template-columns:
     repeat(8, minmax(0, 1fr))
-    14px
-    minmax(36px, 2.4fr)
-    14px
-    repeat(3, minmax(0, 1.6fr));
+    12px
+    minmax(0, 1fr)
+    12px
+    repeat(8, minmax(0, 1fr));
   column-gap: clamp(3px, 0.4vw, 6px);
 }
 
@@ -2070,11 +2070,11 @@ details[open] > summary .toggle::after {
 }
 
 .trail-axis span:nth-child(3) {
-  grid-column: 10;
+  grid-column: 12 / 16;
 }
 
 .trail-axis span:nth-child(4) {
-  grid-column: 12 / 15;
+  grid-column: 16 / 20;
 }
 
 .trail-legend {
@@ -2147,24 +2147,6 @@ details[open] > summary .toggle::after {
   .trail-plot,
   .trail-axis {
     column-gap: 2px;
-  }
-
-  .trail-axis span:nth-child(3),
-  .trail-axis span:nth-child(4) {
-    font-size: 0;
-    letter-spacing: 0;
-  }
-
-  .trail-axis span:nth-child(3)::before {
-    content: "Once";
-    font-size: 0.625rem;
-    letter-spacing: 0.06em;
-  }
-
-  .trail-axis span:nth-child(4)::before {
-    content: "Years";
-    font-size: 0.625rem;
-    letter-spacing: 0.06em;
   }
 }
 
