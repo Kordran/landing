@@ -21,8 +21,8 @@ export default function TermsPage() {
       <Header />
       <main id="content" className="site-main">
         <div className="container legal-content">
-          <p className="label mb-6">
-            <Link href="/" className="hover:underline">
+          <p className="label legal-back mb-6">
+            <Link href="/">
               ← Kordran
             </Link>
           </p>

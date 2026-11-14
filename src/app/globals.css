@@ -21,6 +21,7 @@
   --ink-3: #5d6771;
   --line: #dcd9d0;
   --line-strong: #aeaba1;
+  --line-control: #7d8388;
   --teal: #1c3d57;
   --teal-mid: #2f6079;
   --teal-pale: #9bb8c6;
@@ -462,13 +463,13 @@ select {
   transform: translate(-2.5px, -2.5px);
 }
 
-.btn:active:not(:disabled) {
+.btn:active:not([aria-disabled="true"]) {
   transform: translateY(1px);
 }
 
-.btn:disabled {
+.btn[aria-disabled="true"] {
   opacity: 0.55;
-  cursor: not-allowed;
+  cursor: progress;
 }
 
 .btn-small {
@@ -1250,7 +1251,7 @@ select {
   min-height: 44px;
   padding: var(--s-2) 0;
   border: none;
-  border-bottom: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-control);
   background: transparent;
   font-size: 1.25rem;
   font-weight: 500;
@@ -1700,7 +1701,7 @@ details[open] > summary .toggle::after {
   padding: var(--s-3) 0;
   background: transparent;
   border: none;
-  border-bottom: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-control);
   transition: border-color var(--t-fast) var(--ease);
 }
 
@@ -1713,7 +1714,11 @@ details[open] > summary .toggle::after {
 .form-field textarea:focus-visible {
   outline: none;
   border-bottom-color: var(--teal);
-  box-shadow: 0 1px 0 var(--teal);
+  box-shadow: 0 2px 0 var(--teal);
+}
+
+.form-field:focus-within label {
+  color: var(--teal);
 }
 
 .form-field textarea {
@@ -1895,8 +1900,8 @@ details[open] > summary .toggle::after {
   }
 
   .close-art img {
-    aspect-ratio: 1672 / 941;
-    object-position: center;
+    aspect-ratio: 3 / 2;
+    object-position: 32% center;
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 0.22) 18%, #000 44%);
     mask-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 0.22) 18%, #000 44%);
   }
@@ -1904,19 +1909,36 @@ details[open] > summary .toggle::after {
   .close-art::after {
     background: linear-gradient(
       to bottom,
-      rgba(15, 31, 43, 0) 42%,
-      rgba(15, 31, 43, 0.6) 60%,
-      rgba(15, 31, 43, 0.9) 74%,
-      rgba(15, 31, 43, 0.97) 88%,
+      rgba(15, 31, 43, 0) 46%,
+      rgba(15, 31, 43, 0.5) 66%,
+      rgba(15, 31, 43, 0.9) 86%,
       var(--deep) 100%
     );
   }
 
+  /*
+   * The footer brings its own ground. Its scrim is measured from the footer,
+   * not from the painting, so the text stays readable at every width.
+   */
   .close .site-footer {
     align-self: end;
     margin-top: 0;
-    padding-top: 0;
-    background: none;
+    padding-top: 104px;
+    background: linear-gradient(
+      to bottom,
+      rgba(15, 31, 43, 0) 0,
+      rgba(15, 31, 43, 0.56) 48px,
+      rgba(15, 31, 43, 0.9) 104px,
+      rgba(15, 31, 43, 0.97) 60%,
+      var(--deep) 100%
+    );
+  }
+}
+
+@media (min-width: 1200px) {
+  .close-art img {
+    aspect-ratio: 1672 / 941;
+    object-position: center;
   }
 }
 
@@ -1970,6 +1992,7 @@ details[open] > summary .toggle::after {
 .footer-col a {
   display: inline-flex;
   align-items: center;
+  min-width: 28px;
   min-height: 28px;
   transition: color var(--t-fast) var(--ease);
 }
@@ -2647,6 +2670,17 @@ details[open] > summary .toggle::after {
 
 .legal-content {
   padding-block: var(--s-8) var(--section);
+}
+
+.legal-back a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.legal-back a:hover {
+  color: var(--teal);
 }
 
 .legal-content h1 {

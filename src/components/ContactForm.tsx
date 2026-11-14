@@ -18,6 +18,7 @@ export default function ContactForm() {
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (status === "submitting") return;
     setStatus("submitting");
     setError("");
 
@@ -167,7 +168,7 @@ export default function ContactForm() {
           <button
             type="submit"
             className="btn"
-            disabled={status === "submitting"}
+            aria-disabled={status === "submitting"}
             aria-busy={status === "submitting"}
           >
             {status === "submitting" ? "Sending…" : "Send inquiry"}
