@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import CloseScene from "@/components/CloseScene";
+import EvidenceStack from "@/components/EvidenceStack";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import TrackLink from "@/components/TrackLink";
+import Axo from "@/components/figures/Axo";
+import {
+  evidenceRecords,
+  evidenceScene,
+  reconcileScene,
+  recordsScene,
+  resolveScene,
+} from "@/components/figures/scenes";
 import { getApproachJsonLd } from "@/lib/jsonld";
 import {
   approachDescription,
@@ -24,6 +33,24 @@ export const metadata: Metadata = {
     url: "/approach",
   },
 };
+
+const figures = [
+  {
+    title: "The records",
+    body: "Agreements, orders, invoices, and the operational facts, still in separate piles.",
+    scene: recordsScene,
+  },
+  {
+    title: "The difference",
+    body: "Brought onto one surface, so the commercial gap can be measured.",
+    scene: reconcileScene,
+  },
+  {
+    title: "The correction",
+    body: "The approved change, carried through until the next transaction shows it.",
+    scene: resolveScene,
+  },
+];
 
 const stages = [
   {
@@ -171,6 +198,36 @@ export default function ApproachPage() {
                 It is not a historical refund, and it is not a guaranteed
                 outcome.
               </p>
+            </div>
+            <figure className="stages-figure">
+              <ol>
+                {figures.map((figure) => (
+                  <li key={figure.title}>
+                    <div className="stages-art">
+                      <Axo scene={figure.scene} />
+                    </div>
+                    <div>
+                      <h3 className="title">{figure.title}</h3>
+                      <p className="body">{figure.body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </figure>
+            <div className="evidence-block">
+              <Reveal className="head-split">
+                <div>
+                  <p className="label">
+                    <span className="label-index">03</span>
+                    Evidence
+                  </p>
+                  <h2 className="heading">The records behind a pricing question.</h2>
+                </div>
+                <p className="lede">
+                  Point at a record. Each one establishes a different fact.
+                </p>
+              </Reveal>
+              <EvidenceStack scene={evidenceScene} records={evidenceRecords} />
             </div>
             <p className="section-link">
               <TrackLink

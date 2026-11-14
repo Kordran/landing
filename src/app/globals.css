@@ -2211,7 +2211,8 @@ details[open] > summary .toggle::after {
 }
 
 .pricing-stage,
-.approach-lede {
+.approach-lede,
+.evidence-block {
   margin-top: var(--s-6);
 }
 

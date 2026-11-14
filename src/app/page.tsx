@@ -2,9 +2,13 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import CloseScene from "@/components/CloseScene";
 import ContactForm from "@/components/ContactForm";
+import ExampleSeen from "@/components/ExampleSeen";
+import ExposureCalculator from "@/components/ExposureCalculator";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import TrackLink from "@/components/TrackLink";
+import FindingLoop from "@/components/figures/FindingLoop";
+import LineProfile from "@/components/figures/LineProfile";
 import PlateArt from "@/components/plate/PlateArt";
 import PlateField from "@/components/plate/PlateField";
 import { plateDrawing } from "@/components/plate/model";
@@ -38,6 +42,30 @@ const facts = [
   { term: "Where we start", detail: "One defined issue" },
   { term: "What you keep", detail: "The commercial decision" },
   { term: "What we do", detail: "Investigate and execute" },
+];
+
+const patterns = [
+  {
+    index: "A",
+    kind: "compliance" as const,
+    title: "Price above the term",
+    body: "A line billed above what was agreed, often for months after the term was set.",
+    found: "Billed above the term",
+  },
+  {
+    index: "B",
+    kind: "increase" as const,
+    title: "An increase past the cap",
+    body: "A supplier increase that went further, or started sooner, than the agreement allows.",
+    found: "Increase beyond the cap",
+  },
+  {
+    index: "C",
+    kind: "surcharge" as const,
+    title: "A charge that stayed",
+    body: "A surcharge that kept billing after the condition behind it had ended.",
+    found: "Charge still billed",
+  },
 ];
 
 const work = [
@@ -184,28 +212,22 @@ export default function HomePage() {
               </p>
             </Reveal>
             <Reveal className="split-figure" delay={80}>
-              <div className="problem-aside">
-                <p className="label">
-                  <span className="mark" aria-hidden="true" />
-                  A typical start
-                </p>
-                <ul className="problem-list">
-                  <li>A supplier announced a price increase.</li>
-                  <li>An engineering revision changed what a part should cost.</li>
-                  <li>Negotiated terms never reached purchasing.</li>
-                  <li>An unexpected charge has no clear owner.</li>
-                </ul>
-                <p className="split-link">
-                  <TrackLink
-                    href="/#contact"
-                    className="text-action"
-                    event="cta_click"
-                    eventParams={{ location: "problem", target: "contact" }}
-                  >
-                    Discuss a commercial issue
-                  </TrackLink>
-                </p>
-              </div>
+              <div id="example" className="anchor" tabIndex={-1} />
+              <ExampleSeen>
+                <ExposureCalculator />
+              </ExampleSeen>
+              <p className="exhibit-caption">
+                One pricing issue, drawn so the numbers can move. Not a client
+                result.{" "}
+                <TrackLink
+                  href="/supplier-pricing"
+                  className="inline-link"
+                  event="cta_click"
+                  eventParams={{ location: "problem", target: "supplier-pricing" }}
+                >
+                  Open the full illustration
+                </TrackLink>
+              </p>
             </Reveal>
           </div>
         </section>
@@ -232,6 +254,26 @@ export default function HomePage() {
                 the same either way: establish the economics, coordinate the
                 response, and carry the approved action through.
               </p>
+            </Reveal>
+            <Reveal className="focus-grid" delay={40}>
+              {patterns.map((item) => (
+                <article className="focus-item" key={item.title}>
+                  <div className="focus-figure">
+                    <FindingLoop
+                      kind={item.kind}
+                      found={item.found}
+                      resolved="Resolved"
+                    />
+                  </div>
+                  <div>
+                    <p className="label">
+                      <span className="label-index">{item.index}</span>
+                    </p>
+                    <h3 className="title">{item.title}</h3>
+                    <p className="body">{item.body}</p>
+                  </div>
+                </article>
+              ))}
             </Reveal>
             <div className="work-grid">
               {work.map((item) => (
@@ -279,6 +321,7 @@ export default function HomePage() {
                 has to show up in the next transaction.
               </p>
             </Reveal>
+            <LineProfile />
             <ol className="track-steps is-four">
               {steps.map((step) => (
                 <li className="track-step" key={step.index}>
