@@ -12,7 +12,6 @@ import {
   SETTLED,
   SIZE,
   TONES,
-  WIDTH,
   cameraDirection,
   datumSegments,
   tileOrigin,
@@ -54,14 +53,6 @@ const SETTLE_SPAN = 460;
 const RESOLVE_TIME = 0.7;
 /** Not yet resolved. Any time far in the future. */
 const NEVER = 1e6;
-/**
- * One invoice travels each price line that was billed above agreement, so you
- * can watch it light up exactly where the overbilling is. Lines billed as
- * agreed stay still.
- */
-const TRAVEL = 2.4;
-/** Height of a travelling line above the surface it is crossing. */
-const RIDE = 0.16;
 
 const tileVertex = /* glsl */ `
   attribute float aLift;
@@ -160,73 +151,6 @@ const tileFragment = /* glsl */ `
   }
 `;
 
-// Each point is one invoice line moving along its price line. It rides over
-// whatever stands on the plate, and turns pale where it crosses an excess.
-const flowVertex = /* glsl */ `
-  attribute float aRow;
-  attribute float aPhase;
-  attribute float aSpeed;
-  uniform sampler2D uHeights;
-  uniform float uTime;
-  uniform float uAlign;
-  uniform float uBase;
-  uniform float uSettled;
-  uniform float uPixel;
-  uniform float uHoverRow;
-  uniform float uHoverOn;
-  varying float vRide;
-  varying float vAlpha;
-
-  const float LEFT = ${(-WIDTH / 2).toFixed(4)};
-  const float START = ${(DATUM.x0 - 1.2).toFixed(4)};
-  const float SPAN = ${(DATUM.x1 - DATUM.x0 + 2.4).toFixed(4)};
-  const float PITCH = ${PITCH.toFixed(4)};
-  const float FILL = ${(SIZE / PITCH).toFixed(4)};
-
-  float excessAt(float col, float row) {
-    if (col < 0.0 || col > ${(COLS - 1).toFixed(1)}) return 0.0;
-    vec2 cell = texelFetch(uHeights, ivec2(int(col), int(row)), 0).rg;
-    float done = smoothstep(cell.g, cell.g + ${RESOLVE_TIME.toFixed(2)}, uTime);
-    float h = cell.r;
-    return h > 0.0 ? mix(h, uSettled, max(uAlign, done)) : 0.0;
-  }
-
-  void main() {
-    float travelled = fract(aPhase + uTime * aSpeed / SPAN);
-    float x = START + travelled * SPAN;
-    float c = (x - LEFT) / PITCH;
-    float col = floor(c);
-    float f = c - col;
-    float here = excessAt(col, aRow);
-    float next = excessAt(col + 1.0, aRow);
-    float h = mix(here, next, smoothstep(FILL - 0.02, 1.0, f));
-    float z = aRow * PITCH - ${((ROWS * PITCH - PITCH) / 2).toFixed(4)};
-    vec3 p = vec3(x, uBase + h + ${RIDE.toFixed(2)}, z);
-
-    vRide = smoothstep(0.04, 0.2, h - uSettled * 0.5);
-    float edges = smoothstep(0.0, 0.06, travelled) * (1.0 - smoothstep(0.94, 1.0, travelled));
-    float onRow = uHoverOn * (1.0 - step(0.5, abs(aRow - uHoverRow)));
-    vAlpha = edges * mix(0.62, 1.0, max(vRide, onRow));
-
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
-    gl_PointSize = uPixel * mix(7.0, 9.0, max(vRide, onRow * 0.6));
-  }
-`;
-
-const flowFragment = /* glsl */ `
-  precision highp float;
-  uniform vec3 uInk;
-  uniform vec3 uPale;
-  varying float vRide;
-  varying float vAlpha;
-
-  void main() {
-    vec2 c = abs(gl_PointCoord - 0.5);
-    float square = 1.0 - smoothstep(0.36, 0.5, max(c.x, c.y));
-    gl_FragColor = vec4(mix(uInk, uPale, vRide), square * vAlpha);
-  }
-`;
-
 /** Authored sRGB hex to a plain vector. The shader writes it back unchanged. */
 const rgb = (hex: string) => {
   const value = Number.parseInt(hex.slice(1), 16);
@@ -289,7 +213,6 @@ export function mountPlate(
   const resolveAt = new Float32Array(total).fill(NEVER);
   const uTime = { value: 0 };
   const uAlign = { value: 0 };
-  const uHoverRow = { value: -99 };
   const uHoverOn = { value: 0 };
   const material = new THREE.ShaderMaterial({
     vertexShader: tileVertex,
@@ -347,77 +270,6 @@ export function mountPlate(
   rig.add(tiles);
   disposables.push(box, material);
 
-  // Heights and resolve times per tile, read by the travelling lines.
-  const cells = new Float32Array(COLS * ROWS * 2);
-  for (let row = 0; row < ROWS; row += 1) {
-    for (let col = 0; col < COLS; col += 1) {
-      const i = (row * COLS + col) * 2;
-      cells[i] = varianceAt(col, row);
-      cells[i + 1] = NEVER;
-    }
-  }
-  const heights = new THREE.DataTexture(
-    cells,
-    COLS,
-    ROWS,
-    THREE.RGFormat,
-    THREE.FloatType
-  );
-  heights.needsUpdate = true;
-  disposables.push(heights);
-
-  const flowRows: number[] = [];
-  for (let row = 0; row < ROWS; row += 1) {
-    for (let col = 0; col < COLS; col += 1) {
-      if (varianceAt(col, row) > 0) {
-        flowRows.push(row);
-        break;
-      }
-    }
-  }
-  const count = flowRows.length;
-  const flowGeometry = new THREE.BufferGeometry();
-  const rowAttr = new Float32Array(count);
-  const phaseAttr = new Float32Array(count);
-  const speedAttr = new Float32Array(count);
-  // Evenly staggered, so the invoices cross the plate one after another.
-  flowRows.forEach((row, i) => {
-    rowAttr[i] = row;
-    phaseAttr[i] = i / count;
-    speedAttr[i] = TRAVEL;
-  });
-  flowGeometry.setAttribute(
-    "position",
-    new THREE.BufferAttribute(new Float32Array(count * 3), 3)
-  );
-  flowGeometry.setAttribute("aRow", new THREE.BufferAttribute(rowAttr, 1));
-  flowGeometry.setAttribute("aPhase", new THREE.BufferAttribute(phaseAttr, 1));
-  flowGeometry.setAttribute("aSpeed", new THREE.BufferAttribute(speedAttr, 1));
-  const uPixel = { value: 1 };
-  const flowMaterial = new THREE.ShaderMaterial({
-    vertexShader: flowVertex,
-    fragmentShader: flowFragment,
-    transparent: true,
-    depthWrite: false,
-    uniforms: {
-      uHeights: { value: heights },
-      uTime,
-      uAlign,
-      uBase: { value: BASE },
-      uSettled: { value: SETTLED },
-      uPixel,
-      uHoverRow,
-      uHoverOn,
-      uInk: { value: rgb(TONES.capLit) },
-      uPale: { value: rgb(TONES.capEdge) },
-    },
-  });
-  const flow = new THREE.Points(flowGeometry, flowMaterial);
-  flow.frustumCulled = false;
-  flow.renderOrder = 1;
-  rig.add(flow);
-  disposables.push(flowGeometry, flowMaterial);
-
   const segs = datumSegments();
   const datumPositions = new Float32Array((segs.length / 4) * 6);
   for (let i = 0, o = 0; i < segs.length; i += 4, o += 6) {
@@ -459,8 +311,6 @@ export function mountPlate(
     const ratio = Math.min(window.devicePixelRatio || 1, cap);
     renderer.setPixelRatio(ratio);
     renderer.setSize(width, height, false);
-    // Points keep the same size on screen at every stage width.
-    uPixel.value = ratio * Math.max(0.75, Math.min(1.25, width / 1100));
   };
 
   const readAlign = () => {
@@ -541,7 +391,6 @@ export function mountPlate(
       const [x, z] = tileOrigin(next.col, next.row);
       material.uniforms.uHover.value.set(x, z);
       material.uniforms.uHoverRow.value = z;
-      uHoverRow.value = next.row;
       hoverWanted = 1;
     } else {
       hoverWanted = 0;
@@ -555,8 +404,6 @@ export function mountPlate(
     if (i === undefined || resolveAt[i] < NEVER) return;
     resolveAt[i] = uTime.value;
     resolveAttr.needsUpdate = true;
-    cells[(row * COLS + col) * 2 + 1] = uTime.value;
-    heights.needsUpdate = true;
     resolvedCount += 1;
     options.onResolve(resolvedCount, col, row);
     hoverKey = "";

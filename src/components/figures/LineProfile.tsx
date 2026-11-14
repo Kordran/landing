@@ -1,96 +1,111 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useMemo, useState } from "react";
+import { BASE, SETTLED } from "@/components/plate/model";
 import { example, formatUsd } from "@/lib/example";
+import Axo from "./Axo";
+import { axoScene, tileField, type AxoBox } from "./axo";
 
 /**
- * One price line seen from the side, one monthly invoice per column: the
- * plate in elevation. Overbilled invoices stand up, the price is corrected
- * in one step, and the excess already billed comes back as a credit. The
- * three thirds sit over Verify, Resolve and Prevent.
+ * One price line of the hero plate, seen close. The left third is what Verify
+ * finds, the middle is that excess coming back down to the agreement, and the
+ * right is every invoice after the fix.
  */
 
-const PER_STEP = 12;
-const FIRST_OVER = 3;
-/** Index of the first invoice billed at the corrected price. */
-const CORRECTED = PER_STEP + 2;
-const COUNT = PER_STEP * 3;
+const COLS = 18;
+const FOUND = 0.86;
+const PITCH = 1.16;
 
-const excess = Math.round((example.billedUnit - example.agreedUnit) * 100) / 100;
-const perInvoice = excess * example.unitsPerMonth;
-const overbilled = CORRECTED - FIRST_OVER;
-const credit = perInvoice * overbilled;
-
-const invoices = Array.from({ length: COUNT }, (_, i) => ({
-  over: i >= FIRST_OVER && i < CORRECTED,
-}));
-
-const states = [
-  `${overbilled} invoices billed over`,
-  "Price corrected · credit issued",
-  "Billed as agreed",
-];
-
-function describe(i: number) {
-  const ref = `Invoice ${String(i + 1).padStart(2, "0")}`;
-  if (invoices[i].over)
-    return {
-      ref,
-      line: `${formatUsd(example.billedUnit, 2)} billed · ${formatUsd(perInvoice)} over`,
-    };
-  if (i === CORRECTED)
-    return {
-      ref,
-      line: `Corrected to ${formatUsd(example.agreedUnit, 2)} · ${formatUsd(credit)} credited`,
-    };
-  return { ref, line: `${formatUsd(example.agreedUnit, 2)} billed · as agreed` };
+/** Height of the excess on each invoice. Zero means billed as agreed. */
+function excessAt(col: number): number {
+  if (col < 2 || col >= 12) return 0;
+  if (col < 6) return FOUND;
+  const step = (col - 6) / 5;
+  return FOUND + (SETTLED - FOUND) * step;
 }
+
+const raised = Array.from({ length: COLS }, (_, col) => {
+  const h = excessAt(col);
+  return h > 0 ? { col, row: 0, h } : null;
+}).filter((cap): cap is { col: number; row: number; h: number } => cap !== null);
+
+/** The tallest invoice, where the gap is measured. */
+const MEASURED = 4;
+const corner = MEASURED * PITCH + 1;
+
+const frame: AxoBox[] = tileField({
+  cols: COLS,
+  rows: 1,
+  raised: [{ col: MEASURED, row: 0, h: FOUND + 0.55 }],
+});
+
+const phases = [
+  { name: "Verify", line: "Billed above the agreement" },
+  { name: "Resolve", line: "Brought back down" },
+  { name: "Prevent", line: "Billed as agreed after that" },
+];
 
 export default function LineProfile() {
   const [at, setAt] = useState<number | null>(null);
-  const read = at === null ? null : describe(at);
+  const excess = Math.round((example.billedUnit - example.agreedUnit) * 100) / 100;
+
+  const scene = useMemo(
+    () =>
+      axoScene({
+        boxes: tileField({ cols: COLS, rows: 1, raised }),
+        frame,
+        lines: [
+          {
+            from: [corner, BASE, 1],
+            to: [corner, BASE + FOUND, 1],
+            kind: "accent",
+          },
+        ],
+        labels: [
+          {
+            at: [corner, BASE + FOUND, 1],
+            text: `+${formatUsd(excess, 2)}`,
+            accent: true,
+            anchor: "middle",
+            dy: -6,
+          },
+        ],
+        pad: [22, 10, 6, 10],
+      }),
+    [excess]
+  );
+
+  const read = at === null ? null : phases[Math.min(2, Math.floor(at / 6))];
 
   return (
-    <div className="profile" aria-hidden="true">
+    <div className="profile">
       <p className="profile-head micro">
-        <span>One price line · one invoice a month</span>
+        <span>One price line, invoice by invoice</span>
         <span className="profile-readout" data-on={read ? "true" : undefined}>
           {read ? (
             <>
-              <span>{read.ref}</span> {read.line}
+              <span>{read.name}</span> {read.line}
             </>
           ) : (
-            `Agreed ${formatUsd(example.agreedUnit, 2)} a unit`
+            `Agreed ${formatUsd(example.agreedUnit, 2)} · billed ${formatUsd(example.billedUnit, 2)}`
           )}
         </span>
       </p>
       <div
-        className="profile-row"
+        className="profile-art"
         onPointerMove={(event) => {
           const rect = event.currentTarget.getBoundingClientRect();
-          const i = Math.floor(((event.clientX - rect.left) / rect.width) * COUNT);
-          setAt(Math.max(0, Math.min(COUNT - 1, i)));
+          const share = (event.clientX - rect.left) / rect.width;
+          setAt(Math.max(0, Math.min(COLS - 1, Math.floor(share * COLS))));
         }}
         onPointerLeave={() => setAt(null)}
       >
-        {invoices.map((invoice, i) => (
-          <i
-            key={i}
-            className={[
-              invoice.over ? "is-raised" : "",
-              i === CORRECTED ? "is-corrected" : "",
-              i === at ? "is-at" : "",
-            ]
-              .filter(Boolean)
-              .join(" ") || undefined}
-            style={{ "--i": i, "--k": i - FIRST_OVER } as CSSProperties}
-          />
-        ))}
+        <Axo scene={scene} />
       </div>
       <ul className="profile-key micro">
-        {states.map((state) => (
-          <li key={state}>{state}</li>
-        ))}
+        <li>Found on the invoices</li>
+        <li>Corrected, one invoice at a time</li>
+        <li>Every invoice after</li>
       </ul>
     </div>
   );

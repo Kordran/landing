@@ -1729,6 +1729,36 @@ details[open] > summary .toggle::after {
   color: var(--teal-pale);
 }
 
+.profile-art {
+  margin-top: var(--s-5);
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+
+.profile-art .axo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The same tiles as the hero, drawn light so they read on the deep ground. */
+.profile .axo-paper polygon {
+  stroke: rgba(244, 242, 237, 0.5);
+}
+
+.profile .axo-label {
+  font-size: 7px;
+  fill: var(--on-deep-2);
+}
+
+.profile .axo-label.is-accent {
+  fill: var(--teal-pale);
+}
+
+.profile .axo-accent {
+  stroke: var(--teal-pale);
+}
+
 .profile-row {
   display: grid;
   grid-template-columns: repeat(36, minmax(0, 1fr));
@@ -2640,15 +2670,8 @@ details[open] > summary .toggle::after {
 
 @media (min-width: 900px) {
   .fit-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-  }
-
-  .fit-col.is-yes {
-    grid-column: 1 / span 7;
-  }
-
-  .fit-col.is-not {
-    grid-column: 9 / span 4;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
   }
 }
 
@@ -2746,7 +2769,7 @@ details[open] > summary .toggle::after {
 }
 
 .evidence-stage .axo-solid[data-active="true"] {
-  transform: translateY(-10px);
+  transform: none;
 }
 
 .evidence-stage .axo-solid[data-active="true"] .axo-top {

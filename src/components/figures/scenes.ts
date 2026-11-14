@@ -115,15 +115,14 @@ export const evidenceRecords = [
 const STACK_SHEET: [number, number, number] = [5.4, 0.09, 3.6];
 const STACK_STEP = 0.74;
 
-/** The evidence, bottom to top in the order it is created. The invoice sits out of register. */
+/** The evidence, bottom to top in the order it is created. Every sheet shares one corner. */
 export const evidenceScene = axoScene({
   boxes: evidenceRecords.map((record, index): AxoBox => {
-    const last = index === evidenceRecords.length - 1;
     return {
       id: record.id,
-      at: [last ? 0.55 : 0, index * STACK_STEP, last ? -0.4 : 0],
+      at: [0, index * STACK_STEP, 0],
       size: STACK_SHEET,
     };
   }),
-  pad: [20, 12, 12, 12],
+  pad: [28, 16, 16, 16],
 });
