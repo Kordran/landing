@@ -3,7 +3,7 @@ import { siteDescription, siteName } from "@/lib/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: `${siteName} | Supplier Cost Verification & Resolution`,
+    name: "Kordran | Find Supplier Overbilling and Recover It",
     short_name: siteName,
     description: siteDescription,
     start_url: "/",

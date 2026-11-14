@@ -15,6 +15,7 @@ import {
   resolveScene,
 } from "@/components/figures/scenes";
 import { getApproachJsonLd } from "@/lib/jsonld";
+import { approachDescription, approachTitle, llmAlternates } from "@/lib/site";
 import {
   annualPrevented,
   example,
@@ -29,18 +30,16 @@ import {
   unitDelta,
 } from "@/lib/example";
 
-const description =
-  "How Kordran finds supplier overbilling, proves it, recovers it, and keeps it from coming back.";
-
 export const metadata: Metadata = {
-  title: "Approach",
-  description,
+  title: approachTitle,
+  description: approachDescription,
   alternates: {
     canonical: "/approach",
+    types: llmAlternates,
   },
   openGraph: {
-    title: "Approach",
-    description,
+    title: `${approachTitle} | Kordran`,
+    description: approachDescription,
     url: "/approach",
     type: "website",
   },

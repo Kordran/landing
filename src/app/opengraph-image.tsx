@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Kordran. Supplier costs, verified and resolved. A $2.60 unit gap billed across 120,000 units comes to $312,000.";
+  "Kordran finds supplier overbilling and recovers it. An illustration: $42.00 agreed, $44.60 billed, $312,000 over 24 months.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

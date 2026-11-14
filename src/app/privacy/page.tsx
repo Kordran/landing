@@ -2,12 +2,14 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { llmAlternates } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy",
   description: "Privacy policy for Kordran Inc.",
   alternates: {
     canonical: "/privacy",
+    types: llmAlternates,
   },
   robots: {
     index: true,

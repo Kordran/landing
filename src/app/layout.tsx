@@ -7,6 +7,7 @@ import {
   ogDescription,
   siteDescription,
   siteName,
+  llmAlternates,
   siteUrl,
 } from "@/lib/site";
 import "./globals.css";
@@ -45,16 +46,21 @@ export const metadata: Metadata = {
   creator: legalName,
   publisher: legalName,
   keywords: [
-    "supplier cost verification",
-    "supplier pricing discrepancies",
+    "supplier overbilling",
+    "recover supplier overcharges",
+    "supplier cost recovery",
+    "invoice vs contract price",
     "purchase price variance",
     "contract price reconciliation",
-    "supplier surcharge review",
-    "industrial procurement",
-    "manufacturing purchasing costs",
+    "supplier price increase review",
+    "contractual surcharge recovery",
+    "manufacturing procurement costs",
+    "industrial supplier audit",
   ],
+  category: "business",
   alternates: {
     canonical: "/",
+    types: llmAlternates,
   },
   openGraph: {
     title: defaultTitle,
@@ -66,6 +72,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@kordran_",
+    creator: "@kordran_",
     title: defaultTitle,
     description: ogDescription,
   },
