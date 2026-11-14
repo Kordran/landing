@@ -1,152 +1,218 @@
-import type { CSSProperties } from "react";
+"use client";
+
+import {
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import {
   annualPrevented,
   formatUsd,
-  formatUsdShort,
   monthlyDifference,
   potentialDiscrepancy,
   supportedExposure,
 } from "@/lib/example";
 
 /**
- * A vertical bar chart of one example over time.
- * Losses go below zero. Wins go above it.
- * Eight quarters: the overbilling grows downward, and the opportunity
- * the records support grows upward. Four more quarters show what is
- * not billed if the price is corrected.
+ * One example, played as a timeline.
+ * Eight quarters of the loss, then the price is corrected and four
+ * quarters of the win: the money that is not billed.
+ * The supported amount appears at the turn. It is not an accepted credit,
+ * and the year after is future cost avoidance.
  */
 
-function signed(value: number): string {
-  if (value === 0) return "$0";
-  const text = formatUsdShort(Math.abs(value));
-  return value > 0 ? `+${text}` : `−${text}`;
+const LOSS_Q = 8;
+const WIN_Q = 4;
+const STEPS = LOSS_Q + WIN_Q;
+const QUARTER = monthlyDifference * 3;
+
+function storyFor(step: number): string {
+  const loss = QUARTER * Math.min(step, LOSS_Q);
+  const kept = QUARTER * Math.max(0, step - LOSS_Q);
+  if (step < LOSS_Q) {
+    return `Quarter ${step}. ${formatUsd(loss)} billed over the agreement.`;
+  }
+  if (step === LOSS_Q) {
+    return `Two years. ${formatUsd(loss)} billed over the agreement. The records support ${formatUsd(supportedExposure)}.`;
+  }
+  if (step < STEPS) {
+    return `Quarter ${step - LOSS_Q} after the correction. ${formatUsd(kept)} is not billed.`;
+  }
+  return `A year after the correction, ${formatUsd(annualPrevented)} is not billed. The records support ${formatUsd(supportedExposure)}.`;
 }
-
-function level(value: number): number {
-  return (value + potentialDiscrepancy) / (2 * potentialDiscrepancy);
-}
-
-const HISTORY = 8;
-const FORWARD = 4;
-const quarter = monthlyDifference * 3;
-
-const found = Array.from({ length: HISTORY }, (_, index) => {
-  const observed = quarter * (index + 1);
-  const opportunity = Math.round(
-    (supportedExposure * observed) / potentialDiscrepancy
-  );
-  return { step: index + 1, observed, opportunity };
-});
-
-const saved = Array.from({ length: FORWARD }, (_, index) => ({
-  step: index + 1,
-  amount: quarter * (index + 1),
-}));
-
-const scale = [
-  potentialDiscrepancy,
-  annualPrevented,
-  0,
-  -annualPrevented,
-  -potentialDiscrepancy,
-];
 
 export default function LineProfile() {
+  const [step, setStep] = useState(STEPS);
+  const [playing, setPlaying] = useState(false);
+  const rootRef = useRef<HTMLElement>(null);
+  const touched = useRef(false);
+  const timer = useRef(0);
+
+  function stop() {
+    window.clearTimeout(timer.current);
+    timer.current = 0;
+  }
+
+  function runFrom(start: number) {
+    stop();
+    setPlaying(true);
+    setStep(start);
+    let current = start;
+    const tick = () => {
+      if (current >= STEPS) {
+        setPlaying(false);
+        return;
+      }
+      current += 1;
+      setStep(current);
+      timer.current = window.setTimeout(tick, current === LOSS_Q ? 780 : 280);
+    };
+    timer.current = window.setTimeout(tick, 280);
+  }
+
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let started = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || started || touched.current) return;
+        started = true;
+        observer.disconnect();
+        runFrom(1);
+      },
+      { threshold: 0.55 }
+    );
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+      stop();
+    };
+    // runFrom closes over stable setters only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function scrub(event: ReactPointerEvent<HTMLDivElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const ratio = (event.clientX - rect.left) / rect.width;
+    const next = Math.min(STEPS, Math.max(1, Math.ceil(ratio * STEPS - 1e-6)));
+    setStep(next);
+  }
+
+  const loss = QUARTER * Math.min(step, LOSS_Q);
+  const kept = QUARTER * Math.max(0, step - LOSS_Q);
+  const inWin = step > LOSS_Q;
+  const atTurn = step === LOSS_Q;
+  const story = storyFor(step);
+
+  const aside = inWin
+    ? { label: "Loss, the two years", value: `−${formatUsd(potentialDiscrepancy)}`, tone: "loss" }
+    : atTurn
+      ? { label: "Win, the records support", value: formatUsd(supportedExposure), tone: "win" }
+      : { label: "Win, once corrected", value: `${formatUsd(monthlyDifference)} a month`, tone: "win" };
+
   return (
-    <figure className="outcome">
-      <p className="outcome-story">
-        Above zero are the wins. The records can support {formatUsd(supportedExposure)},
-        and a corrected price keeps {formatUsd(annualPrevented)} from being billed
-        the next year. Below zero, the loss reaches {formatUsd(potentialDiscrepancy)}.
+    <figure ref={rootRef} className="turn" data-phase={inWin ? "win" : "loss"}>
+      <div className="turn-readout">
+        <p className="turn-hero">
+          <span className="micro">{inWin ? "Not billed" : "Loss"}</span>
+          <strong className="num">{inWin ? `+${formatUsd(kept)}` : `−${formatUsd(loss)}`}</strong>
+        </p>
+        <p className={`turn-aside is-${aside.tone}`}>
+          <span className="micro">{aside.label}</span>
+          <strong className="num">{aside.value}</strong>
+        </p>
+      </div>
+
+      <p className="turn-story" aria-live="polite">
+        {story}
       </p>
 
-      <div className="vbars">
-        <div className="vbars-scale micro" aria-hidden="true">
-          {scale.map((value) => (
-            <span
-              key={value}
-              style={{ "--at": level(value) } as CSSProperties}
-            >
-              {signed(value)}
-            </span>
+      <div
+        className="turn-rail"
+        role="slider"
+        tabIndex={0}
+        aria-valuemin={1}
+        aria-valuemax={STEPS}
+        aria-valuenow={step}
+        aria-valuetext={story}
+        aria-label="Quarter in the example"
+        onPointerDown={(event) => {
+          touched.current = true;
+          stop();
+          setPlaying(false);
+          event.currentTarget.setPointerCapture(event.pointerId);
+          scrub(event);
+        }}
+        onPointerMove={(event) => {
+          if (!event.currentTarget.hasPointerCapture(event.pointerId)) return;
+          scrub(event);
+        }}
+        onKeyDown={(event) => {
+          if (event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key !== "Home" && event.key !== "End") {
+            return;
+          }
+          event.preventDefault();
+          touched.current = true;
+          stop();
+          setPlaying(false);
+          if (event.key === "Home") setStep(1);
+          else if (event.key === "End") setStep(STEPS);
+          else if (event.key === "ArrowRight") setStep((value) => Math.min(STEPS, value + 1));
+          else setStep((value) => Math.max(1, value - 1));
+        }}
+      >
+        <div className="turn-cells" aria-hidden="true">
+          {Array.from({ length: LOSS_Q }, (_, index) => (
+            <i
+              key={`loss-${index}`}
+              className={[
+                "turn-cell",
+                index < step ? "is-loss" : "is-wait",
+                index === step - 1 ? "is-now" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            />
           ))}
+          <i className="turn-notch" />
+          {Array.from({ length: WIN_Q }, (_, index) => {
+            const at = LOSS_Q + index;
+            return (
+              <i
+                key={`win-${index}`}
+                className={[
+                  "turn-cell",
+                  "is-after",
+                  at < step ? "is-win" : "is-wait",
+                  at === step - 1 ? "is-now" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              />
+            );
+          })}
         </div>
-
-        <div className="vbars-plot" aria-hidden="true">
-          <span className="vbars-zero" />
-          <span className="vbars-grid" style={{ "--at": level(annualPrevented) } as CSSProperties} />
-          <span className="vbars-grid" style={{ "--at": level(-annualPrevented) } as CSSProperties} />
-          {found.map((bar) => (
-            <div
-              key={`found-${bar.step}`}
-              className="vbar"
-              style={{ "--i": bar.step } as CSSProperties}
-              title={`Quarter ${bar.step}. Loss ${formatUsd(bar.observed)}. Win ${formatUsd(bar.opportunity)}.`}
-            >
-              <span
-                className="vbar-fill is-loss"
-                style={{ "--h": bar.observed / potentialDiscrepancy } as CSSProperties}
-              />
-              <span
-                className="vbar-fill is-win"
-                style={{ "--h": bar.opportunity / potentialDiscrepancy } as CSSProperties}
-              />
-            </div>
-          ))}
-          <i className="vbars-mark" />
-          {saved.map((bar) => (
-            <div
-              key={`saved-${bar.step}`}
-              className="vbar"
-              style={{ "--i": HISTORY + bar.step } as CSSProperties}
-              title={`Quarter ${bar.step} after a corrected price. ${formatUsd(bar.amount)} not billed.`}
-            >
-              <span
-                className="vbar-fill is-win is-ahead"
-                style={{ "--h": bar.amount / potentialDiscrepancy } as CSSProperties}
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className="vbars-axis micro" aria-hidden="true">
+        <div className="turn-axis micro" aria-hidden="true">
           <span>Year 1</span>
           <span>Year 2</span>
-          <span>+1 year</span>
+          <span>After</span>
         </div>
       </div>
 
-      <ul className="outcome-legend micro">
-        <li>
-          <i className="is-win" />
-          Win
-        </li>
-        <li>
-          <i className="is-ahead" />
-          Not billed
-        </li>
-        <li>
-          <i className="is-loss" />
-          Loss
-        </li>
-      </ul>
-
-      <p className="outcome-foot">
-        The year not billed is future cost avoidance, if the price is corrected
-        and buying continues.
-      </p>
-
-      <ul className="sr-only">
-        <li>After one year, a loss of {formatUsd(quarter * 4)}.</li>
-        <li>
-          After two years, a loss of {formatUsd(potentialDiscrepancy)} and a win
-          of {formatUsd(supportedExposure)}.
-        </li>
-        <li>
-          A year after a corrected price, {formatUsd(annualPrevented)} is not
-          billed.
-        </li>
-      </ul>
+      <button
+        type="button"
+        className="text-action turn-play"
+        onClick={() => {
+          touched.current = true;
+          runFrom(1);
+        }}
+      >
+        {playing ? "Playing" : "Play it through"}
+      </button>
     </figure>
   );
 }
