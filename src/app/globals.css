@@ -841,7 +841,10 @@ select {
   }
 
   .hero-body .lede {
+    /* Three even lines, so the copy ends well short of the plate. */
+    max-width: 26em;
     margin-top: var(--s-6);
+    text-wrap: balance;
   }
 
   .hero-body .cta-row {
@@ -861,7 +864,9 @@ select {
     /* Sized by the shorter of the two axes so it never crowds the copy. */
     width: min(76vw, 118svh);
     margin: 0;
-    transform: translateY(-43%);
+    /* Raised at mid widths so the near corner clears the legend. */
+    --plate-rise: -50%;
+    transform: translateY(var(--plate-rise));
     pointer-events: auto;
   }
 
@@ -921,8 +926,14 @@ select {
 }
 
 @media (min-width: 1360px) {
+  .hero-body .lede {
+    max-width: 34em;
+    text-wrap: pretty;
+  }
+
   .plate-stage {
     left: 37%;
+    --plate-rise: -43%;
   }
 }
 
@@ -1420,11 +1431,66 @@ details[open] > summary .toggle::after {
   letter-spacing: -0.02em;
 }
 
+.profile {
+  --profile-cap: clamp(26px, 3.4vw, 46px);
+  --profile-slab: 8px;
+  margin-top: var(--s-8);
+}
+
+.profile-head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-4);
+  color: var(--on-deep-2);
+}
+
+.profile-row {
+  display: grid;
+  grid-template-columns: repeat(36, minmax(0, 1fr));
+  column-gap: clamp(2px, 0.3vw, 4px);
+  align-items: end;
+  margin-top: var(--s-4);
+  padding-top: var(--profile-cap);
+  border-bottom: 1px solid var(--line-deep);
+}
+
+/*
+ * A tile in elevation with its cap standing on it. As on the plate, the
+ * top face is the lightest tone and the side is darker.
+ */
+.profile-row i {
+  position: relative;
+  display: block;
+  height: var(--profile-slab);
+  background: color-mix(in srgb, var(--on-deep) 15%, var(--deep));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--on-deep) 52%, var(--deep));
+}
+
+.profile-row i.is-raised::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 1px);
+  left: 0;
+  height: calc(var(--h) * (var(--profile-cap) - 1px));
+  background: color-mix(in srgb, var(--teal-pale) 44%, var(--deep));
+  box-shadow: inset 0 2px 0 var(--teal-pale);
+  transform-origin: center bottom;
+}
+
+.profile-key {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-2) var(--gutter);
+  margin-top: var(--s-3);
+  color: var(--on-deep-2);
+}
+
 .track-steps {
   position: relative;
   display: grid;
   gap: var(--s-6);
-  margin-top: var(--s-8);
+  margin-top: var(--s-7);
 }
 
 .track-step {
@@ -1458,15 +1524,6 @@ details[open] > summary .toggle::after {
   max-width: 24em;
 }
 
-.track-line {
-  display: none;
-}
-
-.track-stop {
-  margin-top: var(--s-2);
-  color: var(--on-deep-2);
-}
-
 @media (min-width: 900px) {
   .track-phases {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1480,7 +1537,7 @@ details[open] > summary .toggle::after {
   .track-steps {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--gutter);
-    padding-top: var(--s-7);
+    margin-top: var(--s-6);
   }
 
   .track-step {
@@ -1488,32 +1545,7 @@ details[open] > summary .toggle::after {
   }
 
   .track-step::before {
-    top: calc(-1 * var(--s-7) - 4px);
-  }
-
-  .track-line {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    display: block;
-    height: 1px;
-    background: var(--line-deep);
-  }
-
-  .track-line::after {
-    content: "";
-    position: absolute;
-    inset: 0 0 0 calc(100% / 3);
-    background: var(--teal-pale);
-    transform-origin: left center;
-  }
-
-  .track-stop {
-    position: absolute;
-    top: calc(-1 * var(--s-7) - var(--s-6));
-    left: 0;
-    margin: 0;
+    content: none;
   }
 }
 
@@ -2737,15 +2769,24 @@ details[open] > summary .toggle::after {
   }
 
   /* Lines draw. */
-  .reveal[data-ready="true"]:not(.is-in) .dimension-line::before,
-  .reveal[data-ready="true"]:not(.is-in) .track-line::after {
+  .reveal[data-ready="true"]:not(.is-in) .dimension-line::before {
     transform: scaleX(0);
   }
 
-  .reveal.is-in .dimension-line::before,
-  .reveal.is-in .track-line::after {
+  .reveal.is-in .dimension-line::before {
     transform: scaleX(1);
     transition: transform var(--t-draw) var(--ease-inout) 200ms;
+  }
+
+  /* Caps stand up in invoice order. */
+  .reveal[data-ready="true"]:not(.is-in) .profile-row i::before {
+    transform: scaleY(0);
+  }
+
+  .reveal.is-in .profile-row i::before {
+    transform: none;
+    transition: transform 520ms var(--ease);
+    transition-delay: calc(var(--i, 0) * 22ms + 240ms);
   }
 
   /* Units count in. */
@@ -2775,7 +2816,7 @@ details[open] > summary .toggle::after {
   @keyframes plate-in {
     from {
       opacity: 0;
-      transform: translateY(-43%) translateX(28px);
+      transform: translateY(var(--plate-rise)) translateX(28px);
     }
   }
 }
