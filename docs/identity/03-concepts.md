@@ -189,6 +189,20 @@ Four candidates for the one live scene were analysed. Two were prototyped.
   most common picture in enterprise software, and Kordran does not sell a
   network.
 
+### React Three Fiber, assessed
+
+The site is React, so React Three Fiber was considered and not used. Its
+value is describing a scene as a tree of components that React reconciles.
+This scene has no tree: it is one instanced mesh, one shader material, and a
+handful of uniforms that change every frame outside React's render cycle.
+Fiber would add a second dependency and a reconciler to the lazy chunk in
+exchange for nothing the scene uses. The plate is instead a single module,
+`scene.ts`, with one entry point (`mountPlate`) that returns a `destroy`
+function. `PlateField.tsx` imports it dynamically and owns the lifecycle, so
+context loss, visibility pausing, and disposal are explicit and in one
+place. If Kordran later needs several coordinated 3D figures, Fiber would be
+worth revisiting.
+
 ### Why three.js for the plate, and where it stops
 
 Three.js was already a dependency. The scene is one `InstancedMesh` with a

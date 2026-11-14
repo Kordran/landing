@@ -34,6 +34,7 @@ Puppeteer. WebGL was rendered in software. Nothing was deployed.
 Details:
 
 - ![Worked example](assets/home-exhibit.jpg)
+- ![The price line in profile across verify, resolve, prevent](assets/home-execution.jpg)
 - ![Measurement states](assets/approach-measurement.jpg)
 - ![Evidence stack](assets/approach-evidence.jpg)
 - ![Plate with hover readout](assets/home-plate-hover.jpg)
@@ -50,7 +51,8 @@ delivered with the work as run artifacts.
 ### Widths inspected
 
 Both pages were toured frame by frame at 1440, 1280, 1024, 768, 390, and
-320px. The hero was also checked at 1920, 1120, 480, 414, and 360px, and the
+320px. The hero was also checked at 1920, 1360, 1200, 1120, 480, 414, and
+360px, on short screens at 1120 × 700, 1280 × 720, and 1360 × 768, and the
 closing scene at 1920, 1440, 1280, 1024, 900, 768, and 390px.
 
 ### Interaction review
@@ -66,6 +68,7 @@ closing scene at 1920, 1440, 1280, 1024, 900, 768, and 390px.
 | Questions | Native disclosures; one click opens, the plus becomes a minus |
 | Header | Hairline appears after scrolling; current page is marked |
 | Phone menu | Opens; page behind is inert; Escape closes and returns focus; choosing a link navigates and closes |
+| Price-line profile | Caps stand up in invoice order when the band scrolls into view; shown complete with reduced motion |
 | Reveals | Sections rise once; nothing replays |
 
 ### Inconsistencies found and corrected
@@ -93,6 +96,9 @@ closing scene at 1920, 1440, 1280, 1024, 900, 768, and 390px.
 | 19 | Potential exposure was drawn as solid squares on the homepage and tinted squares on Approach | Same solid block on both; validated claim shows thirty squares excluded |
 | 20 | Share image used a white ground and the old label | Paper palette and current label |
 | 21 | Prettier reformatted unrelated files during the work | Reverted; only touched files were formatted |
+| 22 | The verify, resolve, prevent band was the one homepage section with no figure, only a hairline and three squares | One price line drawn in elevation across the three steps: caps above the agreed level, stepping down, then flush |
+| 23 | From 1120 to 1359px the legend's paper backing covered the plate's near corner | Plate raised in that range; the legend sits clear of it |
+| 24 | At 1280 × 720 the plate's far corner touched the end of the hero lede | Lede held to three balanced lines from 1120 to 1359px |
 
 ## Engineering validation
 
@@ -149,10 +155,10 @@ viewport at 2× density with CPU slowed 4× and the network limited to
 
 | Page | Profile | LCP | CLS | Blocking time | Worst interaction |
 | ---- | ------- | --: | --: | ------------: | ----------------: |
-| Home | Desktop | 0.26s | 0.00 | 178ms | 64ms |
-| Home | Phone | 0.80s | 0.02 | 246ms | 128ms |
-| Approach | Desktop | 0.16s | 0.00 | 0ms | 40ms |
-| Approach | Phone | 0.84s | 0.00 | 103ms | 32ms |
+| Home | Desktop | 0.28s | 0.00 | 166ms | 56ms |
+| Home | Phone | 0.85s | 0.02 | 309ms | 120ms |
+| Approach | Desktop | 0.12s | 0.00 | 0ms | 40ms |
+| Approach | Phone | 0.84s | 0.00 | 87ms | 32ms |
 
 Targets were LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1. All are met in the lab with
 wide margins. The LCP element is the headline or lede text, so it does not
@@ -162,12 +168,12 @@ Transfer on a full visit, including a scroll to the foot of the page:
 
 | | Home | Approach |
 | - | ---: | -------: |
-| HTML | 31 KB | 27 KB |
+| HTML | 32 KB | 27 KB |
 | CSS | 11 KB | 11 KB |
 | Fonts | 77 KB | 77 KB |
 | JavaScript | 289 KB | 168 KB |
 | Painting (largest size, lazy) | 288 KB | 288 KB |
-| Total | 744 KB | 620 KB |
+| Total | 746 KB | 621 KB |
 
 The homepage's extra 121 KB of JavaScript is the three.js scene. It is
 requested during idle time after first paint and only when the browser

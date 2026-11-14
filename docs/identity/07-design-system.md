@@ -113,12 +113,13 @@ A 4px base. Sections and gutters come from this scale only.
 | ----- | ------------ |
 | 640px | Form fields and exhibit inputs sit side by side; the plate crop loosens; the closing painting widens to 4:3 |
 | 900px | The 12-column layout; split section heads; desktop navigation; the footer overlays the painting |
-| 1120px | The hero becomes one composition: copy on the left, plate behind and to the right |
+| 1120px | The hero becomes one composition: copy on the left, plate behind and to the right. The lede is held to three lines and the plate is raised so it clears both the copy and the legend |
 | 1200px | The closing painting uses its full 16:9 frame |
-| 1360px | The plate shifts left to keep its far edge on the page |
+| 1360px | The plate shifts left and lower; the lede returns to two lines |
 
-Checked at 1920, 1440, 1280, 1120, 1024, 900, 768, 480, 414, 390, 360, and
-320px.
+Checked at 1920, 1440, 1360, 1280, 1200, 1120, 1024, 900, 768, 480, 414,
+390, 360, and 320px, and on short screens at 1120 × 700, 1280 × 720, and
+1360 × 768.
 
 ## Graphic vocabulary
 
@@ -141,8 +142,13 @@ Every form on the site comes from this short list.
 7. **The unit grid.** Rows of small squares, each 100 units. Solid teal
    is a counted unit, tint is a unit under observation, a grey outline is
    excluded, and a pale outline is not assumed.
-8. **The mark.** A 7px teal square before a label.
-9. **The painting.** Industrial Wash, once per page, at the close.
+8. **The profile.** The plate seen from the side: one row of tiles in
+   elevation on a datum line, each with its cap standing on it. It appears
+   once, across the dark band on the homepage, where one price line is
+   followed from "billed above agreement" through "corrected" to "billed as
+   agreed". Top faces are the lightest tone, as on the plate.
+9. **The mark.** A 7px teal square before a label.
+10. **The painting.** Industrial Wash, once per page, at the close.
 
 Do not add: icons from a library, gradients, glows, rounded cards, node
 diagrams, photographs, or a second illustration style.
@@ -185,11 +191,14 @@ To change the picture, change `model.ts`. Both renderers follow.
 - **Reveal.** Blocks rise 16px and fade in once, when 12% visible.
 - **Draw.** Rules scale in from the left.
 - **Count in.** Unit squares appear in reading order.
+- **Stand up.** Caps in the profile rise from the datum in invoice order.
 - **Register.** On hover, the two squares in a button slide into
   alignment.
 
 **Rules**
 
+- Nothing animates out. Reveals run once and stay; menus and disclosures
+  close immediately.
 - The hero text does not animate in. It is the largest paint and is there
   on the first frame.
 - Nothing loops except the inspection light, and it stops when the hero is

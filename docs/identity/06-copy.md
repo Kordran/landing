@@ -119,6 +119,8 @@ are labelled as such in the exhibit header.
   the exposure.
 - **Execution:** Coordinate with your team, support supplier discussions,
   and follow through on authorized corrective actions.
+- **Figure:** One price line, invoice by invoice — Illustration. Billed
+  above agreement · Corrected · Billed as agreed
 - **01 Verify.** Reconcile the records and quantify the exposure.
 - **02 Resolve.** Support authorized corrections with your team.
 - **03 Prevent.** Address the controls behind repeat discrepancies.

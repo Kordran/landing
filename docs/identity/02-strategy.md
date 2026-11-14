@@ -37,7 +37,9 @@ is the finding. The identity takes that literally.
 1. **Draw the work.** Every figure depicts records being compared. No
    abstract "technology" imagery.
 2. **One projection.** Everything dimensional uses the same axonometric
-   angle, the same three face tones, and the same tile unit.
+   angle, the same three face tones, and the same tile unit. The two flat
+   views, the unit grid (plan) and the price-line profile (elevation), are
+   views of that same tile.
 3. **Teal means difference.** The accent is reserved for the thing Kordran
    finds, for the primary action, and for the mark. It is not decoration.
 4. **Say less, mean it.** Short sentences. No claims that cannot be

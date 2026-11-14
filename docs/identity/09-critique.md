@@ -43,6 +43,10 @@ footer sits in its darkened foot.
 - **The hero composition starts at 1120px.** Between 900 and 1119px the
   plate sits under the copy as it does on tablets. A side-by-side layout in
   that range crowded the call to action.
+- **A second flat view.** The dark band needed a figure that could span
+  three columns, which the axonometric view cannot do without running
+  diagonally. The price line is drawn in elevation instead. It is the same
+  tile, and it is one more convention for a reader to learn.
 - **The plate's pointer detail is desktop-only.** Touch devices get the
   inspection light and the scroll settle, not the readout.
 
@@ -66,9 +70,9 @@ footer sits in its darkened foot.
 5. **The plate could carry real meaning per engagement.** The raised runs
    are illustrative. With permission, a future case note could render its
    own anonymized plate from actual line counts.
-6. **The mid-width hero.** From 1120 to about 1280px the legend's paper
-   backing overlaps the plate's near corner. It reads as a title block, and
-   a cleaner solution would re-crop the plate for that range.
+6. **The hero between 900 and 1119px.** The plate sits under the copy
+   there, as on tablets. It is clean, and it is the least composed range of
+   the hero.
 7. **The painting is one image.** Art-directed crops for phone, tablet, and
    desktop are produced with `object-position`. A purpose-made tall crop of
    the same painting would give phones a stronger close. No additional

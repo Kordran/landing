@@ -52,7 +52,7 @@ destination for a buyer who is not ready to write.
 | — | Hero | — | Say what Kordran does. Show the plate. Offer the primary action and a route to Approach. Four facts on a rail: who it is for, what is examined, what you receive, where to begin. |
 | 01 | The problem | `#problem`, `#example` | Make the stakes concrete with one worked example: $42.00 agreed, $44.00 billed, 18,000 units, $36,000 of potential exposure. |
 | 02 | What we examine | `#focus` | Three scopes, each with a small figure and the two records it compares. |
-| 03 | Intelligence + execution | `#execution` | The point of difference: Kordran stays through the correction. Verify, Resolve, Prevent. |
+| 03 | Intelligence + execution | `#execution` | The point of difference: Kordran stays through the correction. One price line is drawn in profile from "billed above agreement" to "billed as agreed", over Verify, Resolve, Prevent. |
 | 04 | Purpose | `#purpose` | One belief, stated once. |
 | 05 | Questions | `#questions` | Seven answers, including the plain "No" to guaranteed savings. |
 | 06 | Contact | `#contact` | What happens after writing in, and the form. |
