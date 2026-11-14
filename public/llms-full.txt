@@ -86,7 +86,7 @@ A first note can be short. Useful records are the agreement or price list, recen
 
 Anyone with a supplier pricing concern can write at https://kordran.com/#contact or email contact@kordran.com.
 
-The form asks for name, company, and work email, plus optional choices for the kind of issue, how long it has been going on, yearly spend with the supplier, and the supplier's name. The message describes what is happening. Kordran replies with what it would review and what it could be worth, then sets up a secure way to share records.
+The form asks for name, company, work email, and a short description of the problem. Supplier, duration, spend, and records are asked for after the reply, if the conversation continues.
 
 ## Legal pages
 

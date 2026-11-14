@@ -1,6 +1,6 @@
 # Kordran Landing
 
-Supplier cost verification and resolution site for Kordran Inc.
+Supplier overbilling site for Kordran Inc.
 
 ## Stack
 

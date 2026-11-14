@@ -14,8 +14,8 @@ export default function Footer({ plain = false }: { plain?: boolean }) {
           <div className="footer-brand">
             <Logo variant="full" surface="dark" className="logo" />
             <p>
-              Supplier cost verification and resolution for industrial
-              manufacturers.
+              Finding supplier overbilling, and helping pursue the correction,
+              for industrial manufacturers.
             </p>
           </div>
 

@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Link from "next/link";
 import type { Metadata } from "next";
 import { llmAlternates } from "@/lib/site";
 
@@ -23,11 +22,6 @@ export default function TermsPage() {
       <Header />
       <main id="content" className="site-main">
         <div className="container legal-content">
-          <nav className="label legal-back" aria-label="Site">
-            <Link href="/">Home</Link>
-            <Link href="/approach">Approach</Link>
-            <Link href="/#contact">Contact</Link>
-          </nav>
           <h1>Terms</h1>
           <p>Last updated: November 13, 2026</p>
           <p>

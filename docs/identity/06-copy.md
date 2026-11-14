@@ -39,8 +39,8 @@ components they use); this document is the readable copy deck.
 
 - **Header:** Approach · Questions · Discuss a supplier issue
 - **Phone menu:** Home · Approach · Questions · Discuss a supplier issue
-- **Footer line:** Supplier cost verification and resolution for industrial
-  manufacturers.
+- **Footer line:** Finding supplier overbilling, and helping pursue the
+  correction, for industrial manufacturers.
 - **Footer columns:** Site — Home, Approach, Questions, Contact. Reach us —
   contact@kordran.com, LinkedIn, X.
 - **Legal line:** © 2026 Kordran Inc. Not a law firm, customs broker,

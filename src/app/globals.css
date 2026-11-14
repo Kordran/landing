@@ -3642,24 +3642,6 @@ details[open] > summary .toggle::after {
   padding-block: var(--s-8) var(--section);
 }
 
-.legal-back {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2) var(--s-5);
-  margin-bottom: var(--s-6);
-}
-
-.legal-back a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  transition: color var(--t-fast) var(--ease);
-}
-
-.legal-back a:hover {
-  color: var(--teal);
-}
-
 .legal-content h1 {
   margin-bottom: var(--s-6);
   font-size: clamp(2.25rem, 4vw, 3.25rem);

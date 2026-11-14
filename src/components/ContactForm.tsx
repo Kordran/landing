@@ -24,9 +24,7 @@ export default function ContactForm() {
 
     const form = event.currentTarget;
     const data = new FormData(form);
-    const supplier = String(data.get("supplier") || "").trim();
     const details = String(data.get("situation") || "").trim();
-    const context = [supplier ? `Supplier: ${supplier}` : ""].filter(Boolean);
 
     try {
       const response = await fetch("/api/contact", {
@@ -36,9 +34,7 @@ export default function ContactForm() {
           name: data.get("name"),
           company: data.get("company"),
           email: data.get("email"),
-          situation: [...context, ...(context.length ? [""] : []), details].join(
-            "\n"
-          ),
+          situation: details,
           area: "",
           timeline: "",
         }),
@@ -123,7 +119,7 @@ export default function ContactForm() {
               autoComplete="organization"
             />
           </div>
-          <div className="form-field">
+          <div className="form-field form-field-wide">
             <label htmlFor="email">Work email</label>
             <input
               id="email"
@@ -136,10 +132,6 @@ export default function ContactForm() {
               spellCheck={false}
             />
           </div>
-          <div className="form-field">
-            <label htmlFor="supplier">Supplier (optional)</label>
-            <input id="supplier" name="supplier" type="text" autoComplete="off" />
-          </div>
           <div className="form-field form-field-wide">
             <label htmlFor="situation">What&apos;s happening?</label>
             <textarea
@@ -148,10 +140,10 @@ export default function ContactForm() {
               required
               rows={4}
               aria-describedby="situation-hint"
-              placeholder="A sentence is enough. For example: a machined part went up 6% in March, and the agreement caps increases at 3%."
+              placeholder="The supplier, and what looks wrong. A sentence is enough."
             />
             <p id="situation-hint" className="form-hint">
-              We&apos;ll reply, then ask for the records that would help.
+              We&apos;ll reply, then ask about timing, spend, and records.
             </p>
           </div>
         </div>

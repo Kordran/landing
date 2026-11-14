@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Link from "next/link";
 import type { Metadata } from "next";
 import { llmAlternates } from "@/lib/site";
 
@@ -23,11 +22,6 @@ export default function PrivacyPage() {
       <Header />
       <main id="content" className="site-main">
         <div className="container legal-content">
-          <nav className="label legal-back" aria-label="Site">
-            <Link href="/">Home</Link>
-            <Link href="/approach">Approach</Link>
-            <Link href="/#contact">Contact</Link>
-          </nav>
           <h1>Privacy</h1>
           <p>Last updated: November 13, 2026</p>
           <p>
@@ -39,10 +33,10 @@ export default function PrivacyPage() {
 
           <h2>Information we collect</h2>
           <p>
-            The inquiry form asks for your name, company, and work email, plus
-            a short description of what you are seeing. A supplier name is
-            optional. We ask for agreements, invoices, and other records only
-            after we reply, and only if you choose to continue.
+            The inquiry form asks for your name, company, work email, and a
+            short description of the problem. We ask about the supplier, how
+            long it has been going on, spending, and records only after we
+            reply, and only if you choose to continue.
           </p>
           <p>
             We may also collect basic technical data such as browser type,
