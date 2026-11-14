@@ -16,45 +16,44 @@ import {
 } from "@/lib/example";
 
 /**
- * A trailing total. Each quarter adds $39,000, and the bright cap on the
- * bar is that quarter's marginal amount. The total climbs for two years,
- * green recovery brings the whole amount back down, then yellow savings
- * climb the same way: cost that is not billed.
+ * A trailing total. Each quarter adds $39,000, bright cap on the sum.
+ * Recovery is one green bar, the same height as the peak: the whole
+ * amount, in one go. After that, savings grow once a year.
  */
 
 const LOSS_Q = 8;
-const RECOVER_Q = 8;
-const SAVE_Q = 4;
-const STEPS = LOSS_Q + RECOVER_Q + SAVE_Q;
+const SAVE_YEARS = 3;
+const STEPS = LOSS_Q + 1 + SAVE_YEARS;
 const QUARTER = monthlyDifference * 3;
-const MAX = potentialDiscrepancy;
-const MARGIN = QUARTER / MAX;
+const CEILING = annualPrevented * SAVE_YEARS;
+const QUARTER_SHARE = QUARTER / CEILING;
+const YEAR_SHARE = annualPrevented / CEILING;
 
 type Phase = "loss" | "recover" | "save";
 
 type Bar = {
   phase: Phase;
-  /** Height of the solid aggregate, as a fraction of the two-year total. */
+  /** Aggregate below this period's own add, as a fraction of the ceiling. */
   body: number;
-  /** The quarter's own move, drawn as the bright signal. */
+  /** This period's own add. Zero on the single recovery bar. */
   signal: number;
 };
 
 const bars: Bar[] = [
   ...Array.from({ length: LOSS_Q }, (_, index) => ({
     phase: "loss" as const,
-    body: (QUARTER * index) / MAX,
-    signal: MARGIN,
+    body: (QUARTER * index) / CEILING,
+    signal: QUARTER_SHARE,
   })),
-  ...Array.from({ length: RECOVER_Q }, (_, index) => ({
+  {
     phase: "recover" as const,
-    body: (QUARTER * (LOSS_Q - index - 1)) / MAX,
-    signal: MARGIN,
-  })),
-  ...Array.from({ length: SAVE_Q }, (_, index) => ({
+    body: potentialDiscrepancy / CEILING,
+    signal: 0,
+  },
+  ...Array.from({ length: SAVE_YEARS }, (_, index) => ({
     phase: "save" as const,
-    body: (QUARTER * index) / MAX,
-    signal: MARGIN,
+    body: (annualPrevented * index) / CEILING,
+    signal: YEAR_SHARE,
   })),
 ];
 
@@ -67,7 +66,7 @@ function describe(step: number): {
   move: string;
   story: string;
 } {
-  const move = formatUsd(QUARTER);
+  const added = formatUsd(QUARTER);
   if (step <= LOSS_Q) {
     const total = QUARTER * step;
     return {
@@ -75,44 +74,39 @@ function describe(step: number): {
       headline: formatUsd(total),
       label: "Running total",
       asideLabel: "This quarter",
-      aside: `+${move}`,
-      move: `+${move}`,
+      aside: `+${added}`,
+      move: `+${added}`,
       story:
         step < LOSS_Q
-          ? `Quarter ${step}. ${move} added. The total is ${formatUsd(total)}.`
+          ? `Quarter ${step}. ${added} added. The total is ${formatUsd(total)}.`
           : `Two years. ${formatUsd(total)} billed over the agreement.`,
     };
   }
-  if (step <= LOSS_Q + RECOVER_Q) {
-    const recoveredQuarters = step - LOSS_Q;
-    const recovered = QUARTER * recoveredQuarters;
-    const remaining = MAX - recovered;
-    const done = remaining === 0;
+  if (step === LOSS_Q + 1) {
     return {
       phase: "recover",
-      headline: formatUsd(recovered),
-      label: done ? "Recovered in full" : "Recovered",
-      asideLabel: "Still open",
-      aside: formatUsd(remaining),
-      move: `−${move}`,
-      story: done
-        ? `Recovered. The full ${formatUsd(MAX)} is back.`
-        : `${move} recovered this quarter. ${formatUsd(remaining)} still open.`,
+      headline: formatUsd(potentialDiscrepancy),
+      label: "Recovered",
+      asideLabel: "In one go",
+      aside: formatUsd(potentialDiscrepancy),
+      move: formatUsd(potentialDiscrepancy),
+      story: `Recovered in one go. The full ${formatUsd(potentialDiscrepancy)}.`,
     };
   }
-  const savedQuarters = step - LOSS_Q - RECOVER_Q;
-  const saved = QUARTER * savedQuarters;
+  const year = step - LOSS_Q - 1;
+  const saved = annualPrevented * year;
+  const eachYear = formatUsd(annualPrevented);
   return {
     phase: "save",
     headline: `+${formatUsd(saved)}`,
     label: "Not billed",
-    asideLabel: "Recovered",
-    aside: formatUsd(MAX),
-    move: `+${move}`,
+    asideLabel: "This year",
+    aside: `+${eachYear}`,
+    move: `+${eachYear}`,
     story:
-      saved === annualPrevented
-        ? `A year on, ${formatUsd(annualPrevented)} is not billed. The savings keep adding, a quarter at a time.`
-        : `Quarter ${savedQuarters} after recovery. ${move} not billed. ${formatUsd(saved)} so far.`,
+      year === SAVE_YEARS
+        ? `Year ${year}. ${formatUsd(saved)} is not billed. Each year adds another ${eachYear}, if buying continues.`
+        : `Year ${year}. ${eachYear} not billed. ${formatUsd(saved)} so far.`,
   };
 }
 
@@ -140,8 +134,8 @@ export default function LineProfile() {
       }
       current += 1;
       setStep(current);
-      const pause = current === LOSS_Q || current === LOSS_Q + RECOVER_Q;
-      timer.current = window.setTimeout(tick, pause ? 820 : 240);
+      const pause = current === LOSS_Q || current === LOSS_Q + 1;
+      timer.current = window.setTimeout(tick, pause ? 900 : 240);
     };
     timer.current = window.setTimeout(tick, 240);
   }
@@ -172,10 +166,13 @@ export default function LineProfile() {
 
   function scrub(event: ReactPointerEvent<HTMLDivElement>) {
     const plot = event.currentTarget.querySelector(".trail-plot");
-    const rect = (plot ?? event.currentTarget).getBoundingClientRect();
-    const ratio = (event.clientX - rect.left) / rect.width;
-    const next = Math.min(STEPS, Math.max(1, Math.ceil(ratio * STEPS - 1e-6)));
-    setStep(next);
+    const cols = [...(plot ?? event.currentTarget).querySelectorAll(".trail-col")];
+    const x = event.clientX;
+    let next = 1;
+    cols.forEach((col, index) => {
+      if (x >= col.getBoundingClientRect().left) next = index + 1;
+    });
+    setStep(Math.min(STEPS, Math.max(1, next)));
   }
 
   const view = describe(step);
@@ -205,7 +202,7 @@ export default function LineProfile() {
         aria-valuemax={STEPS}
         aria-valuenow={step}
         aria-valuetext={view.story}
-        aria-label="Quarter in the example"
+        aria-label="Point in the example"
         onPointerDown={(event) => {
           touched.current = true;
           stop();
@@ -237,31 +234,31 @@ export default function LineProfile() {
         }}
       >
         <div className="trail-scale micro" aria-hidden="true">
-          <span>{formatUsdShort(MAX)}</span>
-          <span>{formatUsdShort(annualPrevented)}</span>
-          <span>$0</span>
+          {[CEILING, potentialDiscrepancy, annualPrevented, 0].map((value) => (
+            <span key={value} style={{ "--at": value / CEILING } as CSSProperties}>
+              {value === 0 ? "$0" : formatUsdShort(value)}
+            </span>
+          ))}
         </div>
         <div className="trail-plot" aria-hidden="true">
-          <span className="trail-grid" />
+          <span className="trail-grid" style={{ "--at": potentialDiscrepancy / CEILING } as CSSProperties} />
+          <span className="trail-grid" style={{ "--at": annualPrevented / CEILING } as CSSProperties} />
           {bars.slice(0, LOSS_Q).map((bar, index) => (
             <Column key={`loss-${index}`} bar={bar} on={index < step} now={index === step - 1} />
           ))}
           <i className="trail-gap" />
-          {bars.slice(LOSS_Q, LOSS_Q + RECOVER_Q).map((bar, index) => {
-            const at = LOSS_Q + index;
-            return <Column key={`recover-${index}`} bar={bar} on={at < step} now={at === step - 1} />;
-          })}
+          <Column bar={bars[LOSS_Q]} on={LOSS_Q < step} now={LOSS_Q === step - 1} />
           <i className="trail-gap" />
-          {bars.slice(LOSS_Q + RECOVER_Q).map((bar, index) => {
-            const at = LOSS_Q + RECOVER_Q + index;
+          {bars.slice(LOSS_Q + 1).map((bar, index) => {
+            const at = LOSS_Q + 1 + index;
             return <Column key={`save-${index}`} bar={bar} on={at < step} now={at === step - 1} />;
           })}
         </div>
         <div className="trail-axis micro" aria-hidden="true">
           <span>Year 1</span>
           <span>Year 2</span>
-          <span>Recovery</span>
-          <span>Saved</span>
+          <span>Recovered</span>
+          <span>Each year</span>
         </div>
       </div>
 
@@ -300,10 +297,7 @@ function Column({ bar, on, now }: { bar: Bar; on: boolean; now: boolean }) {
     <div className={["trail-col", on ? "is-on" : "", now ? "is-now" : ""].filter(Boolean).join(" ")}>
       {on ? (
         bar.phase === "recover" ? (
-          <>
-            <span className="trail-ghost is-recover" style={style} />
-            {bar.body > 0 ? <span className="trail-body is-recover" style={style} /> : null}
-          </>
+          <span className="trail-block is-recover" style={{ "--h": bar.body } as CSSProperties} />
         ) : (
           <>
             <span className={`trail-cap is-${bar.phase}`} style={style} />
