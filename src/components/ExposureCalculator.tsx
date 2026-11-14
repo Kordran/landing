@@ -174,7 +174,9 @@ export default function ExposureCalculator() {
           <span>
             {focusAhead ? "If it continues · " : ""}Month {focus + 1}
           </span>
-          <strong className="num">{formatUsd(focusValue)}</strong>
+          <strong className={focusAhead ? "num is-over" : "num"}>
+            {formatUsd(focusValue)}
+          </strong>
         </p>
         <div
           className="calc-chart"
@@ -247,7 +249,9 @@ export default function ExposureCalculator() {
         </div>
         <p className="micro exhibit-state">
           <strong>Overbilled in {months} months</strong>
-          Another {formatUsd(model.perYear)} a year until it is corrected
+          <span className="is-over">
+            Another {formatUsd(model.perYear)} a year until it is corrected
+          </span>
         </p>
       </div>
 

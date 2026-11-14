@@ -6,10 +6,10 @@ rules behind them.
 
 ## The world
 
-One drawn world: warm paper, ink, and a single blue-leaning teal. Records are
-sheets that sit on the paper. Everything dimensional is drawn in the same
-axonometric projection as the hero plate. The footer painting is the only
-place the palette warms up.
+One drawn world: warm paper, ink, and a blue-leaning teal. A brick red and a
+green name money and nothing else. Records are sheets that sit on the paper.
+Everything dimensional is drawn in the same axonometric projection as the hero
+plate. The footer painting is the only place the palette warms up.
 
 ## Color
 
@@ -28,6 +28,12 @@ place the palette warms up.
 | `--teal-mid` | `#2f6079` | Links on light grounds, secondary teal |
 | `--teal-pale` | `#9bb8c6` | Teal on the deep ground, cap edges |
 | `--tint` | `#dde6ea` | Units under observation in the unit grid |
+| `--over` | `#8f2c28` | Money billed over the agreement, on light grounds |
+| `--over-soft` | `#f4ddd9` | The same amount as a fill |
+| `--over-on-deep` | `#f0b4ae` | That red on the deep ground |
+| `--back` | `#14663f` | Money recovered or stopped, on light grounds |
+| `--back-soft` | `#d7eee3` | The same amount as a fill |
+| `--back-on-deep` | `#8ed4b0` | That green on the deep ground |
 | `--deep` | `#0f1f2b` | The one dark band per page and the footer |
 | `--on-deep` | `#f4f2ed` | Headings on deep |
 | `--on-deep-2` | `#b7c5cd` | Body and labels on deep |
@@ -41,11 +47,16 @@ object in `model.ts` must stay in step.
 
 - Teal marks a difference, the primary action, or the brand mark. It is not
   used for decoration, section backgrounds, or large fills.
-- There is no second accent. No red, amber, or green for status.
-- Forest green and bright cyan are outside the palette.
+- Red (`--over`) is only for money billed above the agreement. Green
+  (`--back`) is only for money recovered or stopped. They color the number,
+  and the part of a chart that number names. They are not used for buttons,
+  links, section backgrounds, or the plate.
+- No amber. Bright cyan is outside the palette.
 - The deep ground appears once per page before the close.
 - Text contrast, measured: ink on paper 15.7:1, body 8.0:1, labels 5.2:1
-  (4.7:1 on `--paper-deep`), teal on paper 10.1:1, body on deep 9.5:1.
+  (4.7:1 on `--paper-deep`), teal on paper 10.1:1, body on deep 9.5:1,
+  `--over` on paper 7.3:1, `--back` on paper 6.3:1, `--over-on-deep` on deep
+  9.5:1, `--back-on-deep` on deep 9.8:1.
 
 ## Type
 
@@ -89,12 +100,12 @@ A 4px base. Sections and gutters come from this scale only.
 | `--s-4` | 16px | | `--s-9` | 96px |
 | `--s-5` | 24px | | `--s-10` | 128px |
 
-- `--section: clamp(72px, 9.2vw, 136px)` is the vertical padding of every
+- `--section: clamp(84px, 10vw, 148px)` is the vertical padding of every
   section.
-- `--stack: clamp(40px, 5vw, 72px)` separates a section's heading block from
+- `--stack: clamp(48px, 5.6vw, 84px)` separates a section's heading block from
   its content.
-- Vertical relationships inside a block are fixed pairs: label to heading
-  24px, heading to lede 24px, lede to body 16px.
+- Vertical relationships inside a block: label to heading 24px, heading to
+  lede 32px, lede to body 24px. Body copy is set at 1.65.
 
 ## Layout
 

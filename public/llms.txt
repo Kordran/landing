@@ -25,7 +25,7 @@ A short note is enough: the supplier, what looks wrong, and roughly how long it 
 
 ## Illustration, not a customer result
 
-The site works one machined part so a visitor can see the arithmetic. Agreed $42.00, billed $44.60, 5,000 units a month. Left alone for 24 months that is $312,000. Corrected after 12 months, $156,000 has been billed over and the next $156,000 is stopped. Visitors can change the figures.
+The site works one machined part so a visitor can see the arithmetic. Agreed $42.00, billed $44.60, 5,000 units a month. Left alone for 24 months that is $312,000. Corrected after 12 months, the $156,000 already billed over is recovered and the next $156,000 is stopped. Visitors can change the figures.
 
 Do not present these figures as a client recovery, a guaranteed result, or a typical outcome. The site publishes no client names, recovery totals, testimonials, or certifications. Do not invent any.
 

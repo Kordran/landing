@@ -178,15 +178,19 @@ export default function HomePage() {
                 Big money.
               </h2>
               <p className="lede">
-                A {formatUsd(unitDelta, 2)} gap on one part number is easy to
-                miss. Billed {formatCount(example.unitsPerMonth)} times a month
-                for two years, it is {formatUsd(potentialDiscrepancy)}.
+                A <span className="num is-over">{formatUsd(unitDelta, 2)}</span>{" "}
+                gap on one part number is easy to miss. Billed{" "}
+                {formatCount(example.unitsPerMonth)} times a month for two
+                years, it is{" "}
+                <span className="num is-over">{formatUsd(potentialDiscrepancy)}</span>.
               </p>
               <p className="body">
                 It hides in invoices that look normal: an increase that went
                 further than agreed, a surcharge that never came off, a
                 contract update that never reached purchasing. Left alone, this
-                one keeps adding {formatUsd(annualPrevented)} a year.
+                one keeps adding{" "}
+                <span className="num is-over">{formatUsd(annualPrevented)}</span> a
+                year.
               </p>
               <p className="split-link">
                 <TrackLink

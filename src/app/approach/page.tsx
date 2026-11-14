@@ -453,13 +453,15 @@ export default function ApproachPage() {
               </p>
               <p>
                 The other {formatCount(qualifiedUnits)} units support a{" "}
-                {formatUsd(supportedExposure)} claim, documented invoice by
-                invoice. That is the case we take to the supplier with you.
+                <span className="num is-back">{formatUsd(supportedExposure)}</span>{" "}
+                claim, documented invoice by invoice. That is the case we take
+                to the supplier with you.
               </p>
               <p>
                 The supplier issues a credit, new invoices go back to{" "}
                 {formatUsd(example.agreedUnit, 2)}, and the fix is worth{" "}
-                {formatUsd(annualPrevented)} every year after.
+                <span className="num is-back">{formatUsd(annualPrevented)}</span>{" "}
+                every year after.
               </p>
             </div>
           </div>

@@ -3,10 +3,11 @@
 /*
  * Kordran design system.
  *
- * One drawn world: warm paper, ink, and a single blue-leaning teal. Records
- * are sheets that sit on the paper. Everything dimensional is drawn in the
- * same axonometric projection as the hero plate. The footer painting is the
- * only place the palette warms up.
+ * One drawn world: warm paper, ink, and a blue-leaning teal. A brick red and
+ * a green are used only to name money: red for what was billed over, green
+ * for what came back or was stopped. Records are sheets that sit on the
+ * paper. Everything dimensional is drawn in the same axonometric projection
+ * as the hero plate. The footer painting is the only place the palette warms up.
  *
  * Tokens first, then base, layout, components, sections, motion.
  */
@@ -26,6 +27,14 @@
   --teal-mid: #2f6079;
   --teal-pale: #9bb8c6;
   --tint: #dde6ea;
+  /* Signal colors. Numbers only: over is money billed above the agreement,
+     back is money recovered or stopped. */
+  --over: #8f2c28;
+  --over-soft: #f4ddd9;
+  --over-on-deep: #f0b4ae;
+  --back: #14663f;
+  --back-soft: #d7eee3;
+  --back-on-deep: #8ed4b0;
   --deep: #0f1f2b;
   --on-deep: #f4f2ed;
   --on-deep-2: #b7c5cd;
@@ -62,8 +71,8 @@
   --s-8: 64px;
   --s-9: 96px;
   --s-10: 128px;
-  --section: clamp(72px, 9.2vw, 136px);
-  --stack: clamp(40px, 5vw, 72px);
+  --section: clamp(84px, 10vw, 148px);
+  --stack: clamp(48px, 5.6vw, 84px);
 
   /* Layout */
   --page: 1312px;
@@ -116,7 +125,7 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   font-size: var(--text-body);
-  line-height: 1.6;
+  line-height: 1.65;
   font-weight: 400;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -277,6 +286,26 @@ select {
   white-space: nowrap;
 }
 
+.is-over {
+  color: var(--over);
+}
+
+.is-back {
+  color: var(--back);
+}
+
+.section-deep .is-over {
+  color: var(--over-on-deep);
+}
+
+.section-deep .is-back {
+  color: var(--back-on-deep);
+}
+
+.section-deep .micro {
+  color: var(--on-deep-2);
+}
+
 .label {
   display: flex;
   align-items: center;
@@ -347,7 +376,7 @@ select {
   max-width: 34em;
   color: var(--ink-2);
   font-size: var(--text-lede);
-  line-height: 1.5;
+  line-height: 1.55;
   text-wrap: pretty;
 }
 
@@ -369,17 +398,17 @@ select {
 
 .heading + .lede,
 .display + .lede {
-  margin-top: var(--s-5);
+  margin-top: var(--s-6);
 }
 
 .lede + .body {
-  margin-top: var(--s-4);
+  margin-top: var(--s-5);
 }
 
 /* Heading on the left, supporting copy on the right, baselines shared. */
 .head-split {
   display: grid;
-  gap: var(--s-5) var(--gutter);
+  gap: var(--s-6) var(--gutter);
 }
 
 @media (min-width: 900px) {
@@ -683,16 +712,16 @@ select {
 }
 
 .hero-body .display-hero {
-  margin-top: var(--s-5);
+  margin-top: var(--s-6);
 }
 
 .hero-body .lede {
   max-width: 30em;
-  margin-top: var(--s-5);
+  margin-top: var(--s-6);
 }
 
 .hero-body .cta-row {
-  margin-top: var(--s-6);
+  margin-top: var(--s-7);
 }
 
 .plate {
@@ -929,7 +958,7 @@ select {
   position: relative;
   z-index: 2;
   order: 3;
-  margin-top: var(--s-6);
+  margin-top: var(--s-7);
 }
 
 .hero-rail {
@@ -1228,7 +1257,7 @@ select {
 
 .exhibit-pair > div {
   min-width: 0;
-  padding: var(--s-5) var(--s-5) var(--s-6);
+  padding: var(--s-6) var(--s-6) var(--s-7);
 }
 
 .exhibit-pair > div + div {
@@ -1263,7 +1292,7 @@ select {
 .dimension-line {
   position: relative;
   height: 9px;
-  border-inline: 1px solid var(--teal);
+  border-inline: 1px solid var(--over);
 }
 
 .dimension-line::before {
@@ -1273,12 +1302,12 @@ select {
   right: 0;
   left: 0;
   height: 1px;
-  background: var(--teal);
+  background: var(--over);
   transform-origin: left center;
 }
 
 .dimension .figure-num {
-  color: var(--teal);
+  color: var(--over);
   font-size: 1.625rem;
 }
 
@@ -1328,12 +1357,16 @@ select {
 }
 
 .calc-readout strong {
-  color: var(--teal);
+  color: var(--ink);
   font-family: var(--sans);
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: -0.01em;
   text-transform: none;
+}
+
+.calc-readout strong.is-over {
+  color: var(--over);
 }
 
 .calc-chart {
@@ -1389,7 +1422,7 @@ select {
 
 .calc-bar.is-ahead {
   background: transparent;
-  box-shadow: inset 0 0 0 1px var(--teal-pale);
+  box-shadow: inset 0 0 0 1px var(--over);
 }
 
 .calc-bar.is-hover {
@@ -1397,7 +1430,7 @@ select {
 }
 
 .calc-bar.is-ahead.is-hover {
-  background: var(--tint);
+  background: var(--over-soft);
 }
 
 .calc-split {
@@ -1430,12 +1463,17 @@ select {
 }
 
 .calc-sum {
-  color: var(--teal);
+  color: var(--over);
+}
+
+.exhibit-state .is-over {
+  display: block;
+  margin-top: var(--s-2);
 }
 
 .calc-controls {
   display: grid;
-  gap: var(--s-5) var(--gutter);
+  gap: var(--s-6) var(--gutter);
   padding: var(--s-5);
   border-top: 1px solid var(--line);
   background: var(--paper);
@@ -1446,6 +1484,10 @@ select {
   align-items: baseline;
   justify-content: space-between;
   gap: var(--s-3);
+}
+
+.calc-slider:first-child .calc-value {
+  color: var(--over);
 }
 
 .calc-value {
@@ -1583,8 +1625,8 @@ details[open] > summary .toggle::after {
 .focus-item {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--s-5);
-  padding: var(--s-6) 0;
+  gap: var(--s-6);
+  padding: var(--s-7) 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -1609,7 +1651,7 @@ details[open] > summary .toggle::after {
   display: flex;
   align-items: center;
   gap: var(--s-2);
-  color: var(--teal);
+  color: var(--over);
   transition: color var(--t-state) var(--ease);
 }
 
@@ -1620,7 +1662,7 @@ details[open] > summary .toggle::after {
 }
 
 .finding-loop[data-phase="resolved"] .finding-state {
-  color: var(--ink-3);
+  color: var(--back);
 }
 
 .finding-loop[data-phase="resolved"] .finding-state i {
@@ -1696,10 +1738,10 @@ details[open] > summary .toggle::after {
 
 .track-phase p:last-child {
   max-width: 30em;
-  margin-top: var(--s-3);
+  margin-top: var(--s-4);
   font-size: var(--text-title);
   font-weight: 500;
-  line-height: 1.25;
+  line-height: 1.35;
   letter-spacing: -0.02em;
 }
 
@@ -1733,17 +1775,25 @@ details[open] > summary .toggle::after {
   margin-top: var(--s-8);
 }
 
+.ledger-story {
+  max-width: 40em;
+  margin-top: var(--s-6);
+  color: var(--on-deep);
+  font-size: var(--text-lede);
+  line-height: 1.55;
+}
+
 .ledger-figures {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--s-4) var(--gutter);
-  margin-top: var(--s-5);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-5) var(--gutter);
+  margin-top: var(--s-6);
 }
 
 .ledger-figures p {
   display: grid;
-  gap: var(--s-1);
-  padding-top: var(--s-3);
+  gap: var(--s-2);
+  padding-top: var(--s-4);
   border-top: 1px solid var(--line-deep);
 }
 
@@ -1752,31 +1802,35 @@ details[open] > summary .toggle::after {
   font-weight: 500;
   font-stretch: 92%;
   letter-spacing: -0.03em;
-  line-height: 1;
+  line-height: 1.1;
 }
 
-.ledger-figures .is-stopped strong {
-  color: var(--teal-pale);
+.ledger-figures .is-back[data-on="false"] {
+  color: var(--on-deep-2);
 }
 
 .ledger-chart {
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-columns: 56px minmax(0, 1fr);
   gap: var(--s-3);
-  align-items: stretch;
-  margin-top: var(--s-5);
+  align-items: start;
+  margin-top: var(--s-6);
+}
+
+.ledger-scale,
+.ledger-plot {
+  height: clamp(220px, 32vw, 320px);
 }
 
 .ledger-scale {
   position: relative;
-  height: clamp(140px, 18vw, 200px);
   color: var(--on-deep-2);
 }
 
 .ledger-scale span {
   position: absolute;
   right: 0;
-  bottom: calc(var(--at) * (100% - 14%));
+  bottom: calc(var(--at) * 86%);
   transform: translateY(50%);
   white-space: nowrap;
 }
@@ -1785,11 +1839,20 @@ details[open] > summary .toggle::after {
   transform: translateY(0);
 }
 
+.ledger-field {
+  min-width: 0;
+}
+
 .ledger-plot {
-  height: clamp(140px, 18vw, 200px);
+  position: relative;
   border-bottom: 1px solid var(--line-deep);
   cursor: crosshair;
   touch-action: pan-y;
+}
+
+.ledger-plot:focus-visible {
+  outline: 2px solid var(--teal-pale);
+  outline-offset: 4px;
 }
 
 .ledger-plot svg {
@@ -1799,55 +1862,116 @@ details[open] > summary .toggle::after {
   overflow: visible;
 }
 
-.ledger-grid {
-  stroke: var(--line-deep);
-  stroke-dasharray: 2 3;
+.ledger-rise {
+  fill: #8d4541;
 }
 
-.ledger-area {
-  fill: color-mix(in srgb, var(--teal-pale) 28%, transparent);
+.ledger-recovered {
+  fill: #146845;
 }
 
-.ledger-billed {
-  fill: none;
-  stroke: var(--teal-pale);
-  stroke-width: 1.5;
-  vector-effect: non-scaling-stroke;
+.ledger-stopped {
+  fill: #7dcea8;
 }
 
-.ledger-alone {
-  fill: none;
-  stroke: var(--on-deep-2);
-  stroke-width: 1.25;
-  stroke-dasharray: 3 3;
-  vector-effect: non-scaling-stroke;
-}
-
-.ledger-mark {
+.ledger-level {
   stroke: var(--on-deep);
-  stroke-width: 1;
+  stroke-width: 1.25;
   vector-effect: non-scaling-stroke;
+}
+
+.ledger-climb,
+.ledger-ahead,
+.ledger-ahead-halo,
+.ledger-drop,
+.ledger-flat,
+.ledger-cursor {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.ledger-ahead-halo {
+  stroke: var(--deep);
+  stroke-width: 5;
+}
+
+.ledger-climb {
+  stroke: var(--over-on-deep);
+  stroke-width: 2;
+}
+
+.ledger-ahead {
+  stroke: var(--over-on-deep);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+
+.ledger-drop,
+.ledger-flat {
+  stroke: var(--back-on-deep);
+  stroke-width: 2.5;
 }
 
 .ledger-cursor {
   stroke: var(--on-deep);
   stroke-width: 1;
-  vector-effect: non-scaling-stroke;
+}
+
+.ledger-dot {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4px 0 0 -4px;
+  background: var(--deep);
+  pointer-events: none;
+}
+
+.ledger-dot.is-over {
+  box-shadow: inset 0 0 0 2px var(--over-on-deep);
+}
+
+.ledger-dot.is-back {
+  box-shadow: inset 0 0 0 2px var(--back-on-deep);
+}
+
+.ledger-axis {
+  position: relative;
+  height: 1.6em;
+  margin-top: var(--s-3);
+  color: var(--on-deep-2);
+}
+
+.ledger-axis span {
+  position: absolute;
+  top: 0;
+}
+
+.ledger-axis span:first-child {
+  left: 0;
+}
+
+.ledger-axis span:nth-child(2) {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ledger-axis span:last-child {
+  right: 0;
 }
 
 .ledger-phases {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--s-2) var(--gutter);
-  margin-top: var(--s-4);
+  gap: var(--s-4) var(--gutter);
+  margin-top: var(--s-6);
 }
 
 .ledger-phases button {
   display: grid;
-  gap: 2px;
+  gap: var(--s-1);
   justify-items: start;
   min-height: 48px;
-  padding: var(--s-2) 0;
+  padding: var(--s-3) 0;
   background: none;
   border: none;
   border-top: 1px solid var(--line-deep);
@@ -1860,11 +1984,27 @@ details[open] > summary .toggle::after {
   font-size: 0.9375rem;
   font-weight: 500;
   letter-spacing: -0.01em;
+  line-height: 1.35;
 }
 
 .ledger-phases button[aria-pressed="true"] {
-  border-top-color: var(--teal-pale);
   color: var(--on-deep);
+}
+
+.ledger-phases button[aria-pressed="true"][data-tone="over"] {
+  border-top-color: var(--over-on-deep);
+}
+
+.ledger-phases button[aria-pressed="true"][data-tone="back"] {
+  border-top-color: var(--back-on-deep);
+}
+
+.ledger-phases button[aria-pressed="true"][data-tone="over"] span:last-child {
+  color: var(--over-on-deep);
+}
+
+.ledger-phases button[aria-pressed="true"][data-tone="back"] span:last-child {
+  color: var(--back-on-deep);
 }
 
 .ledger-phases button:hover {
@@ -1874,8 +2014,8 @@ details[open] > summary .toggle::after {
 .ledger-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-2) var(--s-5);
-  margin-top: var(--s-4);
+  gap: var(--s-3) var(--s-5);
+  margin-top: var(--s-5);
   color: var(--on-deep-2);
 }
 
@@ -1886,20 +2026,32 @@ details[open] > summary .toggle::after {
 }
 
 .ledger-legend i {
+  flex: none;
   width: 18px;
-  height: 2px;
+  height: 10px;
 }
 
-.ledger-legend .is-billed {
-  background: var(--teal-pale);
+.ledger-legend .is-rise {
+  background: #8d4541;
 }
 
-.ledger-legend .is-alone {
-  background: repeating-linear-gradient(
-    to right,
-    var(--on-deep-2) 0 3px,
-    transparent 3px 6px
-  );
+.ledger-legend .is-ahead {
+  height: 0;
+  border-top: 2px dashed var(--over-on-deep);
+}
+
+.ledger-legend .is-recovered {
+  background: #146845;
+}
+
+.ledger-legend .is-stopped {
+  background: #7dcea8;
+}
+
+@media (min-width: 720px) {
+  .ledger-figures {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .profile-chart {
@@ -2075,8 +2227,8 @@ details[open] > summary .toggle::after {
 .track-steps {
   position: relative;
   display: grid;
-  gap: var(--s-6);
-  margin-top: var(--s-7);
+  gap: var(--s-7);
+  margin-top: var(--s-8);
 }
 
 .track-step {
@@ -2106,8 +2258,8 @@ details[open] > summary .toggle::after {
 }
 
 .track-step .body {
-  margin-top: var(--s-2);
-  max-width: 24em;
+  margin-top: var(--s-3);
+  max-width: 26em;
 }
 
 @media (min-width: 900px) {
@@ -2205,8 +2357,8 @@ details[open] > summary .toggle::after {
   align-items: center;
   justify-content: space-between;
   gap: var(--s-5);
-  min-height: 68px;
-  padding: var(--s-4) 0;
+  min-height: 76px;
+  padding: var(--s-5) 0;
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.3;
@@ -2230,7 +2382,7 @@ details[open] > summary .toggle::after {
 
 .faq-item p {
   max-width: 40em;
-  padding: 0 var(--s-7) var(--s-5) 0;
+  padding: 0 var(--s-7) var(--s-6) 0;
   color: var(--ink-2);
 }
 
@@ -2267,9 +2419,9 @@ details[open] > summary .toggle::after {
 .next-steps li {
   display: grid;
   grid-template-columns: 40px minmax(0, 1fr);
-  gap: var(--s-3);
+  gap: var(--s-4);
   align-items: baseline;
-  padding: var(--s-4) 0;
+  padding: var(--s-5) 0;
   border-bottom: 1px solid var(--line);
   color: var(--ink-2);
 }
@@ -2386,7 +2538,7 @@ details[open] > summary .toggle::after {
 
 .form-grid {
   display: grid;
-  gap: var(--s-5);
+  gap: var(--s-6);
 }
 
 .form-field textarea::placeholder {
@@ -3219,8 +3371,8 @@ details[open] > summary .toggle::after {
 }
 
 .is-found .flow-track i {
-  background: var(--tint);
-  box-shadow: inset 0 0 0 1px var(--teal-mid);
+  background: var(--over-soft);
+  box-shadow: inset 0 0 0 1px var(--over);
 }
 
 .is-out .flow-track i {
@@ -3236,46 +3388,55 @@ details[open] > summary .toggle::after {
   background: var(--teal-mid);
 }
 
-/* Recovered stands up off the sheet, like a raised tile. */
 .is-recovered .flow-track i {
-  background: var(--teal);
-  box-shadow:
-    inset 0 2px 0 var(--solid-teal-top),
-    4px 4px 0 var(--solid-teal-shade);
-  transform: translate(-2px, -2px);
+  background: var(--back);
 }
 
 .is-ahead .flow-track i {
   background: repeating-linear-gradient(
     90deg,
-    var(--tint) 0 10px,
+    var(--back-soft) 0 10px,
     transparent 10px 12px
   );
-  box-shadow: inset 0 0 0 1px var(--teal);
+  box-shadow: inset 0 0 0 1px var(--back);
 }
 
-.flow-step:hover .flow-track i {
+.flow-step.is-found:hover .flow-track i {
+  box-shadow: inset 0 0 0 2px var(--over);
+}
+
+.flow-step.is-out:hover .flow-track i {
+  box-shadow: inset 0 0 0 2px var(--ink-3);
+}
+
+.flow-step.is-proven:hover .flow-track i {
   box-shadow: inset 0 0 0 2px var(--teal);
 }
 
-.flow-step.is-recovered:hover .flow-track i {
-  box-shadow:
-    inset 0 2px 0 var(--solid-teal-top),
-    6px 6px 0 var(--solid-teal-shade);
-  transform: translate(-3px, -3px);
+.flow-step.is-recovered:hover .flow-track i,
+.flow-step.is-ahead:hover .flow-track i {
+  box-shadow: inset 0 0 0 2px var(--back);
 }
 
 .flow-figure .figure-num {
   font-size: clamp(1.75rem, 1.2rem + 1.2vw, 2.375rem);
 }
 
+.is-found .figure-num {
+  color: var(--over);
+}
+
 .is-out .figure-num {
   color: var(--ink-3);
 }
 
+.is-proven .figure-num {
+  color: var(--teal);
+}
+
 .is-recovered .figure-num,
 .is-ahead .figure-num {
-  color: var(--teal);
+  color: var(--back);
 }
 
 .flow-figure .state-math {
@@ -3504,10 +3665,6 @@ details[open] > summary .toggle::after {
   }
 
   /* Months stack up, in order, the first time the calculator is seen. */
-  .calc:not([data-in]) .calc-bar {
-    transform: scaleY(0);
-  }
-
   .calc[data-in] .calc-bar {
     animation: bar-in 520ms var(--ease) backwards;
     animation-delay: calc(var(--i, 0) * 28ms);

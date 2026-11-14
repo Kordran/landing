@@ -58,6 +58,8 @@ The site illustrates the arithmetic with one machined part. It is an illustratio
 - After 20,000 units on separate terms are set aside: $260,000 recovered in the illustration
 - Corrected price going forward: $156,000 a year
 
+The homepage chart tells that illustration as a correction at month 12. The overbilling climbs by $13,000 a month. Left alone it reaches $312,000. The credit returns the $156,000 already billed, and the corrected price stops the next $156,000. The approach page follows all 24 months of the same invoices: $312,000 found, $52,000 set aside, $260,000 recovered, then $156,000 a year prevented.
+
 ## Pages
 
 - Homepage: https://kordran.com/
