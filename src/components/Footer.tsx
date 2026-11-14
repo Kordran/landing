@@ -14,17 +14,17 @@ export default function Footer({ plain = false }: { plain?: boolean }) {
           <div className="footer-brand">
             <Logo variant="full" surface="dark" className="logo" />
             <p>
-              Finding supplier overbilling, and helping pursue the correction,
-              for industrial manufacturers.
+              Industrial commercial execution for manufacturers. Defined
+              problems, taken through to a verified result.
             </p>
           </div>
 
           <nav className="footer-col footer-site" aria-label="Footer">
             <p className="micro">Site</p>
-            <Link href="/">Home</Link>
+            <Link href="/#work">What we do</Link>
             <Link href="/approach">Approach</Link>
-            <Link href="/#questions">Questions</Link>
-            <Link href="/#contact">Contact</Link>
+            <Link href="/#who">Who we serve</Link>
+            <Link href="/#contact">Discuss an issue</Link>
           </nav>
 
           <div className="footer-col footer-reach">

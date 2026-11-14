@@ -11,17 +11,17 @@ export const linkedInUrl = "https://www.linkedin.com/company/kordran";
 export const xUrl = "https://x.com/kordran_";
 
 export const siteDescription =
-  "Kordran finds supplier overbilling for industrial manufacturers, builds the supported case, and helps pursue a credit or a corrected price. Start with one supplier.";
+  "Kordran helps industrial manufacturers resolve supplier pricing, commercial disputes, and cost changes through evidence-led execution.";
 
 export const ogDescription = siteDescription;
 
 export const defaultTitle =
-  "Find Supplier Overbilling | Kordran";
+  "Industrial Commercial Execution for Manufacturers | Kordran";
 
-export const approachTitle = "How Kordran Investigates Supplier Overbilling";
+export const approachTitle = "How Kordran Works";
 
 export const approachDescription =
-  "How Kordran turns supplier records into a supported claim, and helps pursue a credit or a corrected price. What to send, how the work runs, and what stays with your team.";
+  "How Kordran takes a defined commercial issue from the facts to an executed, verified result. The customer keeps the supplier relationship and the final decision.";
 
 /** Plain-text summaries for AI crawlers. Kept on every page. */
 export const llmAlternates = {

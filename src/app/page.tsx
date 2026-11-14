@@ -2,24 +2,12 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import CloseScene from "@/components/CloseScene";
 import ContactForm from "@/components/ContactForm";
-import ExampleSeen from "@/components/ExampleSeen";
-import ExposureCalculator from "@/components/ExposureCalculator";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import TrackLink from "@/components/TrackLink";
-import FindingLoop from "@/components/figures/FindingLoop";
-import LineProfile from "@/components/figures/LineProfile";
 import PlateArt from "@/components/plate/PlateArt";
 import PlateField from "@/components/plate/PlateField";
 import { plateDrawing } from "@/components/plate/model";
-import {
-  annualPrevented,
-  example,
-  formatCount,
-  formatUsd,
-  potentialDiscrepancy,
-  unitDelta,
-} from "@/lib/example";
 import { questions } from "@/lib/faq";
 import { getHomeJsonLd } from "@/lib/jsonld";
 import {
@@ -47,60 +35,61 @@ export const metadata: Metadata = {
 
 const facts = [
   { term: "Who it is for", detail: "Industrial manufacturers" },
-  { term: "What we check", detail: "Agreements, orders, invoices" },
-  { term: "What you get", detail: "A supported case" },
-  { term: "Where to start", detail: "One supplier" },
+  { term: "Where we start", detail: "One defined issue" },
+  { term: "What you keep", detail: "The commercial decision" },
+  { term: "What we do", detail: "Investigate and execute" },
 ];
 
-const focus = [
+const work = [
   {
-    index: "A",
-    kind: "compliance",
-    title: "Prices above agreement",
-    body: "Invoices billed above the agreed price, line by line, often for months after a contract was signed.",
-    records: "Agreement · Invoice",
-    found: "Billed above agreement",
+    index: "01",
+    title: "Supplier pricing and commercial terms",
+    body: "Price increases, cost pass-throughs, surcharges, contract amendments, and negotiated terms that need investigation, a commercial response, or implementation.",
   },
   {
-    index: "B",
-    kind: "increase",
-    title: "Increases beyond terms",
-    body: "Price increases that went further, or started sooner, than the contract allows.",
-    records: "Price notice · Contract terms",
-    found: "Increase beyond the cap",
+    index: "02",
+    title: "Commercial disputes and exceptions",
+    body: "Unexpected charges, disputed invoices, supplier claims, and cost responsibilities that need a clear economic case and a coordinated resolution.",
   },
   {
-    index: "C",
-    kind: "surcharge",
-    title: "Surcharges that stayed",
-    body: "Fuel, material, and freight charges that kept coming after the conditions behind them ended.",
-    records: "Surcharge terms · Billing history",
-    found: "Charge still billed",
+    index: "03",
+    title: "Engineering-driven cost changes",
+    body: "Supplier pricing and commercial consequences from design revisions, changing specifications, production ramps, and manufacturing changes.",
   },
-] as const;
+  {
+    index: "04",
+    title: "Commercial implementation",
+    body: "Approved changes to supplier pricing, sourcing arrangements, and commercial processes that have to move through purchasing, operations, and finance.",
+  },
+];
 
 const steps = [
   {
     index: "01",
-    title: "Verify",
-    body: "We reconcile the records and put a number on what was overbilled.",
+    title: "Establish",
+    body: "Define the issue, the decision required, the economic exposure, and the people responsible.",
   },
   {
     index: "02",
-    title: "Resolve",
-    body: "We build the case and help pursue a supported credit or pricing correction.",
+    title: "Investigate",
+    body: "Reconcile agreements, transactions, operational facts, and commercial assumptions. Establish what the evidence supports.",
   },
   {
     index: "03",
-    title: "Prevent",
-    body: "We help fix the cause so the next invoice can be right.",
+    title: "Execute",
+    body: "Coordinate stakeholders, prepare the commercial response, support supplier discussions, and drive authorized actions through implementation.",
+  },
+  {
+    index: "04",
+    title: "Verify",
+    body: "Confirm what changed, what value was realized, and what has to stay in place for the result to hold.",
   },
 ];
 
 const next = [
-  "Tell us about the supplier and what you're seeing.",
-  "We review it and come back to you with what we'd check and what it could be worth.",
-  "If you want to go further, we reconcile, build the case, and help pursue a correction.",
+  "Tell us the issue, what needs to change, and when a decision is needed.",
+  "We reply with the scope, the records required, and whether the problem fits.",
+  "If you want to go further, we propose a defined engagement with clear responsibilities.",
 ];
 
 export default function HomePage() {
@@ -118,16 +107,19 @@ export default function HomePage() {
           <div className="container hero-body">
             <p className="label">
               <span className="mark" aria-hidden="true" />
-              Industrial cost intelligence + execution
+              Industrial commercial execution
             </p>
             <h1 id="hero-heading" className="display-hero">
-              Supplier costs.
+              Complex commercial problems.
               <br />
-              Verified and resolved.
+              Taken through resolution.
             </h1>
             <p className="lede">
-              We help industrial manufacturers find where a supplier billed
-              more than was agreed, build the case, and pursue a correction.
+              Kordran helps industrial manufacturers resolve supplier pricing
+              issues, execute commercial changes, and protect the economics of
+              production. We establish the facts, coordinate the people
+              involved, and drive approved actions through to measurable
+              results.
             </p>
             <div className="cta-row">
               <TrackLink
@@ -136,7 +128,7 @@ export default function HomePage() {
                 event="cta_click"
                 eventParams={{ location: "hero", target: "contact" }}
               >
-                Send us a supplier issue
+                Discuss a commercial issue
                 <span className="btn-glyph" aria-hidden="true" />
               </TrackLink>
               <TrackLink
@@ -145,7 +137,7 @@ export default function HomePage() {
                 event="cta_click"
                 eventParams={{ location: "hero", target: "approach" }}
               >
-                See how it works
+                How we work
               </TrackLink>
             </div>
           </div>
@@ -173,100 +165,93 @@ export default function HomePage() {
                 The problem
               </p>
               <h2 id="problem-heading" className="heading">
-                Small differences.
-                <br />
-                Big money.
+                Important commercial issues rarely belong to one department.
               </h2>
               <p className="lede">
-                A <span className="num is-over">{formatUsd(unitDelta, 2)}</span>{" "}
-                gap on one part number is easy to miss. Billed{" "}
-                {formatCount(example.unitsPerMonth)} times a month for two
-                years, it is{" "}
-                <span className="num is-over">{formatUsd(potentialDiscrepancy)}</span>.
+                A supplier changes its pricing. An engineering revision changes
+                what a part should cost. A surcharge outlives its purpose. A
+                commercial agreement gets negotiated and never fully
+                implemented.
               </p>
               <p className="body">
-                It hides in invoices that look normal: an increase that went
-                further than agreed, a surcharge that never came off, a
-                contract update that never reached purchasing. Left alone, this
-                one keeps adding{" "}
-                <span className="num is-over">{formatUsd(annualPrevented)}</span> a
-                year. That yearly figure is what continues, not cash already
-                recovered.
+                Finance sees the expense. Procurement manages the supplier.
+                Engineering understands the change. Operations deals with the
+                consequences. Each function has part of the picture. The
+                commercial problem stays unresolved.
               </p>
-              <p className="split-link">
-                <TrackLink
-                  href="/#contact"
-                  className="text-action"
-                  event="cta_click"
-                  eventParams={{ location: "problem", target: "contact" }}
-                >
-                  Send us what you&apos;re seeing
-                </TrackLink>
+              <p className="body">
+                Kordran connects the evidence, the decisions, and the execution.
               </p>
             </Reveal>
             <Reveal className="split-figure" delay={80}>
-              <div id="example" className="anchor" tabIndex={-1} />
-              <ExampleSeen>
-                <ExposureCalculator />
-              </ExampleSeen>
+              <div className="problem-aside">
+                <p className="label">
+                  <span className="mark" aria-hidden="true" />
+                  A typical start
+                </p>
+                <ul className="problem-list">
+                  <li>A supplier announced a price increase.</li>
+                  <li>An engineering revision changed what a part should cost.</li>
+                  <li>Negotiated terms never reached purchasing.</li>
+                  <li>An unexpected charge has no clear owner.</li>
+                </ul>
+                <p className="split-link">
+                  <TrackLink
+                    href="/#contact"
+                    className="text-action"
+                    event="cta_click"
+                    eventParams={{ location: "problem", target: "contact" }}
+                  >
+                    Discuss a commercial issue
+                  </TrackLink>
+                </p>
+              </div>
             </Reveal>
           </div>
         </section>
 
         <section
-          id="focus"
+          id="work"
           className="section section-sheet"
-          aria-labelledby="focus-heading"
+          aria-labelledby="work-heading"
         >
           <div className="container">
             <Reveal className="head-split">
               <div>
                 <p className="label">
                   <span className="label-index">02</span>
-                  What we examine
+                  What we do
                 </p>
-                <h2 id="focus-heading" className="heading">
-                  Where overbilling hides.
+                <h2 id="work-heading" className="heading">
+                  Commercial problems we take on.
                 </h2>
               </div>
               <p className="lede">
-                We check what you were billed against what you agreed to, on
-                every invoice, and show exactly where the two part ways. Then
-                we bring them back together.
+                We start with a defined issue, not an enterprise-wide review.
+                Supplier pricing is where most engagements begin. The job is
+                the same either way: establish the economics, coordinate the
+                response, and carry the approved action through.
               </p>
             </Reveal>
-            <Reveal className="focus-grid" delay={80}>
-              {focus.map((item) => (
-                <article className="focus-item" key={item.title}>
-                  <div className="focus-figure">
-                    <FindingLoop
-                      kind={item.kind}
-                      found={item.found}
-                      resolved="Resolved"
-                    />
-                  </div>
-                  <div>
-                    <p className="label">
-                      <span className="label-index">{item.index}</span>
-                    </p>
-                    <h3 className="title">{item.title}</h3>
-                    <p className="body">{item.body}</p>
-                    <dl className="focus-records micro">
-                      <dt>We compare</dt>
-                      <dd>{item.records}</dd>
-                    </dl>
-                  </div>
+            <div className="work-grid">
+              {work.map((item) => (
+                <article className="work-item" key={item.title}>
+                  <p className="label">
+                    <span className="label-index">{item.index}</span>
+                  </p>
+                  <h3 className="title">{item.title}</h3>
+                  <p className="body">{item.body}</p>
                 </article>
               ))}
-            </Reveal>
+            </div>
             <p className="section-link">
               <TrackLink
-                href="/approach#workflow"
+                href="/supplier-pricing"
                 className="text-action"
                 event="cta_click"
-                eventParams={{ location: "focus", target: "workflow" }}
+                eventParams={{ location: "work", target: "supplier-pricing" }}
               >
-                See how we investigate
+                See a supplier pricing illustration
               </TrackLink>
             </p>
           </div>
@@ -277,56 +262,34 @@ export default function HomePage() {
           className="section section-deep"
           aria-labelledby="value-heading"
         >
-          <div id="approach" className="anchor" />
-          <div id="diagnostic" className="anchor" />
           <div className="container">
             <Reveal className="head-split">
               <div>
                 <p className="label">
                   <span className="label-index">03</span>
-                  Intelligence + execution
+                  How we work
                 </p>
                 <h2 id="value-heading" className="display">
-                  The finding is only the beginning.
+                  From commercial issue to verified result.
                 </h2>
               </div>
               <p className="lede">
-                Most reviews stop at a report. We stay through the case, the
-                supplier conversation, and a correction that can keep it from
-                coming back.
+                The work does not end at the recommendation. We stay through
+                the decision, the supplier conversation, and the change that
+                has to show up in the next transaction.
               </p>
             </Reveal>
-
-            <Reveal className="track" delay={80}>
-              <div className="track-phases">
-                <div className="track-phase">
-                  <p className="label">Intelligence</p>
-                  <p>
-                    Find it. Reconcile the records. Put a number on it.
+            <ol className="track-steps is-four">
+              {steps.map((step) => (
+                <li className="track-step" key={step.index}>
+                  <p className="label">
+                    <span className="label-index">{step.index}</span>
                   </p>
-                </div>
-                <div className="track-phase is-execution">
-                  <p className="label">Execution</p>
-                  <p>
-                    Work the issue with your team and the supplier, and help
-                    pursue a supported credit or pricing correction.
-                  </p>
-                </div>
-              </div>
-              <LineProfile />
-              <ol className="track-steps">
-                {steps.map((step) => (
-                  <li className="track-step" key={step.index}>
-                    <p className="label">
-                      <span className="label-index">{step.index}</span>
-                    </p>
-                    <h3 className="title">{step.title}</h3>
-                    <p className="body">{step.body}</p>
-                  </li>
-                ))}
-              </ol>
-            </Reveal>
-
+                  <h3 className="title">{step.title}</h3>
+                  <p className="body">{step.body}</p>
+                </li>
+              ))}
+            </ol>
             <p className="section-link">
               <TrackLink
                 href="/approach"
@@ -334,35 +297,37 @@ export default function HomePage() {
                 event="cta_click"
                 eventParams={{ location: "value", target: "approach" }}
               >
-                Read the full approach
+                Read how an engagement runs
               </TrackLink>
             </p>
           </div>
         </section>
 
-        <section
-          id="purpose"
-          className="section"
-          aria-labelledby="purpose-heading"
-        >
+        <section id="who" className="section" aria-labelledby="who-heading">
           <div className="container purpose-grid">
             <p className="label">
               <span className="label-index">04</span>
-              Purpose
+              Who we serve
             </p>
             <Reveal className="purpose-statement">
-              <h2 id="purpose-heading" className="display">
-                Better economics for physical industry.
+              <h2 id="who-heading" className="display">
+                Built for companies that make physical things.
               </h2>
               <p className="muted">
-                Industrial companies depend on complex supplier relationships.
-                We believe the economics behind those relationships should be
-                understood, verified, and acted upon.
+                Industrial manufacturers and complex hardware businesses, where
+                supplier economics, engineering requirements, and operations
+                meet. We work alongside finance, procurement, supply chain, and
+                operational leadership when a commercially important issue
+                needs someone to carry it.
               </p>
             </Reveal>
             <div className="purpose-close">
               <div className="ruler" aria-hidden="true" />
-              <p>Understand the cost. Act on the evidence.</p>
+              <p>
+                Your team keeps the supplier relationship and the final
+                commercial decision. Kordran provides the investigation, the
+                coordination, and the follow-through.
+              </p>
             </div>
           </div>
         </section>
@@ -409,12 +374,12 @@ export default function HomePage() {
                 Contact
               </p>
               <h2 id="contact-heading" className="heading">
-                Send us what you&apos;re seeing.
+                Bring us the problem.
               </h2>
               <p className="lede">
-                A price increase that doesn&apos;t look right, a surcharge that
-                never went away, or a supplier you just want checked. Start
-                with one supplier. We&apos;ll take a look.
+                A supplier cost increase. A commercial dispute. A manufacturing
+                change with unexpected financial consequences. Tell us what is
+                happening, what needs to change, and when a decision is needed.
               </p>
               <ol className="next-steps">
                 {next.map((item, index) => (

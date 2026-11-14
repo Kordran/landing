@@ -35,8 +35,11 @@ export default function ContactForm() {
           company: data.get("company"),
           email: data.get("email"),
           situation: details,
-          area: "",
-          timeline: "",
+          area: String(data.get("issue") || ""),
+          timeline: [data.get("timing"), data.get("exposure")]
+            .map((value) => String(value || "").trim())
+            .filter(Boolean)
+            .join(" · "),
         }),
       });
 
@@ -100,11 +103,24 @@ export default function ContactForm() {
       }}
     >
       <p className="sheet-head">
-        <span>Supplier issue</span>
+        <span>Commercial issue</span>
         <span>We reply directly</span>
       </p>
       <div className="form-body">
         <div className="form-grid">
+          <div className="form-field form-field-wide">
+            <label htmlFor="issue">What kind of issue?</label>
+            <select id="issue" name="issue" required defaultValue="">
+              <option value="" disabled>
+                Choose one
+              </option>
+              <option>Supplier pricing or commercial terms</option>
+              <option>Supplier dispute or unexpected cost</option>
+              <option>Engineering or production cost change</option>
+              <option>Supplier transition or implementation</option>
+              <option>Other commercial issue</option>
+            </select>
+          </div>
           <div className="form-field">
             <label htmlFor="name">Name</label>
             <input id="name" name="name" type="text" required autoComplete="name" />
@@ -132,6 +148,24 @@ export default function ContactForm() {
               spellCheck={false}
             />
           </div>
+          <div className="form-field">
+            <label htmlFor="timing">Timing</label>
+            <select id="timing" name="timing" defaultValue="">
+              <option value="">If you know it</option>
+              <option>Within 30 days</option>
+              <option>This quarter</option>
+              <option>No fixed date</option>
+            </select>
+          </div>
+          <div className="form-field">
+            <label htmlFor="exposure">Estimated exposure</label>
+            <select id="exposure" name="exposure" defaultValue="">
+              <option value="">If you know it</option>
+              <option>Under $100k</option>
+              <option>$100k–$500k</option>
+              <option>Over $500k</option>
+            </select>
+          </div>
           <div className="form-field form-field-wide">
             <label htmlFor="situation">What&apos;s happening?</label>
             <textarea
@@ -140,10 +174,10 @@ export default function ContactForm() {
               required
               rows={4}
               aria-describedby="situation-hint"
-              placeholder="The supplier, and what looks wrong. A sentence is enough."
+              placeholder="The issue, and what needs to change. A sentence is enough."
             />
             <p id="situation-hint" className="form-hint">
-              We&apos;ll reply, then ask about timing, spend, and records.
+              We&apos;ll reply, then ask for the records that matter.
             </p>
           </div>
         </div>
@@ -171,7 +205,7 @@ export default function ContactForm() {
             aria-disabled={status === "submitting"}
             aria-busy={status === "submitting"}
           >
-            {status === "submitting" ? "Sending…" : "Send it to us"}
+            {status === "submitting" ? "Sending…" : "Send the issue"}
             <span className="btn-glyph" aria-hidden="true" />
           </button>
           <p className="form-required">A short note is enough.</p>

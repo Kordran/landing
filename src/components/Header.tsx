@@ -7,9 +7,9 @@ import Logo from "@/components/Logo";
 import TrackLink from "@/components/TrackLink";
 
 const links = [
-  { href: "/", label: "Home" },
+  { href: "/#work", label: "What we do" },
   { href: "/approach", label: "Approach" },
-  { href: "/#questions", label: "Questions" },
+  { href: "/#who", label: "Who we serve" },
 ];
 
 export default function Header() {
@@ -103,7 +103,7 @@ export default function Header() {
         </Link>
 
         <nav className="nav-desktop" aria-label="Primary">
-          {links.slice(1).map((link) => (
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -119,7 +119,7 @@ export default function Header() {
             event="cta_click"
             eventParams={{ location: "header", target: "contact" }}
           >
-            Send us an issue
+            Discuss an issue
           </TrackLink>
         </nav>
 
@@ -158,7 +158,7 @@ export default function Header() {
             eventParams={{ location: "menu", target: "contact" }}
             onClick={closeMenu}
           >
-            Send us an issue
+            Discuss an issue
             <span className="btn-glyph" aria-hidden="true" />
           </TrackLink>
         </nav>

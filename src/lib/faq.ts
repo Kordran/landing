@@ -2,38 +2,38 @@
 export const questions = [
   {
     q: "What does Kordran do?",
-    a: "We find where suppliers have billed you more than you agreed to pay, build a supported case, and help pursue a credit or a pricing correction. We handle the investigation and the follow-through, working alongside your team.",
+    a: "We take on a defined commercial problem for an industrial manufacturer: establish the economics, coordinate the people involved, and drive the approved action through to a result you can verify. Recovery of past charges is one possible result. Lower future cost, corrected terms, and a decision not to proceed are others.",
   },
   {
     q: "Who do you work with?",
-    a: "Industrial manufacturers: finance, procurement, and operations leaders who buy parts and materials from many suppliers under negotiated terms.",
+    a: "Industrial manufacturers and complex hardware businesses. We usually work with a COO, a supply chain or procurement leader, and finance, when an issue crosses those functions and needs an owner.",
   },
   {
-    q: "What kinds of issues do you find?",
-    a: "Prices billed above the agreement, increases beyond what the contract allows, surcharges that outlived their conditions, tiered or volume pricing that was never applied, and contract changes that never reached the purchasing system.",
+    q: "What kinds of issues do you take on?",
+    a: "Supplier price increases and commercial terms, disputed charges, cost changes that follow an engineering or production change, and approved commercial changes that still have to be implemented. We start with one defined issue.",
   },
   {
     q: "How does it work?",
-    a: "You tell us what you're seeing. We review it, ask for the records that matter, and show you what was observed and what the records support. Then we help pursue a credit or a pricing correction. The outcome depends on the evidence, the supplier, and your decision.",
+    a: "You tell us the problem and when a decision is needed. We establish the exposure and the evidence, recommend a course, and, if you authorize it, help carry the action through and verify what actually changed. You keep the supplier relationship and the final commercial decision.",
   },
   {
     q: "What do you need from us?",
-    a: "Usually the supplier agreement or price list, recent invoices, and purchase orders for the items in question. We start with whatever you have and tell you exactly what else would help.",
+    a: "A short description of the issue is enough to start. Agreements, invoices, purchase orders, and the operational context come after we reply, and only if you want to continue.",
   },
   {
     q: "Do we need to connect our systems?",
-    a: "No. Exports, PDFs, and spreadsheets work. We can start from a handful of documents for one supplier.",
+    a: "No. Exports, PDFs, and spreadsheets are enough. Nothing has to be integrated to begin.",
   },
   {
     q: "How do you work with our suppliers?",
-    a: "Alongside your team and on your terms. We prepare the evidence and the case, and can lead or support the conversation with the supplier, so the relationship stays intact.",
+    a: "Alongside your team, and only as far as you authorize. We prepare the case and can support or lead the supplier conversation. Commitments to a supplier stay with the people who have authority to make them.",
   },
   {
     q: "How do you keep our information secure?",
-    a: "Records are shared through a secure channel we set up with you, used only for your engagement, and covered by confidentiality terms agreed before anything is sent.",
+    a: "Records are shared through a channel we set up with you, used only for the engagement, and covered by confidentiality terms agreed before anything sensitive is sent.",
   },
   {
     q: "How do we get started?",
-    a: "Send us a short note about one supplier or one issue. We'll look at it, come back with what we'd review and what it could be worth, and take it from there.",
+    a: "Send a note about one issue: what is happening, what needs to change, and when a decision is needed. We reply with what we would need and whether the problem fits.",
   },
 ] as const;
