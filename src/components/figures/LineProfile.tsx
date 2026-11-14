@@ -78,7 +78,7 @@ function describe(step: number): {
       move: `+${added}`,
       story:
         step < LOSS_Q
-          ? `Quarter ${step}. ${added} added. The total is ${formatUsd(total)}.`
+          ? `Quarter ${step}. ${added} in extra cost. The total is ${formatUsd(total)}.`
           : `Two years. ${formatUsd(total)} billed over the agreement.`,
     };
   }
@@ -266,7 +266,7 @@ export default function LineProfile() {
       <ul className="trail-legend micro">
         <li>
           <i className="is-loss" />
-          Added
+          Extra cost
         </li>
         <li>
           <i className="is-recover" />
@@ -274,7 +274,7 @@ export default function LineProfile() {
         </li>
         <li>
           <i className="is-save" />
-          Saved
+          Savings
         </li>
       </ul>
 
