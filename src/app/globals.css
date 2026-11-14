@@ -756,8 +756,148 @@ select {
   color: var(--ink-3);
 }
 
-.plate-readout {
+/* Labels pinned to tiles. The scene moves them with the tilt. */
+.plate-callout,
+.plate-tag {
+  position: absolute;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.plate-callout {
   display: none;
+}
+
+.plate-callout::before,
+.plate-tag::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  background: var(--sheet);
+  border: 1px solid var(--ink-2);
+}
+
+.plate-callout::after,
+.plate-tag::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 1px;
+  background: var(--ink-3);
+}
+
+.plate-callout.is-above::after {
+  top: 4px;
+  height: var(--leader, 88px);
+}
+
+.plate-callout.is-agreed::after {
+  bottom: 4px;
+  height: var(--leader, 64px);
+}
+
+.plate-callout-label {
+  position: absolute;
+  left: -1px;
+  display: grid;
+  gap: 2px;
+  padding-left: var(--s-3);
+  border-left: 1px solid var(--ink-3);
+  white-space: nowrap;
+}
+
+.plate-callout.is-above .plate-callout-label {
+  top: calc(var(--leader, 88px) + 4px);
+}
+
+.plate-callout.is-agreed .plate-callout-label {
+  bottom: calc(var(--leader, 64px) + 4px);
+}
+
+.plate-callout-label strong,
+.plate-tag-body strong {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.plate-callout-label span,
+.plate-tag-body span {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.plate-tag::after {
+  bottom: 4px;
+  height: 40px;
+}
+
+.plate-tag-body {
+  position: absolute;
+  bottom: 44px;
+  left: -1px;
+  display: grid;
+  gap: 3px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--sheet);
+  border: 1px solid var(--line-strong);
+  white-space: nowrap;
+  animation: tag-in var(--t-fast) var(--ease) both;
+}
+
+.plate-tag.is-left .plate-tag-body {
+  right: -1px;
+  left: auto;
+}
+
+.plate-tag[data-state="above"]::before {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.plate-tag[data-state="above"] .plate-tag-body {
+  border-top: 2px solid var(--teal);
+}
+
+.plate-tag[data-state="resolved"] .plate-tag-body {
+  border-top: 2px solid var(--teal-pale);
+}
+
+.plate-tag-body .plate-tag-ref {
+  color: var(--ink-3);
+}
+
+.plate-tag-body .plate-tag-hint {
+  margin-top: var(--s-1);
+  color: var(--teal);
+}
+
+@keyframes tag-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+.plate-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--ink-2);
+}
+
+.plate-progress[data-done] {
+  color: var(--teal);
 }
 
 .plate-legend {
@@ -873,42 +1013,20 @@ select {
   .plate-key {
     position: absolute;
     right: var(--margin);
-    bottom: 104px;
-    display: grid;
-    justify-items: end;
-    gap: var(--s-3);
-    width: auto;
+    bottom: 96px;
+    width: min(280px, 28vw);
     margin: 0;
     padding: var(--s-3) 0 0 var(--s-4);
     background: var(--paper);
     text-align: right;
   }
 
-  .plate-readout {
-    display: grid;
-    justify-items: end;
-    gap: 2px;
-    min-height: 2.9em;
-    color: var(--ink-3);
-    transition: color var(--t-fast) var(--ease);
+  .plate-key .plate-legend {
+    display: none;
   }
 
-  .plate-readout[data-on="true"] {
-    color: var(--ink);
-  }
-
-  .plate-readout .is-raised {
-    color: var(--teal);
-  }
-
-  .plate-legend {
-    display: grid;
-    justify-items: end;
-    gap: var(--s-1);
-  }
-
-  .plate-legend li {
-    flex-direction: row-reverse;
+  .plate-callout {
+    display: block;
   }
 
   .hero-rail-wrap {
@@ -1099,6 +1217,10 @@ select {
   }
 }
 
+.split-link {
+  margin-top: var(--s-6);
+}
+
 .exhibit-pair {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1160,38 +1282,6 @@ select {
   font-size: 1.625rem;
 }
 
-.exhibit-units {
-  padding: var(--s-5);
-  border-top: 1px solid var(--line);
-}
-
-.unit-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--unit-cols, 30), minmax(0, 1fr));
-  gap: 3px;
-  margin-top: var(--s-4);
-}
-
-.unit-grid i {
-  display: block;
-  aspect-ratio: 1;
-  background: var(--teal);
-}
-
-.unit-grid i.is-out {
-  background: none;
-  box-shadow: inset 0 0 0 1px var(--line-strong);
-}
-
-.unit-grid i.is-pending {
-  background: var(--tint);
-}
-
-.unit-grid i.is-open {
-  background: none;
-  box-shadow: inset 0 0 0 1px var(--teal-pale);
-}
-
 .exhibit-total {
   display: flex;
   flex-wrap: wrap;
@@ -1224,73 +1314,226 @@ select {
   font-weight: 500;
 }
 
-.exhibit-adjust {
+/* The calculator: overbilling stacked month by month. */
+.calc-plot {
+  padding: var(--s-5) var(--s-5) var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.calc-readout {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.calc-readout strong {
+  color: var(--teal);
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+.calc-chart {
+  position: relative;
+  height: clamp(168px, 18vw, 232px);
+  margin-top: var(--s-4);
+  border-bottom: 1px solid var(--ink-3);
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+
+.calc-grid {
+  position: absolute;
+  right: 0;
+  bottom: calc(var(--at) * 100%);
+  left: 0;
+  border-top: 1px dashed var(--line);
+}
+
+.calc-grid span {
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  background: var(--sheet);
+  padding-right: var(--s-1);
+}
+
+.calc-bars {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: clamp(1px, 0.25vw, 3px);
+  align-items: end;
+}
+
+/* Each month is a column of overbilled units with a cap on top. */
+.calc-bar {
+  display: block;
+  height: 100%;
+  background: var(--teal);
+  box-shadow: inset 0 2px 0 var(--solid-teal-top);
+  transform: scaleY(var(--v));
+  transform-origin: center bottom;
+  transition:
+    transform var(--t-state) var(--ease),
+    background-color var(--t-fast) var(--ease);
+}
+
+.calc-bar.is-ahead {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--teal-pale);
+}
+
+.calc-bar.is-hover {
+  background: var(--teal-mid);
+}
+
+.calc-bar.is-ahead.is-hover {
+  background: var(--tint);
+}
+
+.calc-split {
+  position: absolute;
+  top: -8px;
+  bottom: 0;
+  left: calc(var(--at) * 100%);
+  border-left: 1px solid var(--ink-2);
+  pointer-events: none;
+}
+
+.calc-split span {
+  position: absolute;
+  top: -12px;
+  left: var(--s-2);
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.calc-axis {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+}
+
+.calc-sum {
+  color: var(--teal);
+}
+
+.calc-controls {
+  display: grid;
+  gap: var(--s-5) var(--gutter);
+  padding: var(--s-5);
   border-top: 1px solid var(--line);
   background: var(--paper);
 }
 
-.exhibit-adjust summary {
+.calc-slider label {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  gap: var(--s-4);
-  min-height: 52px;
-  padding: 0 var(--s-5);
-  cursor: pointer;
-  list-style: none;
-  font-size: var(--text-small);
-  font-weight: 500;
+  gap: var(--s-3);
 }
 
-.exhibit-adjust summary::-webkit-details-marker {
-  display: none;
-}
-
-.exhibit-fields {
-  display: grid;
-  gap: var(--s-4) var(--gutter);
-  padding: var(--s-2) var(--s-5) var(--s-5);
-}
-
-.exhibit-fields label {
-  display: grid;
-  gap: var(--s-1);
-}
-
-.exhibit-fields input {
-  width: 100%;
-  min-height: 44px;
-  padding: var(--s-2) 0;
-  border: none;
-  border-bottom: 1px solid var(--line-control);
-  background: transparent;
-  font-size: 1.25rem;
+.calc-value {
+  font-size: 1.125rem;
   font-weight: 500;
   font-stretch: 92%;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.02em;
 }
 
-.exhibit-fields input:focus-visible {
-  outline: none;
-  border-bottom-color: var(--teal);
-  box-shadow: 0 1px 0 var(--teal);
+.calc-slider input {
+  --track: var(--line-control);
+  width: 100%;
+  height: 28px;
+  margin: var(--s-1) 0 0;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.exhibit-reset {
+.calc-slider input::-webkit-slider-runnable-track {
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--teal) calc(var(--fill) * 100%),
+    var(--track) calc(var(--fill) * 100%)
+  );
+}
+
+.calc-slider input::-moz-range-track {
+  height: 2px;
+  background: var(--track);
+}
+
+.calc-slider input::-moz-range-progress {
+  height: 2px;
+  background: var(--teal);
+}
+
+/* The thumb is a tile. */
+.calc-slider input::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  margin-top: -7px;
+  border: 0;
+  border-radius: 0;
+  background: var(--teal);
+  box-shadow: 3px 3px 0 var(--solid-teal-shade);
+  transition: transform var(--t-fast) var(--ease);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.calc-slider input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 0;
+  background: var(--teal);
+  box-shadow: 3px 3px 0 var(--solid-teal-shade);
+}
+
+.calc-slider input:active::-webkit-slider-thumb {
+  transform: translate(1px, 1px);
+}
+
+.calc-slider input:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 4px;
+}
+
+.calc-reset {
   justify-self: start;
   min-height: 44px;
 }
 
-.exhibit-reset[aria-disabled="true"] {
+.calc-reset[aria-disabled="true"] {
   color: var(--ink-3);
   cursor: default;
 }
 
 @media (min-width: 640px) {
-  .exhibit-fields {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
-    align-items: end;
+  .calc-controls {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .calc-reset {
+    grid-column: 1 / -1;
   }
 }
 
@@ -1348,12 +1591,41 @@ details[open] > summary .toggle::after {
 .focus-figure {
   display: flex;
   align-items: flex-end;
-  min-height: 132px;
+  min-height: 160px;
 }
 
-.focus-figure .axo {
+.finding-loop {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+}
+
+.finding-loop .axo {
   width: auto;
   height: 132px;
+}
+
+.finding-state {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--teal);
+  transition: color var(--t-state) var(--ease);
+}
+
+.finding-state i {
+  width: 7px;
+  height: 7px;
+  background: currentColor;
+}
+
+.finding-loop[data-phase="resolved"] .finding-state {
+  color: var(--ink-3);
+}
+
+.finding-loop[data-phase="resolved"] .finding-state i {
+  background: none;
+  box-shadow: inset 0 0 0 1px currentColor;
 }
 
 .focus-item .title {
@@ -1439,9 +1711,22 @@ details[open] > summary .toggle::after {
 
 .profile-head {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: var(--s-4);
+  gap: var(--s-1) var(--s-4);
   color: var(--on-deep-2);
+}
+
+.profile-readout {
+  transition: color var(--t-fast) var(--ease);
+}
+
+.profile-readout[data-on="true"] {
+  color: var(--on-deep);
+}
+
+.profile-readout span {
+  color: var(--teal-pale);
 }
 
 .profile-row {
@@ -1452,6 +1737,8 @@ details[open] > summary .toggle::after {
   margin-top: var(--s-4);
   padding-top: var(--profile-cap);
   border-bottom: 1px solid var(--line-deep);
+  cursor: crosshair;
+  touch-action: pan-y;
 }
 
 /*
@@ -1464,18 +1751,40 @@ details[open] > summary .toggle::after {
   height: var(--profile-slab);
   background: color-mix(in srgb, var(--on-deep) 15%, var(--deep));
   box-shadow: inset 0 1px 0 color-mix(in srgb, var(--on-deep) 52%, var(--deep));
+  transition: background-color var(--t-fast) var(--ease);
 }
 
+.profile-row i.is-at {
+  background: color-mix(in srgb, var(--on-deep) 42%, var(--deep));
+}
+
+/* At rest the overbilled amount stays visible as the credit that came back. */
 .profile-row i.is-raised::before {
   content: "";
   position: absolute;
   right: 0;
   bottom: calc(100% + 1px);
   left: 0;
-  height: calc(var(--h) * (var(--profile-cap) - 1px));
-  background: color-mix(in srgb, var(--teal-pale) 44%, var(--deep));
+  height: calc(var(--profile-cap) - 1px);
+  background: color-mix(in srgb, var(--teal-pale) 34%, var(--deep));
   box-shadow: inset 0 2px 0 var(--teal-pale);
   transform-origin: center bottom;
+}
+
+.profile-row i.is-raised.is-at::before {
+  background: color-mix(in srgb, var(--teal-pale) 30%, var(--deep));
+}
+
+/* The invoice where the price came back to the agreement. */
+.profile-row i.is-corrected::after {
+  content: "";
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  background: var(--teal-pale);
+  transform: translateX(-50%);
 }
 
 .profile-key {
@@ -1710,9 +2019,102 @@ details[open] > summary .toggle::after {
   padding: var(--s-5);
 }
 
+.form-steps {
+  display: grid;
+  gap: var(--s-5);
+  padding-bottom: var(--s-6);
+  margin-bottom: var(--s-6);
+  border-bottom: 1px solid var(--line);
+}
+
+.choices {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.choices legend {
+  padding: 0;
+  font-family: var(--mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.choices-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+}
+
+/* A choice is a tile: flat until chosen, then it stands up in teal. */
+.choice {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 40px;
+  padding: 0 var(--s-4) 0 var(--s-3);
+  border: 1px solid var(--line-control);
+  background: var(--sheet);
+  font-size: var(--text-small);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    box-shadow var(--t-state) var(--ease),
+    transform var(--t-state) var(--ease);
+}
+
+.choice::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 1px solid currentColor;
+  transition: background-color var(--t-fast) var(--ease);
+}
+
+.choice:hover {
+  border-color: var(--ink-2);
+}
+
+.choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.choice:has(input:focus-visible) {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+.choice[data-on] {
+  border-color: var(--teal);
+  background: var(--teal);
+  color: var(--on-deep);
+  box-shadow: 3px 3px 0 var(--solid-teal-shade);
+  transform: translate(-1px, -1px);
+}
+
+.choice[data-on]::before {
+  background: currentColor;
+}
+
 .form-grid {
   display: grid;
   gap: var(--s-5);
+}
+
+.form-field textarea::placeholder {
+  color: var(--ink-3);
+  opacity: 0.8;
 }
 
 .form-field {
@@ -2495,46 +2897,119 @@ details[open] > summary .toggle::after {
 }
 
 /* Measurement */
-.states-sheet {
+/* Results: one amount followed from finding to recovery, as a waterfall. */
+.flow-sheet {
   margin-top: var(--stack);
 }
 
-.states {
+.flow {
+  --mark: 0.8333;
+  padding: var(--s-2) 0;
+}
+
+.flow-step {
   display: grid;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-5);
 }
 
-.state {
-  display: grid;
-  gap: var(--s-4);
-  align-content: start;
-  padding: var(--s-5);
-  border-bottom: 1px solid var(--line);
+.flow-step + .flow-step {
+  border-top: 1px solid var(--line);
 }
 
-.state:last-child {
-  border-bottom: none;
+.flow-step.is-ahead {
+  border-top: 1px dashed var(--line-strong);
 }
 
-.state .figure-num {
-  font-size: clamp(2rem, 1.3rem + 1.6vw, 2.75rem);
+.flow-track {
+  position: relative;
+  height: 36px;
 }
 
-.state.is-claim .figure-num {
-  color: var(--teal);
+/* A guide through every row at the proven amount, so the steps line up. */
+.flow-track::before {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--s-4));
+  bottom: calc(-1 * var(--s-4));
+  left: calc(var(--mark) * 100%);
+  border-left: 1px dashed var(--line-strong);
 }
 
-.state.is-open .figure-num {
+.flow-track i {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: calc(var(--from) * 100%);
+  width: calc((var(--to) - var(--from)) * 100%);
+  transform-origin: left center;
+  transition:
+    box-shadow var(--t-state) var(--ease),
+    transform var(--t-state) var(--ease);
+}
+
+.is-found .flow-track i {
+  background: var(--tint);
+  box-shadow: inset 0 0 0 1px var(--teal-mid);
+}
+
+.is-out .flow-track i {
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 4px,
+    var(--line-strong) 4px 5px
+  );
+  box-shadow: inset 0 0 0 1px var(--ink-3);
+}
+
+.is-proven .flow-track i {
+  background: var(--teal-mid);
+}
+
+/* Recovered stands up off the sheet, like a raised tile. */
+.is-recovered .flow-track i {
+  background: var(--teal);
+  box-shadow:
+    inset 0 2px 0 var(--solid-teal-top),
+    4px 4px 0 var(--solid-teal-shade);
+  transform: translate(-2px, -2px);
+}
+
+.is-ahead .flow-track i {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--tint) 0 10px,
+    transparent 10px 12px
+  );
+  box-shadow: inset 0 0 0 1px var(--teal);
+}
+
+.flow-step:hover .flow-track i {
+  box-shadow: inset 0 0 0 2px var(--teal);
+}
+
+.flow-step.is-recovered:hover .flow-track i {
+  box-shadow:
+    inset 0 2px 0 var(--solid-teal-top),
+    6px 6px 0 var(--solid-teal-shade);
+  transform: translate(-3px, -3px);
+}
+
+.flow-figure .figure-num {
+  font-size: clamp(1.75rem, 1.2rem + 1.2vw, 2.375rem);
+}
+
+.is-out .figure-num {
   color: var(--ink-3);
 }
 
-.state .unit-grid {
-  --unit-cols: 18;
-  margin-top: 0;
-  max-width: 360px;
+.is-recovered .figure-num,
+.is-ahead .figure-num {
+  color: var(--teal);
 }
 
-.state .body {
-  font-size: 0.9375rem;
+.flow-figure .state-math {
+  margin-top: var(--s-2);
 }
 
 .state-math {
@@ -2544,36 +3019,16 @@ details[open] > summary .toggle::after {
   line-height: 1.5;
 }
 
-@media (min-width: 720px) {
-  .states {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (min-width: 900px) {
+  .flow-step {
+    grid-template-columns: 180px minmax(0, 1fr) 280px;
+    align-items: center;
+    gap: var(--gutter);
+    padding: var(--s-4) var(--s-6);
   }
 
-  .state:nth-child(odd) {
-    border-right: 1px solid var(--line);
-  }
-
-  .state:nth-last-child(-n + 2) {
-    border-bottom: none;
-  }
-}
-
-@media (min-width: 1180px) {
-  .states {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .state {
-    border-bottom: none;
-    border-right: 1px solid var(--line);
-  }
-
-  .state:last-child {
-    border-right: none;
-  }
-
-  .state .unit-grid {
-    max-width: none;
+  .flow-figure {
+    text-align: right;
   }
 }
 
@@ -2778,32 +3233,86 @@ details[open] > summary .toggle::after {
     transition: transform var(--t-draw) var(--ease-inout) 200ms;
   }
 
-  /* Caps stand up in invoice order. */
-  .reveal[data-ready="true"]:not(.is-in) .profile-row i::before {
+  /* Months stack up, in order, the first time the calculator is seen. */
+  .calc:not([data-in]) .calc-bar {
     transform: scaleY(0);
   }
 
-  .reveal.is-in .profile-row i::before {
-    transform: none;
-    transition: transform 520ms var(--ease);
-    transition-delay: calc(var(--i, 0) * 22ms + 240ms);
+  .calc[data-in] .calc-bar {
+    animation: bar-in 520ms var(--ease) backwards;
+    animation-delay: calc(var(--i, 0) * 28ms);
   }
 
-  /* Units count in. */
-  .reveal[data-ready="true"]:not(.is-in) .unit-grid i {
+  /* The waterfall steps in, one amount at a time. */
+  .reveal[data-ready="true"]:not(.is-in) .flow-track i {
+    transform: scaleX(0);
+  }
+
+  .reveal.is-in .flow-track i {
+    animation: flow-in 700ms var(--ease) backwards;
+    animation-delay: calc(var(--n, 0) * 220ms + 200ms);
+  }
+
+  /* Overbilled invoices stand up in order, are read, then come back as credit. */
+  .reveal[data-ready="true"]:not(.is-in) .profile-row i.is-raised::before {
+    transform: scaleY(0);
+  }
+
+  .reveal.is-in .profile-row i.is-raised::before {
+    animation: found-then-credited 3600ms var(--ease) backwards;
+    animation-delay: calc(var(--k, 0) * 60ms + 300ms);
+  }
+
+  .reveal[data-ready="true"]:not(.is-in) .profile-row i.is-corrected::after {
     opacity: 0;
   }
 
-  .reveal.is-in .unit-grid i {
-    opacity: 1;
-    transition: opacity 240ms linear;
-    transition-delay: calc(var(--i, 0) * 4ms + 160ms);
+  .reveal.is-in .profile-row i.is-corrected::after {
+    animation: marker-in 400ms var(--ease) 2600ms backwards;
   }
 
   .hero .plate-stage {
     animation: plate-in 1100ms var(--ease) both;
   }
 
+}
+
+@keyframes found-then-credited {
+  0% {
+    transform: scaleY(0);
+    background: color-mix(in srgb, var(--teal-pale) 44%, var(--deep));
+    box-shadow: inset 0 2px 0 var(--teal-pale);
+  }
+  18%,
+  62% {
+    transform: none;
+    background: color-mix(in srgb, var(--teal-pale) 44%, var(--deep));
+    box-shadow: inset 0 2px 0 var(--teal-pale);
+  }
+  100% {
+    transform: none;
+    background: color-mix(in srgb, var(--teal-pale) 34%, var(--deep));
+    box-shadow: inset 0 2px 0 var(--teal-pale);
+  }
+}
+
+@keyframes marker-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -6px);
+  }
+}
+
+@keyframes flow-in {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes bar-in {
+  from {
+    transform: scaleY(0);
+  }
 }
 
 @keyframes plate-in {

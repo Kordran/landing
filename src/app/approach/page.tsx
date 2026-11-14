@@ -16,7 +16,7 @@ import {
 } from "@/components/figures/scenes";
 import { getApproachJsonLd } from "@/lib/jsonld";
 import {
-  caseLabel,
+  annualPrevented,
   example,
   excludedExposure,
   excludedUnits,
@@ -25,11 +25,12 @@ import {
   potentialDiscrepancy,
   qualifiedUnits,
   supportedExposure,
+  totalUnits,
   unitDelta,
 } from "@/lib/example";
 
 const description =
-  "How a Kordran engagement investigates supplier pricing, validates exposure, and supports an authorized commercial resolution.";
+  "How Kordran finds supplier overbilling, proves it, recovers it, and keeps it from coming back.";
 
 export const metadata: Metadata = {
   title: "Approach",
@@ -48,146 +49,149 @@ export const metadata: Metadata = {
 const stages = [
   {
     title: "Records",
-    body: "Quotations, agreements, orders, and invoices describe the same purchase. They do not always agree.",
+    body: "Quotes, agreements, orders, and invoices describe the same purchase. When they disagree, money moves.",
     scene: recordsScene,
   },
   {
     title: "Reconciliation",
-    body: "Set against each other, the records show where a billed price stands apart from the agreed one.",
+    body: "Set side by side, the records show exactly where the billed price left the agreed one.",
     scene: reconcileScene,
   },
   {
     title: "Resolution",
-    body: "A supported difference becomes an authorized correction, and the correction is confirmed.",
+    body: "The difference comes back as a credit, and the price is corrected on every invoice after.",
     scene: resolveScene,
   },
 ];
 
 const index = [
-  { href: "#fit", label: "Fit" },
+  { href: "#fit", label: "Where to start" },
   { href: "#evidence", label: "Evidence" },
   { href: "#workflow", label: "Workflow" },
-  { href: "#measure", label: "Measurement" },
-  { href: "#outputs", label: "Deliverables" },
-  { href: "#relationship", label: "Control" },
+  { href: "#measure", label: "Results" },
+  { href: "#outputs", label: "What you get" },
+  { href: "#relationship", label: "Working together" },
 ];
 
-const suitable = [
-  "A supplier's billed price does not appear to match agreed terms.",
-  "A price increase is difficult to reconcile with the commercial agreement.",
-  "A contractual surcharge may have been applied incorrectly.",
-  "Pricing terms changed, but the purchasing system may not reflect the revision.",
-  "A financially material supplier dispute lacks a clear evidence trail.",
+const starts = [
+  "Invoices don't seem to match the agreed price.",
+  "A price increase went further than the contract allows.",
+  "A surcharge stayed on after its conditions ended.",
+  "Pricing changed in the contract but not in the purchasing system.",
+  "A supplier dispute needs a clear, documented case.",
 ];
 
-const unsuitable = [
-  "General procurement outsourcing.",
-  "Full enterprise supply-chain transformation.",
-  "Broad strategic sourcing without a specific economic problem.",
-  "Formal legal or customs advice.",
-  "Requests for guaranteed recovery results.",
+const sendUs = [
+  "The supplier agreement or current price list",
+  "A few recent invoices",
+  "Purchase orders for the items in question",
+  "Any price-increase or surcharge notices",
+  "Whatever you have already flagged",
 ];
 
 const workflow = [
   {
     title: "Scope",
-    body: "Identify the supplier, the commercial issue, the affected transactions, and the evidence required.",
-    you: "Choose the supplier and the issue. Approve the scope.",
+    body: "Pin down the supplier, the issue, the invoices affected, and the records we need.",
+    you: "Pick the supplier and the issue.",
   },
   {
     title: "Reconcile",
-    body: "Compare the relevant records and quantify the discrepancies they show.",
-    you: "Provide the selected records through the agreed process.",
+    body: "Line up agreements, orders, and invoices, and put a number on every difference.",
+    you: "Share the records through a secure channel.",
   },
   {
     title: "Validate",
-    body: "Test the difference against terms, dates, amendments, exceptions, and supporting information.",
-    you: "Confirm context and any exceptions you already know about.",
+    body: "Test each difference against dates, amendments, and terms so the case holds up.",
+    you: "Tell us about any context you know of.",
   },
   {
     title: "Resolve",
-    body: "Prepare an evidence-backed course of action and support authorized supplier discussions where appropriate.",
-    you: "Decide what to pursue. Authorize any contact with the supplier.",
+    body: "Build the case and work it with the supplier, alongside you, to a credit and a corrected price.",
+    you: "Decide what to pursue and approve supplier contact.",
   },
   {
     title: "Verify",
-    body: "Confirm accepted corrections, credits applied, or other measurable outcomes.",
-    you: "Confirm what was actually received or corrected.",
+    body: "Confirm the credit landed and the corrected price is on new invoices.",
+    you: "Confirm what came back.",
   },
   {
     title: "Prevent",
-    body: "Recommend practical controls that reduce the chance of the same issue recurring.",
-    you: "Decide which controls to adopt.",
+    body: "Put simple checks in place so the same issue does not return.",
+    you: "Choose which checks to keep.",
   },
 ];
 
 const outputs = [
   {
     title: "Findings register",
-    body: "Identified discrepancies, supporting references, and validation status.",
+    body: "Every difference we found, with the invoice and agreement behind it.",
   },
   {
-    title: "Financial exposure analysis",
-    body: "Calculations showing the potential financial impact of applicable differences.",
+    title: "Value summary",
+    body: "What each issue is worth, looking back and going forward.",
   },
   {
-    title: "Recommended commercial actions",
-    body: "A prioritized explanation of what should happen next.",
+    title: "Supplier case",
+    body: "The evidence package for the conversation with the supplier.",
   },
   {
     title: "Resolution support",
-    body: "Assistance coordinating approved discussions and corrective steps.",
+    body: "Hands-on help through to the credit and the corrected price.",
   },
   {
-    title: "Outcome verification",
-    body: "Documentation of confirmed credits, price corrections, or realized cost changes.",
+    title: "Recovery confirmation",
+    body: "Proof the credit landed and new invoices are right.",
   },
   {
-    title: "Prevention recommendations",
-    body: "Controls or process changes addressing relevant root causes.",
+    title: "Prevention plan",
+    body: "Simple checks that keep the same issue from coming back.",
   },
 ];
 
-const SQUARE = 100;
-const allSquares = example.units / SQUARE;
-const qualifiedSquares = qualifiedUnits / SQUARE;
+const scale = potentialDiscrepancy;
 
-const states = [
+/** From the first difference to the credit in hand, as a waterfall. */
+const flow = [
   {
-    key: "observed",
-    title: "Observed discrepancy",
-    value: `${formatUsd(unitDelta, 2)} / unit`,
-    math: `${formatUsd(example.billedUnit, 2)} billed − ${formatUsd(example.agreedUnit, 2)} agreed`,
-    body: "A documented difference between relevant records.",
-    tone: "is-pending",
-    filled: allSquares,
-  },
-  {
-    key: "potential",
-    title: "Potential exposure",
+    key: "found",
+    title: "Found",
     value: formatUsd(potentialDiscrepancy),
-    math: `${formatCount(example.units)} × ${formatUsd(unitDelta, 2)}`,
-    body: "The estimated financial value associated with that difference.",
-    tone: undefined,
-    filled: allSquares,
+    math: `${formatCount(totalUnits)} units × ${formatUsd(unitDelta, 2)} over agreement`,
+    from: 0,
+    to: potentialDiscrepancy,
   },
   {
-    key: "claim",
-    title: "Validated claim",
+    key: "out",
+    title: "Set aside",
+    value: `−${formatUsd(excludedExposure)}`,
+    math: `${formatCount(excludedUnits)} units bought under separate terms`,
+    from: supportedExposure,
+    to: potentialDiscrepancy,
+  },
+  {
+    key: "proven",
+    title: "Proven",
     value: formatUsd(supportedExposure),
-    math: `${formatCount(qualifiedUnits)} × ${formatUsd(unitDelta, 2)} · ${formatUsd(excludedExposure)} excluded`,
-    body: "An amount supported by the applicable evidence and ready for resolution.",
-    tone: undefined,
-    filled: qualifiedSquares,
+    math: `${formatCount(qualifiedUnits)} units, documented invoice by invoice`,
+    from: 0,
+    to: supportedExposure,
   },
   {
-    key: "open",
-    title: "Realized outcome",
-    value: "Not assumed",
-    math: "Depends on the supplier response",
-    body: "A credit received, corrected invoice, applied adjustment, or actual cost reduction.",
-    tone: "is-open",
-    filled: allSquares,
+    key: "recovered",
+    title: "Recovered",
+    value: formatUsd(supportedExposure),
+    math: "Credit issued by the supplier",
+    from: 0,
+    to: supportedExposure,
+  },
+  {
+    key: "ahead",
+    title: "Every year after",
+    value: formatUsd(annualPrevented),
+    math: `Corrected to ${formatUsd(example.agreedUnit, 2)} on every new invoice`,
+    from: 0,
+    to: annualPrevented,
   },
 ];
 
@@ -207,12 +211,12 @@ export default function ApproachPage() {
               Approach
             </p>
             <h1 id="approach-heading" className="display-hero">
-              From supplier records to commercial resolution.
+              From supplier records to money back.
             </h1>
             <p className="lede">
-              A focused process for investigating pricing discrepancies,
-              validating financial exposure, and supporting corrective action.
-              It begins with a defined problem and ends with a confirmed result.
+              How we find overbilling, prove it, recover it, and keep it from
+              coming back. It starts with one supplier and ends with a
+              corrected invoice.
             </p>
             <div className="cta-row">
               <TrackLink
@@ -221,7 +225,7 @@ export default function ApproachPage() {
                 event="cta_click"
                 eventParams={{ location: "approach-hero", target: "contact" }}
               >
-                Discuss a specific issue
+                Send us a supplier issue
                 <span className="btn-glyph" aria-hidden="true" />
               </TrackLink>
             </div>
@@ -270,30 +274,30 @@ export default function ApproachPage() {
               <div>
                 <p className="label">
                   <span className="label-index">01</span>
-                  Fit
+                  Where to start
                 </p>
                 <h2 id="fit-heading" className="heading">
-                  Start with a defined problem.
+                  Start with what you&apos;re seeing.
                 </h2>
               </div>
               <p className="lede">
-                Kordran is deliberately specialized. A defined issue keeps the
-                investigation focused and commercially useful.
+                Most engagements begin with a hunch about one supplier. These
+                are the patterns we see most, and what helps us move fast.
               </p>
             </Reveal>
             <div className="fit-grid">
               <Reveal className="fit-col is-yes">
-                <h3 className="label">Suitable issues</h3>
+                <h3 className="label">Good places to start</h3>
                 <ul>
-                  {suitable.map((item) => (
+                  {starts.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
               </Reveal>
-              <Reveal className="fit-col is-not" delay={80}>
-                <h3 className="label">Not an initial fit</h3>
+              <Reveal className="fit-col is-yes" delay={80}>
+                <h3 className="label">Helpful to send</h3>
                 <ul>
-                  {unsuitable.map((item) => (
+                  {sendUs.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
@@ -319,18 +323,16 @@ export default function ApproachPage() {
                 </h2>
               </div>
               <p className="lede">
-                A supplier pricing issue often spans several records. We
-                reconcile the relevant sources to establish the applicable terms
-                and the financial differences.
+                A pricing issue usually spans several records. We line them up
+                to show which terms apply and exactly where the money went.
               </p>
             </Reveal>
             <Reveal delay={80}>
               <EvidenceStack scene={evidenceScene} records={evidenceRecords} />
             </Reveal>
             <p className="body evidence-note">
-              Purchasing history and relevant internal correspondence add
-              context. An initial review does not require a full system
-              integration. The records depend on the issue.
+              Spreadsheets, PDFs, and system exports all work. There is nothing
+              to integrate to get started.
             </p>
           </div>
         </section>
@@ -348,7 +350,7 @@ export default function ApproachPage() {
                   Workflow
                 </p>
                 <h2 id="workflow-heading" className="heading">
-                  A defined path to resolution.
+                  A clear path to money back.
                 </h2>
               </div>
               <p className="lede">
@@ -377,10 +379,6 @@ export default function ApproachPage() {
                 ))}
               </ol>
             </div>
-            <p className="body workflow-note">
-              Not every engagement includes negotiation, a credit, or a control
-              change. The work follows the findings and the agreed scope.
-            </p>
           </div>
         </section>
 
@@ -396,75 +394,73 @@ export default function ApproachPage() {
               <div>
                 <p className="label">
                   <span className="label-index">04</span>
-                  Measurement
+                  Results
                 </p>
                 <h2 id="measure-heading" className="heading">
-                  A finding is not a recovery.
+                  From finding to money back.
                 </h2>
               </div>
               <p className="lede">
-                These states stay separate. A negotiated discount is not a cash
-                recovery, and an unaccepted claim is not realized value.
+                Every engagement is tracked from the first difference to the
+                credit in hand, so you always know what was found, what holds
+                up, and what came back.
               </p>
             </Reveal>
 
             <Reveal delay={80}>
-              <figure className="sheet states-sheet">
+              <figure className="sheet flow-sheet">
                 <figcaption className="sheet-head">
-                  <span>
-                    Example continued · {example.item} · one square = {SQUARE}{" "}
-                    units
-                  </span>
-                  <span>Hypothetical figures</span>
+                  <span>Example continued · {example.item}</span>
+                  <span>Illustration</span>
                 </figcaption>
-                <ol className="states">
-                  {states.map((state, n) => (
-                    <li className={`state is-${state.key}`} key={state.key}>
+                <ol className="flow">
+                  {flow.map((step, n) => (
+                    <li
+                      className={`flow-step is-${step.key}`}
+                      key={step.key}
+                      style={
+                        {
+                          "--from": step.from / scale,
+                          "--to": step.to / scale,
+                          "--n": n,
+                        } as CSSProperties
+                      }
+                    >
                       <p className="label">
                         <span className="label-index">
                           {String(n + 1).padStart(2, "0")}
                         </span>
-                        {state.title}
+                        {step.title}
                       </p>
-                      <div>
-                        <p className="figure-num num">{state.value}</p>
-                        <p className="state-math">{state.math}</p>
+                      <div className="flow-track" aria-hidden="true">
+                        <i />
                       </div>
-                      <div className="unit-grid" aria-hidden="true">
-                        {Array.from({ length: allSquares }, (_, i) => (
-                          <i
-                            key={i}
-                            className={i < state.filled ? state.tone : "is-out"}
-                            style={{ "--i": i } as CSSProperties}
-                          />
-                        ))}
+                      <div className="flow-figure">
+                        <p className="figure-num num">{step.value}</p>
+                        <p className="state-math">{step.math}</p>
                       </div>
-                      <p className="body">{state.body}</p>
                     </li>
                   ))}
                 </ol>
               </figure>
             </Reveal>
 
-            <p className="exhibit-caption">{caseLabel}</p>
-
             <div className="case-copy">
               <p>
-                The review tests whether all {formatCount(example.units)} units
-                were actually subject to the {formatUsd(example.agreedUnit, 2)}{" "}
-                price. Some could fall outside the agreement or be covered by a
-                valid amendment.
+                The review confirms which of the {formatCount(totalUnits)} units
+                were billed under the agreement. Here,{" "}
+                {formatCount(excludedUnits)} were bought on a separate order
+                with its own terms, so they come out.
               </p>
               <p>
-                If {formatCount(qualifiedUnits)} units qualify and{" "}
-                {formatCount(excludedUnits)} do not, the supported difference is{" "}
-                {formatUsd(supportedExposure)}. You may then pursue a credit, a
-                pricing correction, or another negotiated resolution.
+                The other {formatCount(qualifiedUnits)} units support a{" "}
+                {formatUsd(supportedExposure)} claim, documented invoice by
+                invoice. That is the case we take to the supplier with you.
               </p>
               <p>
-                That amount is not collected cash, and the supplier has not been
-                assumed to accept it. If the cause was an outdated purchasing
-                price, updated controls reduce the chance of a repeat.
+                The supplier issues a credit, new invoices go back to{" "}
+                {formatUsd(example.agreedUnit, 2)}, and the fix is worth{" "}
+                {formatUsd(annualPrevented)} every year after.
               </p>
             </div>
           </div>
@@ -483,12 +479,12 @@ export default function ApproachPage() {
                   What you receive
                 </p>
                 <h2 id="outputs-heading" className="heading">
-                  Evidence you can act on.
+                  What you get.
                 </h2>
               </div>
               <p className="lede">
-                Depending on the engagement, Kordran may produce the following.
-                Scope and deliverables are set in the engagement agreement.
+                Clear findings, a case that holds up, and the follow-through to
+                collect.
               </p>
             </Reveal>
             <dl className="register">
@@ -515,16 +511,15 @@ export default function ApproachPage() {
               <div>
                 <p className="label">
                   <span className="label-index">06</span>
-                  Working relationship
+                  Working together
                 </p>
                 <h2 id="relationship-heading" className="display">
                   We work alongside your team.
                 </h2>
               </div>
               <p className="lede">
-                You retain supplier relationships, purchasing approvals, and
-                commercial decisions. Direct supplier engagement happens only
-                with your authorization.
+                You keep the supplier relationship and every decision. We do
+                the digging, build the case, and work it through with you.
               </p>
             </Reveal>
             <div className="control-grid">
@@ -540,15 +535,14 @@ export default function ApproachPage() {
                 <h3 className="label">Kordran provides</h3>
                 <ul>
                   <li>Investigation and evidence</li>
-                  <li>Recommendations</li>
-                  <li>Authorized coordination</li>
+                  <li>The supplier case</li>
+                  <li>Follow-through to recovery</li>
                 </ul>
               </Reveal>
             </div>
             <p className="control-note">
-              Information follows the confidentiality and data-handling terms of
-              the engagement. Legal, customs, or other regulated work is
-              referred to qualified professionals when it is required.
+              Everything you share stays confidential and is used only for your
+              engagement.
             </p>
           </div>
         </section>
@@ -567,8 +561,8 @@ export default function ApproachPage() {
                 Bring us the problem.
               </h2>
               <p className="lede">
-                A supplier, a disputed charge, or a price increase is enough to
-                begin the conversation.
+                One supplier, one invoice that doesn&apos;t look right, or one
+                price increase is enough to start.
               </p>
             </div>
             <div className="cta-row">
@@ -578,7 +572,7 @@ export default function ApproachPage() {
                 event="cta_click"
                 eventParams={{ location: "approach-close", target: "contact" }}
               >
-                Discuss a supplier issue
+                Send us a supplier issue
                 <span className="btn-glyph" aria-hidden="true" />
               </TrackLink>
             </div>

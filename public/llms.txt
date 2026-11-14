@@ -4,7 +4,7 @@
 
 Kordran helps manufacturers identify pricing discrepancies, resolve supplier issues, and prevent repeat charges. The work covers supplier pricing and contract reconciliation, unsupported or incorrectly implemented charges, and commercial follow-through after a finding.
 
-An example price comparison on the homepage is hypothetical. It is not a customer result, and a pricing difference is not itself a recovery.
+The homepage works an illustration of one machined part: agreed at $42.00, billed at $44.60, 5,000 units a month for 24 months, $312,000 overbilled. Visitors can change the figures. It is an illustration of the arithmetic, not a published customer result.
 
 Kordran Inc. is not a law firm, customs broker, lender, or regulated financial institution.
 

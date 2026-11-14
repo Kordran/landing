@@ -119,7 +119,7 @@ export default function Header() {
             event="cta_click"
             eventParams={{ location: "header", target: "contact" }}
           >
-            Discuss a supplier issue
+            Send us an issue
           </TrackLink>
         </nav>
 
@@ -158,7 +158,7 @@ export default function Header() {
             eventParams={{ location: "menu", target: "contact" }}
             onClick={closeMenu}
           >
-            Discuss a supplier issue
+            Send us an issue
             <span className="btn-glyph" aria-hidden="true" />
           </TrackLink>
         </nav>

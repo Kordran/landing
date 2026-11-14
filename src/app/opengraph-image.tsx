@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Kordran. Supplier costs, verified and resolved. Example comparison of a $42 agreed unit price and a $44 billed unit price.";
+  "Kordran. Supplier costs, verified and resolved. A $2.60 unit gap billed across 120,000 units comes to $312,000.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -127,7 +127,7 @@ export default function OpenGraphImage() {
                 color: "#1C3D57",
               }}
             >
-              $44.00
+              $44.60
             </div>
           </div>
           <div
@@ -141,7 +141,7 @@ export default function OpenGraphImage() {
             }}
           >
             <div style={{ display: "flex", fontSize: 14, color: "#5D6771" }}>
-              Difference
+              Over 24 months
             </div>
             <div
               style={{
@@ -151,7 +151,7 @@ export default function OpenGraphImage() {
                 color: "#1C3D57",
               }}
             >
-              $2.00 / unit
+              $312,000
             </div>
           </div>
         </div>

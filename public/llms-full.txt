@@ -37,30 +37,26 @@ The approach page describes six steps: scope, reconcile, validate, resolve, veri
 
 Kordran remains involved after the analysis, through an approved corrective action. Engagements are established by a separate written agreement.
 
-## Measurement
+## How an engagement is counted
 
-Kordran keeps four states separate:
+The approach page follows one amount from the first difference to the credit:
 
-1. Observed discrepancy: a documented difference between relevant records.
-2. Potential exposure: the estimated financial value associated with that difference.
-3. Validated claim: an amount supported by the applicable evidence and ready for resolution.
-4. Realized outcome: a credit received, corrected invoice, applied adjustment, or actual cost reduction.
-
-A finding is not a recovery. A negotiated discount is not a cash recovery, and an unaccepted claim is not realized value.
+1. Found: everything billed above the agreement.
+2. Set aside: units bought on separate terms, taken out of the claim.
+3. Proven: the remainder, documented invoice by invoice.
+4. Recovered: the credit the supplier issues.
+5. Every year after: what the corrected price is worth on new invoices.
 
 ## Example
 
-The homepage shows a hypothetical supplier price discrepancy. It is an example, not a customer result.
+The site illustrates the arithmetic with one machined part. It is an illustration, and visitors can change the figures.
 
 - Agreed unit price: $42.00
-- Billed unit price: $44.00
-- Units reviewed: 18,000
-- Potential discrepancy: $36,000
-- Formula: 18,000 × ($44.00 − $42.00) = $36,000
-
-$36,000 is potential exposure, not an established recovery. The applicable agreement, effective dates, amendments, and eligible transactions must be verified.
-
-The approach page continues the same hypothetical case. If 15,000 of the 18,000 units qualify, the potentially supported difference is $30,000. The other $6,000 is excluded. That supported amount is still not collected cash.
+- Billed unit price: $44.60
+- Volume: 5,000 units a month for 24 months (120,000 units)
+- Overbilled: 120,000 × $2.60 = $312,000
+- After 20,000 units on separate terms are set aside: $260,000 recovered in the illustration
+- Corrected price going forward: $156,000 a year
 
 ## Pages
 
@@ -71,11 +67,9 @@ The approach page continues the same hypothetical case. If 15,000 of the 18,000 
 
 ## Who it is for
 
-Industrial manufacturers with a defined supplier pricing concern: a billed price that does not appear to match agreed terms, a price increase that is difficult to reconcile with the commercial agreement, a contractual surcharge that may have been applied incorrectly, pricing terms that changed without the purchasing system reflecting the revision, or a financially material supplier dispute without a clear evidence trail.
+Industrial manufacturers. Engagements usually start with one supplier and one thing that looks wrong: invoices above the agreed price, an increase beyond the contract, a surcharge that never came off, or a contract change that never reached the purchasing system.
 
-Not an initial fit: general procurement outsourcing, full enterprise supply-chain transformation, broad strategic sourcing without a specific economic problem, formal legal or customs advice, and requests for guaranteed recovery results.
-
-A first conversation can start with one supplier: a price increase, disputed charge, or purchasing discrepancy. An initial review can begin with selected quotations, pricing agreements, and purchasing records. It does not require a full system integration.
+A first note can be short. Useful records are the agreement or price list, recent invoices, and purchase orders. Spreadsheets and PDFs are enough; nothing has to be integrated to start.
 
 ## Contact
 

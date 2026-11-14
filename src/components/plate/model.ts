@@ -287,3 +287,38 @@ export const RAISED_COUNT = (() => {
   }
   return count;
 })();
+
+/** Agreed unit price on each price line. Line 11 is the worked example. */
+export const LINE_PRICES = [
+  18.4, 7.25, 31.8, 12.6, 54, 26.9, 9.75, 63.2, 15.3, 38.5, 42, 21.1, 47.8,
+  11.4,
+] as const;
+
+/** The billed excess each cap height stands for, per unit. */
+const EXCESS: Record<number, number> = {
+  0.26: 0.9,
+  0.34: 1.15,
+  0.42: 1.45,
+  0.6: 2.05,
+  0.86: 2.6,
+};
+
+export function tilePrices(col: number, row: number) {
+  const agreed = LINE_PRICES[row] ?? 0;
+  const excess = EXCESS[varianceAt(col, row)] ?? 0;
+  return { agreed, billed: Math.round((agreed + excess) * 100) / 100, excess };
+}
+
+/** Where a point on a tile lands in the frame, as fractions of its size. */
+export function frameFraction(
+  col: number,
+  row: number,
+  y: number
+): [number, number] {
+  const [x, z] = tileOrigin(col, row);
+  const [sx, sy] = project([x, y, z]);
+  return [
+    (sx - FRAME.minX) / FRAME.width,
+    1 - (sy - FRAME.minY) / FRAME.height,
+  ];
+}

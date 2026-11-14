@@ -61,11 +61,14 @@ const round = (value: number) => {
 
 export function axoScene({
   boxes,
+  frame,
   lines = [],
   labels = [],
   pad = [12, 12, 12, 12],
 }: {
   boxes: AxoBox[];
+  /** Boxes that set the frame instead, so an animated scene never resizes. */
+  frame?: AxoBox[];
   lines?: AxoLine[];
   labels?: AxoLabel[];
   /** Top, right, bottom, left padding in SVG units. */
@@ -83,7 +86,7 @@ export function axoScene({
     maxY = Math.max(maxY, y);
   };
 
-  for (const box of boxes) {
+  for (const box of frame ?? boxes) {
     const [x, y, z] = box.at;
     const [w, h, d] = box.size;
     for (const px of [x, x + w]) {

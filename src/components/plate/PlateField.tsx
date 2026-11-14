@@ -1,6 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
+import { formatUsd } from "@/lib/example";
+import {
+  BASE,
+  RAISED_COUNT,
+  frameFraction,
+  tilePrices,
+  varianceAt,
+} from "./model";
 import type { PlateHandle, PlateHover } from "./scene";
 
 function canAnimate(): boolean {
@@ -20,10 +34,17 @@ function canAnimate(): boolean {
 
 const pad = (value: number) => String(value + 1).padStart(2, "0");
 
+/** Server position of a label: the tile's top face, as a share of the stage. */
+function pinned(col: number, row: number): CSSProperties {
+  const [x, y] = frameFraction(col, row, BASE + varianceAt(col, row));
+  return { left: `${(x * 100).toFixed(2)}%`, top: `${(y * 100).toFixed(2)}%` };
+}
+
 /**
  * Hosts the signature visual. `children` is the server-drawn plate; the WebGL
  * scene mounts over it once the page is idle and replaces it only after its
  * first frame, so the drawing never blinks and content never waits on it.
+ * Labels are pinned to tiles in both versions.
  */
 export default function PlateField({
   aspect,
@@ -35,6 +56,8 @@ export default function PlateField({
   const figureRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [hover, setHover] = useState<PlateHover>(null);
+  const [resolved, setResolved] = useState(0);
+  const [live, setLive] = useState(false);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -45,6 +68,7 @@ export default function PlateField({
     let cancelled = false;
     const clear = () => {
       figure.removeAttribute("data-live");
+      setLive(false);
       setHover(null);
     };
 
@@ -54,9 +78,17 @@ export default function PlateField({
           if (cancelled || !stageRef.current) return;
           try {
             handle = mountPlate(stageRef.current, {
-              onReady: () => figure.setAttribute("data-live", "true"),
+              onReady: () => {
+                figure.setAttribute("data-live", "true");
+                setLive(true);
+              },
               onLost: clear,
               onHover: setHover,
+              onResolve: (count) => setResolved(count),
+              anchors: () =>
+                Array.from(
+                  stage.querySelectorAll<HTMLElement>("[data-pin]")
+                ),
             });
           } catch {
             clear();
@@ -88,6 +120,9 @@ export default function PlateField({
     };
   }, []);
 
+  const prices = hover ? tilePrices(hover.col, hover.row) : null;
+  const tagSide = hover && hover.col > 20 ? "is-left" : "";
+
   return (
     <figure
       ref={figureRef}
@@ -100,23 +135,67 @@ export default function PlateField({
         style={{ aspectRatio: aspect.toFixed(4) }}
       >
         {children}
-      </div>
-      <figcaption className="plate-key" aria-hidden="true">
-        <p className="plate-readout" data-on={hover ? "true" : undefined}>
-          {hover ? (
-            <>
-              <span>
+
+        {hover && prices ? (
+          <div
+            className={`plate-tag ${tagSide}`.trim()}
+            data-pin
+            data-col={hover.col}
+            data-row={hover.row}
+            data-state={
+              hover.resolved ? "resolved" : hover.raised ? "above" : "agreed"
+            }
+            style={pinned(hover.col, hover.row)}
+            aria-hidden="true"
+          >
+            <span className="plate-tag-body">
+              <span className="plate-tag-ref">
                 Line {pad(hover.row)} · Invoice {pad(hover.col)}
               </span>
-              <span className={hover.raised ? "is-raised" : undefined}>
-                {hover.raised ? "Billed above agreement" : "Billed as agreed"}
+              {hover.resolved ? (
+                <>
+                  <strong>Corrected to {formatUsd(prices.agreed, 2)}</strong>
+                  <span>
+                    {formatUsd(prices.excess, 2)} a unit recovered
+                  </span>
+                </>
+              ) : hover.raised ? (
+                <>
+                  <strong>
+                    +{formatUsd(prices.excess, 2)} a unit over agreement
+                  </strong>
+                  <span>
+                    {formatUsd(prices.billed, 2)} billed ·{" "}
+                    {formatUsd(prices.agreed, 2)} agreed
+                  </span>
+                  <span className="plate-tag-hint">Click to resolve</span>
+                </>
+              ) : (
+                <>
+                  <strong>Billed as agreed</strong>
+                  <span>{formatUsd(prices.agreed, 2)} a unit</span>
+                </>
+              )}
+            </span>
+          </div>
+        ) : null}
+      </div>
+
+      <figcaption className="plate-key" aria-hidden="true">
+        <p className="plate-progress" data-done={resolved > 0 || undefined}>
+          {live ? (
+            <>
+              <span className="num">
+                {resolved} / {RAISED_COUNT}
               </span>
+              {resolved === 0
+                ? "Click a raised tile to correct the price."
+                : resolved === RAISED_COUNT
+                  ? "Every line billed as agreed."
+                  : "corrected."}
             </>
           ) : (
-            <>
-              <span>Price lines × invoices</span>
-              <span>Illustration</span>
-            </>
+            "Raised tiles are billed above the agreement."
           )}
         </p>
         <ul className="plate-legend">

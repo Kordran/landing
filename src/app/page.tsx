@@ -3,20 +3,23 @@ import Header from "@/components/Header";
 import CloseScene from "@/components/CloseScene";
 import ContactForm from "@/components/ContactForm";
 import ExampleSeen from "@/components/ExampleSeen";
-import ExposureExhibit from "@/components/ExposureExhibit";
+import ExposureCalculator from "@/components/ExposureCalculator";
 import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import TrackLink from "@/components/TrackLink";
-import Axo from "@/components/figures/Axo";
+import FindingLoop from "@/components/figures/FindingLoop";
 import LineProfile from "@/components/figures/LineProfile";
-import {
-  complianceScene,
-  increaseScene,
-  surchargeScene,
-} from "@/components/figures/scenes";
 import PlateArt from "@/components/plate/PlateArt";
 import PlateField from "@/components/plate/PlateField";
 import { plateDrawing } from "@/components/plate/model";
+import {
+  annualPrevented,
+  example,
+  formatCount,
+  formatUsd,
+  potentialDiscrepancy,
+  unitDelta,
+} from "@/lib/example";
 import { getHomeJsonLd } from "@/lib/jsonld";
 import {
   contactEmail,
@@ -41,88 +44,99 @@ export const metadata: Metadata = {
 
 const facts = [
   { term: "Who it is for", detail: "Industrial manufacturers" },
-  { term: "What we examine", detail: "Agreements, orders, invoices" },
-  { term: "What you receive", detail: "Evidence you can act on" },
-  { term: "Where to begin", detail: "One supplier" },
+  { term: "What we check", detail: "Agreements, orders, invoices" },
+  { term: "What you get", detail: "Money back, prices corrected" },
+  { term: "Where to start", detail: "One supplier" },
 ];
 
 const focus = [
   {
     index: "A",
-    title: "Pricing compliance",
-    body: "Compare billed prices against applicable agreements and approved changes.",
+    kind: "compliance",
+    title: "Prices above agreement",
+    body: "Invoices billed above the agreed price, line by line, often for months after a contract was signed.",
     records: "Agreement · Invoice",
-    scene: complianceScene,
+    found: "Billed above agreement",
   },
   {
     index: "B",
-    title: "Price increases",
-    body: "Evaluate supplier revisions, supporting explanations, and relevant contractual terms.",
+    kind: "increase",
+    title: "Increases beyond terms",
+    body: "Price increases that went further, or started sooner, than the contract allows.",
     records: "Price notice · Contract terms",
-    scene: increaseScene,
+    found: "Increase beyond the cap",
   },
   {
     index: "C",
-    title: "Contractual surcharges",
-    body: "Investigate recurring or changing charges against agreed conditions.",
+    kind: "surcharge",
+    title: "Surcharges that stayed",
+    body: "Fuel, material, and freight charges that kept coming after the conditions behind them ended.",
     records: "Surcharge terms · Billing history",
-    scene: surchargeScene,
+    found: "Charge still billed",
   },
-];
+] as const;
 
 const steps = [
   {
     index: "01",
     title: "Verify",
-    body: "Reconcile the records and quantify the exposure.",
+    body: "We reconcile the records and put a number on what was overbilled.",
   },
   {
     index: "02",
     title: "Resolve",
-    body: "Support authorized corrections with your team.",
+    body: "We build the case and work it through to a credit and a corrected price.",
   },
   {
     index: "03",
     title: "Prevent",
-    body: "Address the controls behind repeat discrepancies.",
+    body: "We fix the cause so the next invoice is right.",
   },
 ];
 
 const questions = [
   {
     q: "What does Kordran do?",
-    a: "Kordran investigates supplier pricing discrepancies and helps industrial manufacturers pursue appropriate commercial resolutions.",
+    a: "We find where suppliers have billed you more than you agreed to pay, recover the difference, and correct the pricing so it stays right. We handle the investigation and the follow-through, working alongside your team.",
   },
   {
-    q: "What types of issues do you review?",
-    a: "Initially, differences between agreed and billed prices, supplier increases, contractual surcharges, and related pricing-control problems.",
+    q: "Who do you work with?",
+    a: "Industrial manufacturers: finance, procurement, and operations leaders who buy parts and materials from many suppliers under negotiated terms.",
   },
   {
-    q: "Do you negotiate directly with suppliers?",
-    a: "Where appropriate and authorized, we can support supplier discussions alongside your team. Your company retains final purchasing authority.",
+    q: "What kinds of issues do you find?",
+    a: "Prices billed above the agreement, increases beyond what the contract allows, surcharges that outlived their conditions, tiered or volume pricing that was never applied, and contract changes that never reached the purchasing system.",
   },
   {
-    q: "Do you guarantee recoveries or savings?",
-    a: "No. Findings must be validated, and financial outcomes depend on applicable agreements, supplier responses, and actual corrective actions.",
+    q: "How does it work?",
+    a: "You tell us what you're seeing. We review it, ask for the records that matter, reconcile them, and show you exactly what was overbilled and what it is worth. Then we work with your team to recover it and correct the price going forward.",
   },
   {
-    q: "Do we need to integrate our ERP?",
-    a: "Not necessarily. An initial review can begin with selected quotations, pricing agreements, and purchasing records.",
+    q: "What do you need from us?",
+    a: "Usually the supplier agreement or price list, recent invoices, and purchase orders for the items in question. We start with whatever you have and tell you exactly what else would help.",
   },
   {
-    q: "How do you handle confidential information?",
-    a: "Sensitive records are requested through an agreed process with appropriate confidentiality and data-handling arrangements.",
+    q: "Do we need to connect our systems?",
+    a: "No. Exports, PDFs, and spreadsheets work. We can start from a handful of documents for one supplier.",
+  },
+  {
+    q: "How do you work with our suppliers?",
+    a: "Alongside your team and on your terms. We prepare the evidence and the case, and can lead or support the conversation with the supplier, so the relationship stays intact.",
+  },
+  {
+    q: "How do you keep our information secure?",
+    a: "Records are shared through a secure channel we set up with you, used only for your engagement, and covered by confidentiality terms agreed before anything is sent.",
   },
   {
     q: "How do we get started?",
-    a: "Describe a specific supplier pricing concern. We can then determine whether a focused review is appropriate.",
+    a: "Send us a short note about one supplier or one issue. We'll look at it, come back with what we'd review and what it could be worth, and take it from there.",
   },
 ];
 
 const next = [
-  "Describe the issue in general terms. No contracts, invoices, or pricing files.",
-  "We review it and reply if Kordran is a fit.",
-  "A focused review is scoped and set out in a separate written agreement.",
+  "Tell us about the supplier and what you're seeing.",
+  "We review it and come back to you with what we'd check and what it could be worth.",
+  "We get to work: reconcile, recover, and correct.",
 ];
 
 export default function HomePage() {
@@ -148,8 +162,8 @@ export default function HomePage() {
               Verified and resolved.
             </h1>
             <p className="lede">
-              We help industrial manufacturers investigate supplier pricing,
-              resolve supported discrepancies, and prevent recurring charges.
+              We help industrial manufacturers find supplier overbilling,
+              recover what&apos;s owed, and stop it from happening again.
             </p>
             <div className="cta-row">
               <TrackLink
@@ -158,7 +172,7 @@ export default function HomePage() {
                 event="cta_click"
                 eventParams={{ location: "hero", target: "contact" }}
               >
-                Discuss a supplier issue
+                Send us a supplier issue
                 <span className="btn-glyph" aria-hidden="true" />
               </TrackLink>
               <TrackLink
@@ -197,37 +211,35 @@ export default function HomePage() {
               <h2 id="problem-heading" className="heading">
                 Small differences.
                 <br />
-                Real exposure.
+                Big money.
               </h2>
               <p className="lede">
-                Supplier pricing changes across contracts, quotations, and
-                purchasing systems. A two-dollar gap on one part is easy to
-                miss. Across every unit on every invoice, it is not.
+                A {formatUsd(unitDelta, 2)} gap on one part number is easy to
+                miss. Billed {formatCount(example.unitsPerMonth)} times a month
+                for two years, it is {formatUsd(potentialDiscrepancy)}.
               </p>
               <p className="body">
-                Finding a discrepancy is one challenge. Determining what it
-                means, and resolving it, is another.
+                It hides in invoices that look normal: an increase that went
+                further than agreed, a surcharge that never came off, a
+                contract update that never reached purchasing. Left alone, this
+                one keeps adding {formatUsd(annualPrevented)} a year.
+              </p>
+              <p className="split-link">
+                <TrackLink
+                  href="/#contact"
+                  className="text-action"
+                  event="cta_click"
+                  eventParams={{ location: "problem", target: "contact" }}
+                >
+                  Send us what you&apos;re seeing
+                </TrackLink>
               </p>
             </Reveal>
             <Reveal className="split-figure" delay={80}>
               <div id="example" className="anchor" tabIndex={-1} />
               <ExampleSeen>
-                <ExposureExhibit />
+                <ExposureCalculator />
               </ExampleSeen>
-              <p className="exhibit-caption">
-                The applicable agreement, effective dates, amendments, and
-                eligible transactions must be verified before any amount is
-                treated as supported.{" "}
-                <TrackLink
-                  href="/approach#measure"
-                  className="inline-link"
-                  event="cta_click"
-                  eventParams={{ location: "example", target: "measure" }}
-                >
-                  See how a finding is validated
-                </TrackLink>
-                .
-              </p>
             </Reveal>
           </div>
         </section>
@@ -245,20 +257,24 @@ export default function HomePage() {
                   What we examine
                 </p>
                 <h2 id="focus-heading" className="heading">
-                  Focused on supplier pricing.
+                  Where overbilling hides.
                 </h2>
               </div>
               <p className="lede">
-                We investigate selected pricing issues where the financial
-                exposure, commercial records, and path to resolution can be
-                meaningfully evaluated.
+                We check what you were billed against what you agreed to, on
+                every invoice, and show exactly where the two part ways. Then
+                we bring them back together.
               </p>
             </Reveal>
             <Reveal className="focus-grid" delay={80}>
               {focus.map((item) => (
                 <article className="focus-item" key={item.title}>
                   <div className="focus-figure">
-                    <Axo scene={item.scene} />
+                    <FindingLoop
+                      kind={item.kind}
+                      found={item.found}
+                      resolved="Resolved"
+                    />
                   </div>
                   <div>
                     <p className="label">
@@ -267,7 +283,7 @@ export default function HomePage() {
                     <h3 className="title">{item.title}</h3>
                     <p className="body">{item.body}</p>
                     <dl className="focus-records micro">
-                      <dt>Compared</dt>
+                      <dt>We compare</dt>
                       <dd>{item.records}</dd>
                     </dl>
                   </div>
@@ -306,9 +322,8 @@ export default function HomePage() {
                 </h2>
               </div>
               <p className="lede">
-                We establish what the evidence supports, help pursue appropriate
-                commercial corrections, and address the causes of recurring
-                discrepancies.
+                Most reviews stop at a report. We stay through the credit, the
+                corrected price, and the fix that keeps it from coming back.
               </p>
             </Reveal>
 
@@ -317,15 +332,14 @@ export default function HomePage() {
                 <div className="track-phase">
                   <p className="label">Intelligence</p>
                   <p>
-                    Understand the issue. Reconcile the records. Quantify the
-                    exposure.
+                    Find it. Reconcile the records. Put a number on it.
                   </p>
                 </div>
                 <div className="track-phase is-execution">
                   <p className="label">Execution</p>
                   <p>
-                    Coordinate with your team, support supplier discussions, and
-                    follow through on authorized corrective actions.
+                    Work the issue with your team and the supplier until the
+                    credit lands and the price is right.
                   </p>
                 </div>
               </div>
@@ -395,7 +409,7 @@ export default function HomePage() {
                 Questions
               </p>
               <h2 id="faq-heading" className="heading">
-                Before you contact us.
+                How we help.
               </h2>
             </Reveal>
             <div className="faq-list">
@@ -425,12 +439,12 @@ export default function HomePage() {
                 Contact
               </p>
               <h2 id="contact-heading" className="heading">
-                Start with one supplier.
+                Send us what you&apos;re seeing.
               </h2>
               <p className="lede">
-                Have a price increase, disputed charge, or purchasing
-                discrepancy? Tell us what&apos;s happening. We&apos;ll determine
-                whether Kordran is a fit.
+                A price increase that doesn&apos;t look right, a surcharge that
+                never went away, or a supplier you just want checked. Start
+                with one supplier. We&apos;ll take a look.
               </p>
               <ol className="next-steps">
                 {next.map((item, index) => (
