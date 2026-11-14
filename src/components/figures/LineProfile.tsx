@@ -13,148 +13,172 @@ import {
 } from "@/lib/example";
 
 /**
- * The same machined-housing example as the Approach page.
+ * One example, with the loss and the win on the same chart.
  *
- * Twenty-four months are observed. Part of that is excluded. The rest is a
- * supported claim we help pursue. A corrected price would change the run rate
- * later. None of those later figures is cash already recovered.
+ * Red is what was billed over the agreement. Green under it is the
+ * opportunity the records support. After month 24, a second green grows:
+ * what is not billed each month if the price is corrected. That second
+ * green is future cost avoidance, not cash already recovered.
  */
 
 const MONTHS = example.months;
-const CLAIM_AT = Math.round(supportedExposure / monthlyDifference);
+const FORWARD = 12;
+const SPAN = MONTHS + FORWARD;
 
 const W = 240;
 const H = 100;
 const TOP = 14;
 
-type Stage = "observed" | "validated" | "accepted" | "realized";
+type Stage = "observed" | "opportunity" | "saved" | "year";
 
 const phases: Array<{
   id: Stage;
-  tone: "over" | "claim" | "back";
+  at: number;
+  tone: "over" | "back";
   label: string;
   detail: string;
 }> = [
   {
     id: "observed",
+    at: 11,
     tone: "over",
     label: "Observed",
-    detail: `${formatUsd(potentialDiscrepancy)} identified`,
+    detail: `${formatUsd(monthlyDifference * 12)} found`,
   },
   {
-    id: "validated",
-    tone: "claim",
-    label: "Validated",
+    id: "opportunity",
+    at: MONTHS - 1,
+    tone: "back",
+    label: "Opportunity",
     detail: `${formatUsd(supportedExposure)} supported`,
   },
   {
-    id: "accepted",
-    tone: "claim",
-    label: "Accepted",
-    detail: "Claim we pursue",
+    id: "saved",
+    at: MONTHS + 5,
+    tone: "back",
+    label: "Saved",
+    detail: `${formatUsd(monthlyDifference * 6)} not billed`,
   },
   {
-    id: "realized",
+    id: "year",
+    at: SPAN - 1,
     tone: "back",
-    label: "Realized",
-    detail: `${formatUsd(annualPrevented)} a year, if corrected`,
+    label: "A year later",
+    detail: `${formatUsd(annualPrevented)} if corrected`,
   },
 ];
 
 function x(boundary: number): number {
-  return (boundary / MONTHS) * W;
+  return (boundary / SPAN) * W;
 }
 
 function y(value: number): number {
   return TOP + (H - TOP) * (1 - value / potentialDiscrepancy);
 }
 
-function through(monthIndex: number): number {
-  return monthlyDifference * (monthIndex + 1);
+function observedAt(boundary: number): number {
+  return monthlyDifference * Math.min(boundary, MONTHS);
 }
 
-function story(stage: Stage, at: number): string {
-  const month = at + 1;
-  if (stage === "observed") {
-    return `Month ${month} of ${MONTHS}. ${formatUsd(through(at))} observed so far, at ${formatUsd(monthlyDifference)} a month. Over ${MONTHS} months, that is ${formatUsd(potentialDiscrepancy)}.`;
+function opportunityAt(boundary: number): number {
+  return Math.round((supportedExposure * Math.min(boundary, MONTHS)) / MONTHS);
+}
+
+function savedAt(boundary: number): number {
+  return monthlyDifference * Math.max(0, Math.min(boundary, SPAN) - MONTHS);
+}
+
+function stageFor(at: number): Stage {
+  if (at < MONTHS - 1) return "observed";
+  if (at === MONTHS - 1) return "opportunity";
+  if (at < SPAN - 1) return "saved";
+  return "year";
+}
+
+function story(at: number): string {
+  const boundary = at + 1;
+  const observed = observedAt(boundary);
+  const opportunity = opportunityAt(boundary);
+  const saved = savedAt(boundary);
+  if (boundary <= MONTHS) {
+    return `Month ${boundary}. ${formatUsd(observed)} observed. ${formatUsd(opportunity)} of it is an opportunity the records can support.`;
   }
-  if (stage === "validated") {
-    return `${formatUsd(potentialDiscrepancy)} observed. ${formatUsd(excludedExposure)} was bought on separate terms, so it comes out. ${formatUsd(supportedExposure)} is what the records support.`;
+  const after = boundary - MONTHS;
+  if (after >= FORWARD) {
+    return `A year after a corrected price, ${formatUsd(annualPrevented)} is not billed. That is future cost avoidance, not cash already recovered.`;
   }
-  if (stage === "accepted") {
-    return `We build the case and help pursue a supported credit or pricing correction for the ${formatUsd(supportedExposure)}. Whether it is accepted depends on the supplier and your decision.`;
-  }
-  return `If the price is corrected to ${formatUsd(example.agreedUnit, 2)} and buying continues, about ${formatUsd(annualPrevented)} a year is not billed. That is future cost avoidance, not cash already recovered.`;
+  return `Month ${after} after a corrected price. ${formatUsd(saved)} is not billed so far. A full year is ${formatUsd(annualPrevented)}, if buying continues. That is future cost avoidance, not cash already recovered.`;
 }
 
 function points(pairs: Array<[number, number]>): string {
   return pairs.map(([px, py]) => `${px},${py}`).join(" ");
 }
 
+function area(samples: Array<[number, number]>): string {
+  const last = samples[samples.length - 1];
+  const first = samples[0];
+  return points([...samples, [last[0], y(0)], [first[0], y(0)]]);
+}
+
 export default function LineProfile() {
-  const [stage, setStage] = useState<Stage>("realized");
-  const [at, setAt] = useState(MONTHS - 1);
-  const showSplit = stage !== "observed";
-  const boundary = showSplit ? MONTHS : at + 1;
-  const observed = showSplit ? potentialDiscrepancy : through(at);
-  const text = story(stage, showSplit ? MONTHS - 1 : at);
+  const [at, setAt] = useState(SPAN - 1);
+  const boundary = at + 1;
+  const observed = observedAt(boundary);
+  const opportunity = opportunityAt(boundary);
+  const saved = savedAt(boundary);
+  const excluded = boundary <= MONTHS ? observed - opportunity : excludedExposure;
+  const stage = stageFor(at);
+  const text = story(at);
+  const seen = Math.min(boundary, MONTHS);
 
-  const climb: Array<[number, number]> = [];
-  for (let b = 0; b <= boundary; b++) climb.push([x(b), y(monthlyDifference * b)]);
-
-  const ahead: Array<[number, number]> = [];
-  if (boundary < MONTHS) {
-    for (let b = boundary; b <= MONTHS; b++) ahead.push([x(b), y(monthlyDifference * b)]);
+  const observedLine: Array<[number, number]> = [];
+  const opportunityLine: Array<[number, number]> = [];
+  for (let b = 0; b <= seen; b++) {
+    observedLine.push([x(b), y(observedAt(b))]);
+    opportunityLine.push([x(b), y(opportunityAt(b))]);
   }
 
-  const riseArea = points([...climb, [x(boundary), y(0)], [x(0), y(0)]]);
-
-  const tip: Array<[number, number]> = [];
-  if (showSplit) {
-    for (let b = CLAIM_AT; b <= MONTHS; b++) tip.push([x(b), y(monthlyDifference * b)]);
-    tip.push([x(MONTHS), y(supportedExposure)], [x(CLAIM_AT), y(supportedExposure)]);
+  const savedLine: Array<[number, number]> = [];
+  if (boundary > MONTHS) {
+    for (let b = MONTHS; b <= boundary; b++) savedLine.push([x(b), y(savedAt(b))]);
   }
 
-  const ticks = showSplit
-    ? [potentialDiscrepancy, supportedExposure, 0]
-    : [potentialDiscrepancy, 0];
+  const ticks = [potentialDiscrepancy, supportedExposure, annualPrevented, 0];
 
-  function show(next: Stage, monthIndex = MONTHS - 1) {
-    setStage(next);
-    setAt(monthIndex);
+  function moveTo(index: number) {
+    setAt(Math.max(0, Math.min(SPAN - 1, index)));
   }
 
   function onPointer(event: PointerEvent<HTMLDivElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
     const ratio = (event.clientX - rect.left) / rect.width;
-    const index = Math.max(0, Math.min(MONTHS - 1, Math.floor(ratio * MONTHS)));
-    show("observed", index);
+    moveTo(Math.floor(ratio * SPAN));
   }
 
   function onKey(event: KeyboardEvent<HTMLDivElement>) {
-    const current = showSplit ? MONTHS - 1 : at;
     if (event.key === "ArrowRight" || event.key === "ArrowUp") {
       event.preventDefault();
-      show("observed", Math.min(MONTHS - 1, current + 1));
+      moveTo(at + 1);
     } else if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
       event.preventDefault();
-      show("observed", Math.max(0, current - 1));
+      moveTo(at - 1);
     } else if (event.key === "Home") {
       event.preventDefault();
-      show("observed", 0);
+      moveTo(0);
     } else if (event.key === "End") {
       event.preventDefault();
-      show("observed", MONTHS - 1);
+      moveTo(SPAN - 1);
     }
   }
+
+  const winBoundary = boundary > MONTHS ? boundary : seen;
+  const winValue = boundary > MONTHS ? saved : opportunity;
 
   return (
     <figure className="ledger">
       <figcaption className="profile-head micro">
-        <span>
-          Same example · {formatUsd(monthlyDifference)} a month
-        </span>
-        <span>{MONTHS} months observed</span>
+        <span>Same example · {formatUsd(monthlyDifference)} a month</span>
+        <span>Red is the finding · green is the win</span>
       </figcaption>
 
       <p className="ledger-story">{text}</p>
@@ -164,17 +188,17 @@ export default function LineProfile() {
           <span className="micro">Observed</span>
           <strong className="num">{formatUsd(observed)}</strong>
         </p>
+        <p className="is-back">
+          <span className="micro">Opportunity</span>
+          <strong className="num">{formatUsd(opportunity)}</strong>
+        </p>
+        <p className="is-back" data-on={saved > 0 ? "true" : "false"}>
+          <span className="micro">Saved, if corrected</span>
+          <strong className="num">{formatUsd(saved)}</strong>
+        </p>
         <p className="is-muted">
           <span className="micro">Excluded</span>
-          <strong className="num">{formatUsd(excludedExposure)}</strong>
-        </p>
-        <p className="is-claim" data-on={showSplit ? "true" : "false"}>
-          <span className="micro">Supported claim</span>
-          <strong className="num">{formatUsd(supportedExposure)}</strong>
-        </p>
-        <p className="is-back" data-on={stage === "realized" ? "true" : "false"}>
-          <span className="micro">A year, if corrected</span>
-          <strong className="num">{formatUsd(annualPrevented)}</strong>
+          <strong className="num">{formatUsd(excluded)}</strong>
         </p>
       </div>
 
@@ -192,7 +216,7 @@ export default function LineProfile() {
             role="slider"
             tabIndex={0}
             aria-valuemin={1}
-            aria-valuemax={MONTHS}
+            aria-valuemax={SPAN}
             aria-valuenow={boundary}
             aria-valuetext={text}
             aria-label="Month in the example"
@@ -204,34 +228,23 @@ export default function LineProfile() {
             onKeyDown={onKey}
           >
             <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <pattern
-                  id="ledger-hatch"
-                  width="5"
-                  height="5"
-                  patternUnits="userSpaceOnUse"
-                >
-                  <path d="M0 5 L5 0" stroke="#f0b4ae" strokeWidth="0.7" />
-                </pattern>
-              </defs>
-              <polygon className="ledger-rise" points={riseArea} />
-              {showSplit && <polygon className="ledger-excluded" points={points(tip)} />}
-              {showSplit && (
-                <line
-                  className="ledger-claim"
-                  x1={x(CLAIM_AT)}
-                  x2={x(MONTHS)}
-                  y1={y(supportedExposure)}
-                  y2={y(supportedExposure)}
-                />
+              <polygon className="ledger-rise" points={area(observedLine)} />
+              <polygon className="ledger-opportunity" points={area(opportunityLine)} />
+              {savedLine.length > 1 && (
+                <polygon className="ledger-saved" points={area(savedLine)} />
               )}
-              {ahead.length > 1 && (
-                <>
-                  <polyline className="ledger-ahead-halo" points={points(ahead)} />
-                  <polyline className="ledger-ahead" points={points(ahead)} />
-                </>
+              <polyline className="ledger-climb" points={points(observedLine)} />
+              <polyline className="ledger-win" points={points(opportunityLine)} />
+              {savedLine.length > 1 && (
+                <polyline className="ledger-saved-line" points={points(savedLine)} />
               )}
-              <polyline className="ledger-climb" points={points(climb)} />
+              <line
+                className="ledger-mark"
+                x1={x(MONTHS)}
+                x2={x(MONTHS)}
+                y1="0"
+                y2={H}
+              />
               <line
                 className="ledger-cursor"
                 x1={x(boundary)}
@@ -240,19 +253,31 @@ export default function LineProfile() {
                 y2={H}
               />
             </svg>
+            {boundary <= MONTHS && (
+              <span
+                className="ledger-dot is-over"
+                style={
+                  {
+                    left: `${(seen / SPAN) * 100}%`,
+                    top: `${(y(observed) / H) * 100}%`,
+                  } as CSSProperties
+                }
+              />
+            )}
             <span
-              className="ledger-dot is-over"
+              className="ledger-dot is-back"
               style={
                 {
-                  left: `${(boundary / MONTHS) * 100}%`,
-                  top: `${(y(monthlyDifference * boundary) / H) * 100}%`,
+                  left: `${(winBoundary / SPAN) * 100}%`,
+                  top: `${(y(winValue) / H) * 100}%`,
                 } as CSSProperties
               }
             />
           </div>
           <div className="ledger-axis micro" aria-hidden="true">
             <span>Month 1</span>
-            <span>Month {MONTHS}</span>
+            <span className="is-review">Review</span>
+            <span>+1 year</span>
           </div>
         </div>
       </div>
@@ -263,18 +288,19 @@ export default function LineProfile() {
           Observed
         </li>
         <li>
-          <i className="is-excluded" />
-          Excluded
+          <i className="is-opportunity" />
+          Opportunity
         </li>
         <li>
-          <i className="is-claim" />
-          Supported claim
+          <i className="is-saved" />
+          Saved, if corrected
         </li>
       </ul>
 
       <p className="ledger-note">
-        Illustration of one part. A supported claim is not an accepted credit.
-        The yearly figure is future cost avoidance, not cash already recovered.
+        Illustration of one part. Opportunity is what the records support, not
+        an accepted credit. Saved is what is not billed after a corrected
+        price. It is not cash already recovered.
       </p>
 
       <div className="ledger-phases">
@@ -284,7 +310,7 @@ export default function LineProfile() {
             type="button"
             data-tone={item.tone}
             aria-pressed={stage === item.id}
-            onClick={() => show(item.id)}
+            onClick={() => moveTo(item.at)}
           >
             <span className="micro">{item.label}</span>
             <span>{item.detail}</span>

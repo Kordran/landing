@@ -1876,6 +1876,37 @@ details[open] > summary .toggle::after {
   fill: #8d4541;
 }
 
+.ledger-opportunity {
+  fill: #1f7a52;
+}
+
+.ledger-saved {
+  fill: #7dcea8;
+}
+
+.ledger-win,
+.ledger-saved-line,
+.ledger-mark {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.ledger-win {
+  stroke: #d7f3e4;
+  stroke-width: 2;
+}
+
+.ledger-saved-line {
+  stroke: #f4fff8;
+  stroke-width: 2;
+}
+
+.ledger-mark {
+  stroke: var(--on-deep-2);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
 .ledger-excluded {
   fill: url("#ledger-hatch");
 }
@@ -1970,8 +2001,9 @@ details[open] > summary .toggle::after {
   left: 0;
 }
 
-.ledger-axis span:nth-child(2) {
-  left: 50%;
+.ledger-axis span:nth-child(2),
+.ledger-axis span.is-review {
+  left: 66.67%;
   transform: translateX(-50%);
 }
 
@@ -2098,6 +2130,14 @@ details[open] > summary .toggle::after {
 .ledger-legend .is-claim {
   height: 0;
   border-top: 2px solid var(--teal-pale);
+}
+
+.ledger-legend .is-opportunity {
+  background: #1f7a52;
+}
+
+.ledger-legend .is-saved {
+  background: #7dcea8;
 }
 
 @media (min-width: 720px) {
