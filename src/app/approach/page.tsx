@@ -168,7 +168,7 @@ const states = [
     value: formatUsd(potentialDiscrepancy),
     math: `${formatCount(example.units)} × ${formatUsd(unitDelta, 2)}`,
     body: "The estimated financial value associated with that difference.",
-    tone: "is-pending",
+    tone: undefined,
     filled: allSquares,
   },
   {
