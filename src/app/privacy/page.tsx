@@ -20,7 +20,7 @@ export default function PrivacyPage() {
     <>
       <Header />
       <main id="content" className="site-main">
-        <div className="container legal-content section max-w-[900px]">
+        <div className="container legal-content">
           <p className="label mb-6">
             <Link href="/" className="hover:underline">
               ← Kordran
@@ -86,7 +86,7 @@ export default function PrivacyPage() {
           </p>
         </div>
       </main>
-      <Footer />
+      <Footer plain />
     </>
   );
 }

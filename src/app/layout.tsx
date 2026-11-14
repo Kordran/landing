@@ -11,10 +11,11 @@ import {
 } from "@/lib/site";
 import "./globals.css";
 
+// Variable weight and width. Display sizes run slightly condensed.
 const instrumentSans = Instrument_Sans({
   variable: "--font-instrument-sans",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  axes: ["wdth"],
   display: "swap",
 });
 
@@ -28,7 +29,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
 
 export const viewport: Viewport = {
-  themeColor: "#FFFFFF",
+  themeColor: "#F4F2ED",
   colorScheme: "light",
 };
 

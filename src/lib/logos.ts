@@ -7,6 +7,8 @@ export const logos = {
   iconColor: "/logos/Icon_Color.svg",
   /** Full mark, light ink — for dark backgrounds */
   fullColorDark: "/logos/Full_Color_Dark.svg",
+  /** Full mark, light ink and light squares — for dark or painted grounds */
+  fullDark: "/logos/Full_Dark.svg",
   /** Two-square icon, light ink — for dark backgrounds */
   iconLight: "/logos/Icon_Light.svg",
 } as const;

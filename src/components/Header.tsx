@@ -9,16 +9,12 @@ import TrackLink from "@/components/TrackLink";
 const links = [
   { href: "/", label: "Home" },
   { href: "/approach", label: "Approach" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/#questions", label: "Questions" },
 ];
 
-export default function Header({
-  initialTone = "on-light",
-}: {
-  initialTone?: "on-dark" | "on-light";
-}) {
+export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [tone, setTone] = useState(initialTone);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const menuId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -32,31 +28,11 @@ export default function Header({
   }
 
   useEffect(() => {
-    const scenes = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-header]")
-    );
-    if (!scenes.length) return;
-
-    const update = () => {
-      const marker = 48;
-      let next: "on-dark" | "on-light" = initialTone;
-      for (const scene of scenes) {
-        const box = scene.getBoundingClientRect();
-        if (box.top <= marker && box.bottom > marker) {
-          next = scene.dataset.header === "on-light" ? "on-light" : "on-dark";
-        }
-      }
-      setTone(next);
-    };
-
+    const update = () => setScrolled(window.scrollY > 8);
     update();
     window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
-  }, [initialTone]);
+    return () => window.removeEventListener("scroll", update);
+  }, []);
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 900px)");
@@ -111,7 +87,11 @@ export default function Header({
   }
 
   return (
-    <header className={`site-header${tone === "on-dark" ? " is-on-dark" : ""}`}>
+    <header
+      className="site-header"
+      data-scrolled={scrolled ? "true" : undefined}
+      data-open={menuOpen ? "true" : undefined}
+    >
       <div className="container header-inner">
         <Link
           href="/"
@@ -119,16 +99,11 @@ export default function Header({
           aria-label="Kordran home"
           onClick={closeMenu}
         >
-          <Logo
-            variant="full"
-            surface={tone === "on-dark" ? "dark" : "light"}
-            priority
-            className="logo"
-          />
+          <Logo variant="full" surface="light" priority className="logo" />
         </Link>
 
         <nav className="nav-desktop" aria-label="Primary">
-          {links.map((link) => (
+          {links.slice(1).map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -163,12 +138,7 @@ export default function Header({
         </button>
       </div>
 
-      <div
-        ref={menuRef}
-        id={menuId}
-        className={`mobile-menu${menuOpen ? " is-open" : ""}`}
-        hidden={!menuOpen}
-      >
+      <div ref={menuRef} id={menuId} className="mobile-menu" hidden={!menuOpen}>
         <nav className="container" aria-label="Mobile">
           {links.map((link) => (
             <Link
@@ -189,6 +159,7 @@ export default function Header({
             onClick={closeMenu}
           >
             Discuss a supplier issue
+            <span className="btn-glyph" aria-hidden="true" />
           </TrackLink>
         </nav>
       </div>

@@ -11,7 +11,7 @@ type LogoProps = {
 const sources = {
   full: {
     light: { src: logos.fullColorLight, width: 807, height: 187 },
-    dark: { src: logos.fullColorDark, width: 807, height: 187 },
+    dark: { src: logos.fullDark, width: 807, height: 187 },
   },
   name: {
     light: { src: logos.nameLight, width: 620, height: 187 },

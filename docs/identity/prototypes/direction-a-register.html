@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kordran — Direction A: Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--ink:#161a1d;--ink-2:#3e4e5c;--ink-3:#6a7783;--line:#d5dce2;--line-2:#7a8794;--teal:#1c3d57;--cool:#eef2f5;
+  --sans:"Instrument Sans",Helvetica,Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;--m:clamp(20px,4.4vw,64px);--max:1312px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,p,ul,dl,dd{margin:0;padding:0}a{color:inherit;text-decoration:none}
+.wrap{width:min(var(--max),100% - 2*var(--m));margin-inline:auto}
+.label{font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--teal)}
+header{height:76px;border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:100%}
+.logo{display:flex;align-items:center;gap:11px;font:600 15px/1 var(--sans);letter-spacing:.2em}.logo svg{width:22px;height:22px}
+nav{display:flex;align-items:center;gap:32px;font-size:14.5px;color:var(--ink-2)}
+.btn{display:inline-flex;align-items:center;height:48px;padding:0 20px;border:1px solid var(--teal);color:var(--teal);font:500 15px/1 var(--sans)}
+.btn.solid{background:var(--teal);color:#fff}.btn.sm{height:40px;padding:0 16px;font-size:14px}
+.hero{position:relative;border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;align-items:center;min-height:min(824px,calc(100svh - 76px))}
+.copy{grid-column:1 / span 5}
+h1{margin-top:24px;font:500 clamp(2.5rem,1rem + 3.6vw,4.25rem)/1 var(--sans);letter-spacing:-.035em}
+.lede{margin-top:24px;max-width:28em;font-size:18px;line-height:1.5;color:var(--ink-2)}
+.cta{display:flex;gap:16px;margin-top:36px}
+.fig{grid-column:6 / span 7;position:relative}
+.fig svg{display:block;width:100%;height:auto;overflow:visible}
+.fig line,.fig path{fill:none;vector-effect:non-scaling-stroke}
+.g-a{stroke:var(--line-2);stroke-width:.75}.g-b{stroke:var(--teal);stroke-width:.9}.g-d{stroke:var(--ink);stroke-width:1}
+.fig text{font:500 11px var(--mono);letter-spacing:.08em;fill:var(--ink-2)}
+.fig text.t{fill:var(--teal)}
+.strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.strip div{padding:20px 0 24px}.strip div+div{padding-left:24px;border-left:1px solid var(--line)}
+.strip dt{font:500 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.strip dd{margin-top:6px;font:500 28px/1 var(--sans);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.strip .off dd{color:var(--teal)}
+.sec{padding:112px 0}
+.sec .wrap{display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px}
+.sec .l{grid-column:1 / span 4}.sec .r{grid-column:6 / span 7}
+h2{margin-top:18px;font:500 clamp(1.9rem,1.1rem + 1.9vw,2.75rem)/1.08 var(--sans);letter-spacing:-.03em}
+.rows li{display:grid;grid-template-columns:56px 1fr 1.3fr;gap:24px;padding:22px 0;border-top:1px solid var(--line);list-style:none;align-items:baseline}
+.rows li:last-child{border-bottom:1px solid var(--line)}
+.rows .i{font:500 12px var(--mono);color:var(--teal);letter-spacing:.08em}.rows h3{margin:0;font:500 19px/1.25 var(--sans);letter-spacing:-.02em}.rows p{color:var(--ink-2)}
+@media (max-width:900px){nav a:not(.btn){display:none}.hero .wrap{display:block;padding:56px 0 0}.fig{margin-top:40px}.sec{padding:72px 0}.sec .wrap{display:block}.rows{margin-top:32px;padding:0}.rows li{grid-template-columns:40px 1fr}.rows p{grid-column:2}.strip dd{font-size:22px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="#"><svg viewBox="0 0 130 130"><rect width="65" height="65" fill="#1C3D57"/><rect x="65" y="65" width="65" height="65" fill="#161A1D"/></svg>KORDRAN</a>
+  <nav><a href="#">Approach</a><a href="#">Questions</a><a class="btn solid sm" href="#">Discuss a supplier issue</a></nav>
+</div></header>
+<section class="hero"><div class="wrap">
+  <div class="copy">
+    <p class="label">Supplier pricing integrity</p>
+    <h1>Supplier costs.<br>Verified and resolved.</h1>
+    <p class="lede">We help industrial manufacturers investigate supplier pricing, resolve supported discrepancies, and prevent recurring charges.</p>
+    <div class="cta"><a class="btn solid" href="#">Discuss a supplier issue</a><a class="btn" href="#">See the approach</a></div>
+  </div>
+  <div class="fig">
+    <svg id="fig" viewBox="0 0 760 520" aria-hidden="true"></svg>
+    <dl class="strip"><div><dt>Agreed</dt><dd>$42.00</dd></div><div class="off"><dt>Billed</dt><dd>$44.00</dd></div><div class="off"><dt>Out of register</dt><dd>+$2.00</dd></div></dl>
+  </div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <div class="l"><p class="label">01 — What we examine</p><h2>Two records that should agree.</h2></div>
+  <ul class="rows r">
+    <li><span class="i">A</span><h3>Pricing compliance</h3><p>Billed prices compared against applicable agreements and approved changes.</p></li>
+    <li><span class="i">B</span><h3>Price increases</h3><p>Supplier revisions tested against explanations and contractual terms.</p></li>
+    <li><span class="i">C</span><h3>Contractual surcharges</h3><p>Recurring or changing charges checked against agreed conditions.</p></li>
+  </ul>
+</div></section>
+<script>
+// Two lattices in one axonometric projection. The second is displaced by the
+// discrepancy; the dimension lines measure the offset.
+const svg = document.getElementById("fig");
+const ax = (x, y, z) => [380 + (x - y) * 0.82 * 16, 300 + (x + y) * 0.42 * 16 - z * 16];
+const P = (p) => p.map((v) => v.toFixed(1)).join(" ");
+const W = 22, H = 13;
+let out = "";
+const lattice = (cls, dx, dy, dz) => {
+  let d = "";
+  for (let i = 0; i <= W; i++) d += `M${P(ax(i - W / 2 + dx, -H / 2 + dy, dz))}L${P(ax(i - W / 2 + dx, H / 2 + dy, dz))}`;
+  for (let j = 0; j <= H; j++) d += `M${P(ax(-W / 2 + dx, j - H / 2 + dy, dz))}L${P(ax(W / 2 + dx, j - H / 2 + dy, dz))}`;
+  out += `<path class="${cls}" d="${d}"/>`;
+};
+lattice("g-a", 0, 0, 0);
+lattice("g-b", 0.5, 0.5, 5.2);
+const corners = [[-W / 2, -H / 2], [W / 2, -H / 2], [W / 2, H / 2], [-W / 2, H / 2]];
+let d = "";
+for (const [x, y] of corners) d += `M${P(ax(x, y, 0))}L${P(ax(x + 0.5, y + 0.5, 5.2))}`;
+out += `<path class="g-d" stroke-dasharray="3 4" d="${d}"/>`;
+const a = ax(W / 2 + 1.6, H / 2, 0), b = ax(W / 2 + 1.6, H / 2, 5.2);
+out += `<path class="g-d" d="M${P(a)}L${P(b)}M${a[0] - 5} ${a[1]}h10M${b[0] - 5} ${b[1]}h10"/>`;
+out += `<text class="t" x="${a[0] + 12}" y="${(a[1] + b[1]) / 2 + 4}">+$2.00 / UNIT</text>`;
+const la = ax(-W / 2, H / 2, 0), lb = ax(-W / 2 + 0.5, H / 2 + 0.5, 5.2);
+out += `<text x="${la[0] - 6}" y="${la[1] + 22}" text-anchor="middle">AGREEMENT</text><text class="t" x="${lb[0] - 40}" y="${lb[1] - 12}">INVOICE</text>`;
+svg.innerHTML = out;
+</script>
+</body>
+</html>

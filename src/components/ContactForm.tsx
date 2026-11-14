@@ -6,11 +6,7 @@ import { contactEmail } from "@/lib/site";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export default function ContactForm({
-  variant = "paper",
-}: {
-  variant?: "paper" | "scene";
-}) {
+export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const successRef = useRef<HTMLHeadingElement>(null);
@@ -64,8 +60,11 @@ export default function ContactForm({
 
   if (status === "success") {
     return (
-      <div className={`form-success${variant === "scene" ? " form-on-scene" : ""}`} role="status">
-        <p className="kicker">Received</p>
+      <div className="form-success" role="status">
+        <p className="label">
+          <span className="mark" aria-hidden="true" />
+          Received
+        </p>
         <h3 ref={successRef} tabIndex={-1}>
           Inquiry received.
         </h3>
@@ -85,7 +84,7 @@ export default function ContactForm({
 
   return (
     <form
-      className={`form-sheet${variant === "scene" ? " form-on-scene" : ""}`}
+      className="form-sheet"
       onSubmit={onSubmit}
       onFocus={() => {
         if (started.current) return;
@@ -93,76 +92,89 @@ export default function ContactForm({
         track("contact_start");
       }}
     >
-      <div className="form-grid">
-        <div className="form-field">
-          <label htmlFor="name">Name</label>
-          <input id="name" name="name" type="text" required autoComplete="name" />
+      <p className="sheet-head">
+        <span>Inquiry</span>
+        <span>Reviewed for fit</span>
+      </p>
+      <div className="form-body">
+        <div className="form-grid">
+          <div className="form-field">
+            <label htmlFor="name">Name</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              autoComplete="name"
+            />
+          </div>
+          <div className="form-field">
+            <label htmlFor="company">Company</label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              required
+              autoComplete="organization"
+            />
+          </div>
+          <div className="form-field form-field-wide">
+            <label htmlFor="email">Work email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+            />
+          </div>
+          <div className="form-field form-field-wide">
+            <label htmlFor="situation">Brief description of the issue</label>
+            <textarea
+              id="situation"
+              name="situation"
+              required
+              rows={5}
+              aria-describedby="situation-hint"
+            />
+            <p id="situation-hint" className="form-hint">
+              Describe the issue in general terms. Please don&apos;t include
+              contracts, invoices, or pricing files.
+            </p>
+          </div>
         </div>
-        <div className="form-field">
-          <label htmlFor="company">Company</label>
-          <input
-            id="company"
-            name="company"
-            type="text"
-            required
-            autoComplete="organization"
-          />
-        </div>
-        <div className="form-field form-field-wide">
-          <label htmlFor="email">Work email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            autoComplete="email"
-            autoCapitalize="none"
-            autoCorrect="off"
-            spellCheck={false}
-          />
-        </div>
-        <div className="form-field form-field-wide">
-          <label htmlFor="situation">Brief description of the issue</label>
-          <textarea
-            id="situation"
-            name="situation"
-            required
-            rows={5}
-            aria-describedby="situation-hint"
-          />
-          <p id="situation-hint" className="form-hint">
-            Describe the issue in general terms. Please don&apos;t include
-            contracts, invoices, or pricing files.
+
+        {status === "error" ? (
+          <p className="form-error" role="alert">
+            <strong>Error.</strong> {error}
+            {showEmailHint ? (
+              <>
+                {" "}
+                You can also email{" "}
+                <a className="inline-link" href={`mailto:${contactEmail}`}>
+                  {contactEmail}
+                </a>
+                .
+              </>
+            ) : null}
           </p>
+        ) : null}
+
+        <div className="form-actions">
+          <button
+            type="submit"
+            className="btn"
+            disabled={status === "submitting"}
+            aria-busy={status === "submitting"}
+          >
+            {status === "submitting" ? "Sending…" : "Send inquiry"}
+            <span className="btn-glyph" aria-hidden="true" />
+          </button>
+          <p className="form-required">All fields are required.</p>
         </div>
-      </div>
-
-      {status === "error" ? (
-        <p className="form-error" role="alert">
-          <strong>Error.</strong> {error}
-          {showEmailHint ? (
-            <>
-              {" "}
-              You can also email{" "}
-              <a className="inline-link" href={`mailto:${contactEmail}`}>
-                {contactEmail}
-              </a>
-              .
-            </>
-          ) : null}
-        </p>
-      ) : null}
-
-      <div className="form-actions">
-        <button
-          type="submit"
-          className="btn"
-          disabled={status === "submitting"}
-          aria-busy={status === "submitting"}
-        >
-          {status === "submitting" ? "Sending…" : "Send inquiry"}
-        </button>
-        <p className="form-required">All fields are required.</p>
       </div>
     </form>
   );
