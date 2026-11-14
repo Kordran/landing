@@ -37,6 +37,8 @@ export const TONES = {
   capShade: "#142e42",
   edge: "#161a1d",
   capEdge: "#9bb8c6",
+  /** The inspection light as it crosses the flush surface. */
+  beam: "#b9cfda",
 } as const;
 
 export const EDGE_OPACITY = 0.3;

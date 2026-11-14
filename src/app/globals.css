@@ -819,12 +819,12 @@ select {
 
 @media (min-width: 640px) {
   .plate-stage {
-    width: 150%;
-    margin-left: -36%;
+    width: 136%;
+    margin-left: -30%;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1120px) {
   .hero {
     display: block;
     min-height: min(880px, calc(100svh - var(--header-h)));
@@ -856,10 +856,11 @@ select {
   .plate-stage {
     position: absolute;
     top: 50%;
-    left: 37%;
-    width: max(940px, 76%);
+    left: 43%;
+    /* Sized by the shorter of the two axes so it never crowds the copy. */
+    width: min(76vw, 118svh);
     margin: 0;
-    transform: translateY(-44%);
+    transform: translateY(-43%);
     pointer-events: auto;
   }
 
@@ -872,6 +873,8 @@ select {
     gap: var(--s-3);
     width: auto;
     margin: 0;
+    padding: var(--s-3) 0 0 var(--s-4);
+    background: var(--paper);
     text-align: right;
   }
 
@@ -893,7 +896,13 @@ select {
   }
 
   .plate-legend {
-    justify-content: flex-end;
+    display: grid;
+    justify-items: end;
+    gap: var(--s-1);
+  }
+
+  .plate-legend li {
+    flex-direction: row-reverse;
   }
 
   .hero-rail-wrap {
@@ -907,6 +916,12 @@ select {
   .hero-rail {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     padding: var(--s-5) 0;
+  }
+}
+
+@media (min-width: 1360px) {
+  .plate-stage {
+    left: 37%;
   }
 }
 
@@ -2717,11 +2732,11 @@ details[open] > summary .toggle::after {
   }
 }
 
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+@media (min-width: 1120px) and (prefers-reduced-motion: no-preference) {
   @keyframes plate-in {
     from {
       opacity: 0;
-      transform: translateY(-44%) translateX(28px);
+      transform: translateY(-43%) translateX(28px);
     }
   }
 }

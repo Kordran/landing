@@ -48,6 +48,7 @@ const vertexShader = /* glsl */ `
   varying vec3 vFace;
   varying float vKind;
   varying vec2 vOrigin;
+  varying float vAcross;
 
   void main() {
     vUv = uv;
@@ -55,6 +56,7 @@ const vertexShader = /* glsl */ `
     vKind = aKind;
     vec4 origin = instanceMatrix * vec4(0.0, 0.0, 0.0, 1.0);
     vOrigin = origin.xz;
+    vAcross = origin.x + position.x;
     float height = uBase;
     float lift = 0.0;
     if (aKind > 0.5) {
@@ -81,23 +83,31 @@ const fragmentShader = /* glsl */ `
   uniform vec3 uCapEdge;
   uniform float uEdgeOpacity;
   uniform float uCapEdgeOpacity;
+  uniform vec3 uBeam;
   uniform float uScan;
+  uniform float uScanOn;
   uniform vec2 uHover;
   uniform float uHoverOn;
   varying vec2 vUv;
   varying vec3 vFace;
   varying float vKind;
   varying vec2 vOrigin;
+  varying float vAcross;
 
   void main() {
     bool cap = vKind > 0.5;
+    bool top = vFace.y > 0.5;
     vec3 color;
-    if (vFace.y > 0.5) color = cap ? uCapTop : uTop;
+    if (top) color = cap ? uCapTop : uTop;
     else if (abs(vFace.x) > 0.5) color = cap ? uCapLit : uLit;
     else color = cap ? uCapShade : uShade;
 
-    float pass = exp(-pow((vOrigin.x - uScan) / 1.2, 2.0));
+    // The inspection light: a narrow band on the flush surface, and a wider
+    // lift on any solid it is passing.
+    float beam = exp(-pow((vAcross - uScan) / 0.3, 2.0)) * uScanOn;
+    float pass = exp(-pow((vOrigin.x - uScan) / 1.2, 2.0)) * uScanOn;
     if (cap) color = mix(color, uCapEdge, pass * 0.3);
+    else if (top) color = mix(color, uBeam, beam * 0.85);
 
     vec2 away = abs(vOrigin - uHover);
     float hover = uHoverOn * (1.0 - step(0.5, max(away.x, away.y)));
@@ -180,6 +190,8 @@ export function mountPlate(
       uBase: { value: BASE },
       uSettled: { value: SETTLED },
       uScan: { value: DATUM.x0 },
+      uScanOn: { value: 0 },
+      uBeam: { value: rgb(TONES.beam) },
       uHover: { value: new THREE.Vector2(999, 999) },
       uHoverOn: { value: 0 },
       uTop: { value: rgb(TONES.top) },
@@ -240,25 +252,6 @@ export function mountPlate(
   });
   rig.add(new THREE.LineSegments(datumGeometry, datumMaterial));
   disposables.push(datumGeometry, datumMaterial);
-
-  // The inspection line travels just above the flush surface.
-  const scanY = BASE + 0.02;
-  const scanGeometry = new THREE.BufferGeometry();
-  scanGeometry.setAttribute(
-    "position",
-    new THREE.BufferAttribute(
-      new Float32Array([0, scanY, DATUM.z0, 0, scanY, DATUM.z1 + 0.56]),
-      3
-    )
-  );
-  const scanMaterial = new THREE.LineBasicMaterial({
-    color: TONES.capLit,
-    transparent: true,
-    opacity: 0,
-  });
-  const scan = new THREE.LineSegments(scanGeometry, scanMaterial);
-  rig.add(scan);
-  disposables.push(scanGeometry, scanMaterial);
 
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   const hoverTarget = new THREE.Vector2(999, 999);
@@ -407,9 +400,8 @@ export function mountPlate(
     const travel = Math.min(1, phase / 0.82);
     const x = DATUM.x0 + (DATUM.x1 - DATUM.x0) * travel;
     const fade = Math.min(1, travel / 0.06) * Math.min(1, (1 - travel) / 0.06);
-    scan.position.x = x;
-    scanMaterial.opacity = 0.55 * fade * (1 - align);
-    material.uniforms.uScan.value = fade > 0 && align < 0.98 ? x : -999;
+    material.uniforms.uScan.value = x;
+    material.uniforms.uScanOn.value = fade * (1 - align);
 
     renderer.render(scene, camera);
     if (!ready) {
