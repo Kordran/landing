@@ -8,6 +8,7 @@ import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/Reveal";
 import TrackLink from "@/components/TrackLink";
 import Axo from "@/components/figures/Axo";
+import LineProfile from "@/components/figures/LineProfile";
 import {
   complianceScene,
   increaseScene,
@@ -328,8 +329,8 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
+              <LineProfile />
               <ol className="track-steps">
-                <li className="track-line" aria-hidden="true" />
                 {steps.map((step) => (
                   <li className="track-step" key={step.index}>
                     <p className="label">
