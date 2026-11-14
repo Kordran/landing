@@ -192,8 +192,9 @@ export default function ExposureExhibit() {
           <button
             type="button"
             className="text-action exhibit-reset"
-            disabled={isExample}
+            aria-disabled={isExample}
             onClick={() => {
+              if (isExample) return;
               setAgreed(defaults.agreed);
               setBilled(defaults.billed);
               setUnits(defaults.units);

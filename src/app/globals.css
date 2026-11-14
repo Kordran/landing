@@ -1271,6 +1271,11 @@ select {
   min-height: 44px;
 }
 
+.exhibit-reset[aria-disabled="true"] {
+  color: var(--ink-3);
+  cursor: default;
+}
+
 @media (min-width: 640px) {
   .exhibit-fields {
     grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
