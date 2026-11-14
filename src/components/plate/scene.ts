@@ -5,12 +5,14 @@ import {
   COLS,
   DATUM_OPACITY,
   EDGE_OPACITY,
+  DEPTH,
   FRAME,
   PITCH,
   ROWS,
   SETTLED,
   SIZE,
   TONES,
+  WIDTH,
   cameraDirection,
   datumSegments,
   tileOrigin,
@@ -273,6 +275,37 @@ export function mountPlate(
   rig.add(new THREE.LineSegments(datumGeometry, datumMaterial));
   disposables.push(datumGeometry, datumMaterial);
 
+  /* A few marks above the plate. They barely move until the pointer is near,
+     and they are not tied to the scroll that settles the caps. */
+  const MOTE_COUNT = 24;
+  const moteBase = new Float32Array(MOTE_COUNT * 3);
+  const motePositions = new Float32Array(MOTE_COUNT * 3);
+  for (let i = 0; i < MOTE_COUNT; i++) {
+    const x = (Math.random() - 0.5) * WIDTH * 0.86;
+    const z = (Math.random() - 0.5) * DEPTH * 0.86;
+    const y = BASE + 0.55 + (i % 5) * 0.12;
+    moteBase[i * 3] = x;
+    moteBase[i * 3 + 1] = y;
+    moteBase[i * 3 + 2] = z;
+  }
+  motePositions.set(moteBase);
+  const moteGeometry = new THREE.BufferGeometry();
+  moteGeometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(motePositions, 3)
+  );
+  const moteMaterial = new THREE.PointsMaterial({
+    color: TONES.capEdge,
+    size: 2.2,
+    sizeAttenuation: false,
+    transparent: true,
+    opacity: 0.18,
+    depthWrite: false,
+  });
+  const motes = new THREE.Points(moteGeometry, moteMaterial);
+  rig.add(motes);
+  disposables.push(moteGeometry, moteMaterial);
+
   let hoverWanted = 0;
   let hoverKey = "";
   let align = 0;
@@ -430,6 +463,31 @@ export function mountPlate(
     align = readAlign();
     uAlign.value = align;
     uHoverOn.value += (hoverWanted - uHoverOn.value) * Math.min(1, dt * 12);
+
+    const moteAttr = moteGeometry.getAttribute("position");
+    const moteArray = moteAttr.array as Float32Array;
+    const hoverX = material.uniforms.uHover.value.x;
+    const hoverZ = material.uniforms.uHover.value.y;
+    const pull = uHoverOn.value;
+    for (let i = 0; i < MOTE_COUNT; i++) {
+      const o = i * 3;
+      let x = moteBase[o] + Math.sin(uTime.value * 0.18 + i) * 0.02;
+      let z = moteBase[o + 2] + Math.cos(uTime.value * 0.14 + i * 0.6) * 0.02;
+      const y = moteBase[o + 1];
+      if (pull > 0.02) {
+        const dx = hoverX - x;
+        const dz = hoverZ - z;
+        const near = Math.exp(-(dx * dx + dz * dz) * 1.6) * pull;
+        x += dx * near * 0.22;
+        z += dz * near * 0.22;
+      }
+      moteArray[o] = x;
+      moteArray[o + 1] = y;
+      moteArray[o + 2] = z;
+    }
+    moteAttr.needsUpdate = true;
+    moteMaterial.opacity = 0.16 + pull * 0.34;
+
     rig.updateMatrixWorld();
 
     renderer.render(scene, camera);

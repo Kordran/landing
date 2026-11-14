@@ -9,7 +9,7 @@ import TrackLink from "@/components/TrackLink";
 const links = [
   { href: "/", label: "Home" },
   { href: "/approach", label: "Approach" },
-  { href: "/#questions", label: "Questions" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export default function Header() {
@@ -103,24 +103,28 @@ export default function Header() {
         </Link>
 
         <nav className="nav-desktop" aria-label="Primary">
-          {links.slice(1).map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="nav-link"
-              aria-current={isCurrent(link.href) ? "page" : undefined}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <TrackLink
-            href="/#contact"
-            className="btn btn-small"
-            event="cta_click"
-            eventParams={{ location: "header", target: "contact" }}
-          >
-            Send us an issue
-          </TrackLink>
+          {links.map((link) =>
+            link.href === "/#contact" ? (
+              <TrackLink
+                key={link.href}
+                href={link.href}
+                className="nav-link"
+                event="cta_click"
+                eventParams={{ location: "header", target: "contact" }}
+              >
+                {link.label}
+              </TrackLink>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="nav-link"
+                aria-current={isCurrent(link.href) ? "page" : undefined}
+              >
+                {link.label}
+              </Link>
+            )
+          )}
         </nav>
 
         <button
@@ -140,27 +144,30 @@ export default function Header() {
 
       <div ref={menuRef} id={menuId} className="mobile-menu" hidden={!menuOpen}>
         <nav className="container" aria-label="Mobile">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="menu-link"
-              aria-current={isCurrent(link.href) ? "page" : undefined}
-              onClick={closeMenu}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <TrackLink
-            href="/#contact"
-            className="btn menu-cta"
-            event="cta_click"
-            eventParams={{ location: "menu", target: "contact" }}
-            onClick={closeMenu}
-          >
-            Send us an issue
-            <span className="btn-glyph" aria-hidden="true" />
-          </TrackLink>
+          {links.map((link) =>
+            link.href === "/#contact" ? (
+              <TrackLink
+                key={link.href}
+                href={link.href}
+                className="menu-link"
+                event="cta_click"
+                eventParams={{ location: "menu", target: "contact" }}
+                onClick={closeMenu}
+              >
+                {link.label}
+              </TrackLink>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="menu-link"
+                aria-current={isCurrent(link.href) ? "page" : undefined}
+                onClick={closeMenu}
+              >
+                {link.label}
+              </Link>
+            )
+          )}
         </nav>
       </div>
     </header>

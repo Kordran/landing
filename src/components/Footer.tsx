@@ -23,7 +23,6 @@ export default function Footer({ plain = false }: { plain?: boolean }) {
             <p className="micro">Site</p>
             <Link href="/">Home</Link>
             <Link href="/approach">Approach</Link>
-            <Link href="/#questions">Questions</Link>
             <Link href="/#contact">Contact</Link>
           </nav>
 

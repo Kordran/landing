@@ -14,7 +14,7 @@ export default function CloseScene() {
           <span className="mark" aria-hidden="true" />
           Working principle
         </p>
-        <h2 id="close-heading" className="display">
+        <h2 id="close-heading" className="heading">
           Find the cost.
           <br />
           Recover the value.
@@ -22,7 +22,7 @@ export default function CloseScene() {
           Fix the system.
         </h2>
       </Reveal>
-      <div className="close-art" aria-hidden="true">
+      <Reveal className="close-art" motion="footer">
         <picture>
           <source
             type="image/webp"
@@ -38,7 +38,7 @@ export default function CloseScene() {
             loading="lazy"
           />
         </picture>
-      </div>
+      </Reveal>
       <Footer />
     </section>
   );

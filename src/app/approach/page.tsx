@@ -202,7 +202,9 @@ export default function ApproachPage() {
               Approach
             </p>
             <h1 id="approach-heading" className="display-hero">
-              From supplier records to money back.
+              <span className="hero-line">
+                <span>From supplier records to money back.</span>
+              </span>
             </h1>
             <p className="lede">
               How we find the difference, prove what the records support, and
@@ -261,7 +263,7 @@ export default function ApproachPage() {
           aria-labelledby="fit-heading"
         >
           <div className="container">
-            <Reveal className="head-split">
+            <Reveal className="head-split" motion="headline">
               <div>
                 <p className="label">
                   <span className="label-index">01</span>
@@ -303,7 +305,7 @@ export default function ApproachPage() {
           aria-labelledby="evidence-heading"
         >
           <div className="container">
-            <Reveal className="head-split">
+            <Reveal className="head-split" motion="headline">
               <div>
                 <p className="label">
                   <span className="label-index">02</span>
@@ -318,7 +320,7 @@ export default function ApproachPage() {
                 to show which terms apply and exactly where the money went.
               </p>
             </Reveal>
-            <Reveal delay={80}>
+            <Reveal motion="diagram">
               <EvidenceStack scene={evidenceScene} records={evidenceRecords} />
             </Reveal>
             <p className="body evidence-note">
@@ -334,7 +336,7 @@ export default function ApproachPage() {
           aria-labelledby="workflow-heading"
         >
           <div className="container">
-            <Reveal className="head-split">
+            <Reveal className="head-split" motion="headline">
               <div>
                 <p className="label">
                   <span className="label-index">03</span>
@@ -381,7 +383,7 @@ export default function ApproachPage() {
           <div id="results" className="anchor" />
           <div id="case" className="anchor" />
           <div className="container">
-            <Reveal className="head-split">
+            <Reveal className="head-split" motion="headline">
               <div>
                 <p className="label">
                   <span className="label-index">04</span>
@@ -398,7 +400,7 @@ export default function ApproachPage() {
               </p>
             </Reveal>
 
-            <Reveal delay={80}>
+            <Reveal motion="diagram">
               <figure className="sheet flow-sheet">
                 <figcaption className="sheet-head">
                   <span>Example continued · {example.item}</span>
@@ -465,7 +467,7 @@ export default function ApproachPage() {
           aria-labelledby="outputs-heading"
         >
           <div className="container">
-            <Reveal className="head-split">
+            <Reveal className="head-split" motion="headline">
               <div>
                 <p className="label">
                   <span className="label-index">05</span>
@@ -500,13 +502,13 @@ export default function ApproachPage() {
           aria-labelledby="relationship-heading"
         >
           <div className="container">
-            <Reveal className="head-split">
+            <Reveal className="head-split" motion="headline">
               <div>
                 <p className="label">
                   <span className="label-index">06</span>
                   Working together
                 </p>
-                <h2 id="relationship-heading" className="display">
+                <h2 id="relationship-heading" className="heading">
                   We work alongside your team.
                 </h2>
               </div>

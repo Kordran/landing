@@ -121,9 +121,12 @@ export default function HomePage() {
               Industrial cost intelligence + execution
             </p>
             <h1 id="hero-heading" className="display-hero">
-              Supplier costs.
-              <br />
-              Verified and resolved.
+              <span className="hero-line">
+                <span>Supplier costs.</span>
+              </span>
+              <span className="hero-line">
+                <span>Verified and resolved.</span>
+              </span>
             </h1>
             <p className="lede">
               We help industrial manufacturers find where a supplier billed
@@ -219,7 +222,7 @@ export default function HomePage() {
           aria-labelledby="focus-heading"
         >
           <div className="container">
-            <Reveal className="head-split">
+            <Reveal className="head-split" motion="headline">
               <div>
                 <p className="label">
                   <span className="label-index">02</span>
@@ -280,13 +283,13 @@ export default function HomePage() {
           <div id="approach" className="anchor" />
           <div id="diagnostic" className="anchor" />
           <div className="container">
-            <Reveal className="head-split">
+            <Reveal className="head-split" motion="headline">
               <div>
                 <p className="label">
                   <span className="label-index">03</span>
                   Intelligence + execution
                 </p>
-                <h2 id="value-heading" className="display">
+                <h2 id="value-heading" className="heading">
                   The finding is only the beginning.
                 </h2>
               </div>
@@ -350,8 +353,8 @@ export default function HomePage() {
               <span className="label-index">04</span>
               Purpose
             </p>
-            <Reveal className="purpose-statement">
-              <h2 id="purpose-heading" className="display">
+            <Reveal className="purpose-statement" motion="statement">
+              <h2 id="purpose-heading" className="statement">
                 Better economics for physical industry.
               </h2>
               <p className="muted">

@@ -102,9 +102,10 @@ A 4px base. Sections and gutters come from this scale only.
 | `--s-4` | 16px | | `--s-9` | 96px |
 | `--s-5` | 24px | | `--s-10` | 128px |
 
-- `--section: clamp(84px, 10vw, 148px)` is the vertical padding of every
-  section.
-- `--stack: clamp(48px, 5.6vw, 84px)` separates a section's heading block from
+- `--section: clamp(48px, 7vw, 112px)` is the vertical padding of every
+  section. On a desktop width it lands between 72px and 112px. Phones stay
+  closer to 48px.
+- `--stack: clamp(32px, 4vw, 56px)` separates a section's heading block from
   its content.
 - Vertical relationships inside a block: label to heading 24px, heading to
   lede 32px, lede to body 24px. Body copy is set at 1.65.
@@ -188,10 +189,18 @@ To change the picture, change `model.ts`. Both renderers follow.
 | ----- | ----- | --- |
 | `--ease` | `cubic-bezier(0.2, 0.7, 0.1, 1)` | Entrances, state changes |
 | `--ease-inout` | `cubic-bezier(0.65, 0, 0.35, 1)` | Drawn lines |
-| `--t-fast` | 160ms | Hover color and border |
-| `--t-state` | 320ms | Toggles, glyphs, selected records |
-| `--t-reveal` | 640ms | Sections rising into view |
-| `--t-draw` | 900ms | Rules drawing across |
+| `--t-fast` | 180ms | Buttons, links, the arrow |
+| `--t-state` | 320ms | Toggles and selected records |
+| `--t-reveal` | 480ms | A section headline fading in |
+| `--t-draw` | 750ms | A diagram drawing across |
+
+Motion is sparse. The hero title rises through a mask (680ms) and the lines
+under it follow (420ms). The plate enters once (680ms). Section headlines
+fade (480ms). The evidence stack and the amount diagram draw in sequence.
+The footer painting fades once (780ms). Cards, paragraphs, and buttons do
+not rise into view. The plate's few marks drift on their own, answer the
+pointer, and stop when the plate is off screen. They do not follow the scroll
+that settles the caps.
 
 **Behaviors**
 

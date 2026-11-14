@@ -51,7 +51,8 @@
   /* Type */
   --sans: var(--font-instrument-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
   --mono: var(--font-ibm-plex-mono), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-  --text-hero: clamp(1.75rem, min(9.1vw, 1.2rem + 4.3vw), 5.25rem);
+  --text-hero: clamp(1.75rem, min(9.1vw, 1.2rem + 4.3vw), 5.75rem);
+  --text-statement: clamp(2.5rem, 1rem + 4.6vw, 5.5rem);
   --text-display: clamp(2.125rem, 1.2rem + 3vw, 4.25rem);
   --text-heading: clamp(1.875rem, 1.25rem + 2vw, 3.25rem);
   --text-title: 1.375rem;
@@ -71,8 +72,9 @@
   --s-8: 64px;
   --s-9: 96px;
   --s-10: 128px;
-  --section: clamp(84px, 10vw, 148px);
-  --stack: clamp(48px, 5.6vw, 84px);
+  /* Desktop sections sit between 72 and 112px. Phones stay tighter. */
+  --section: clamp(48px, 7vw, 112px);
+  --stack: clamp(32px, 4vw, 56px);
 
   /* Layout */
   --page: 1312px;
@@ -83,10 +85,10 @@
   /* Motion */
   --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
   --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
-  --t-fast: 160ms;
+  --t-fast: 180ms;
   --t-state: 320ms;
-  --t-reveal: 640ms;
-  --t-draw: 900ms;
+  --t-reveal: 480ms;
+  --t-draw: 750ms;
 }
 
 @theme inline {
@@ -355,6 +357,15 @@ select {
   letter-spacing: -0.04em;
 }
 
+.statement {
+  font-size: var(--text-statement);
+  font-weight: 500;
+  font-stretch: 94%;
+  line-height: 0.98;
+  letter-spacing: -0.042em;
+  text-wrap: balance;
+}
+
 .display {
   font-size: var(--text-display);
   font-weight: 500;
@@ -473,7 +484,7 @@ select {
   width: 5px;
   height: 5px;
   background: currentColor;
-  transition: transform var(--t-state) var(--ease);
+  transition: transform 180ms var(--ease);
 }
 
 .btn-glyph::before {
@@ -719,8 +730,18 @@ select {
   padding-top: clamp(40px, 7vw, 72px);
 }
 
-.hero-body .display-hero {
+.hero-body .display-hero,
+.approach-hero .display-hero {
   margin-top: var(--s-6);
+}
+
+.hero-line {
+  display: block;
+  overflow: hidden;
+}
+
+.hero-line > span {
+  display: block;
 }
 
 .hero-body .lede {
@@ -1330,7 +1351,7 @@ select {
 }
 
 .exhibit-total .figure-num {
-  font-size: clamp(2.5rem, 1.4rem + 3.2vw, 4rem);
+  font-size: clamp(3.25rem, 1.5rem + 4.4vw, 5.25rem);
 }
 
 .exhibit-formula {
@@ -1811,6 +1832,10 @@ details[open] > summary .toggle::after {
   font-stretch: 92%;
   letter-spacing: -0.03em;
   line-height: 1.1;
+}
+
+.ledger-figures p:first-child strong {
+  font-size: clamp(1.85rem, 1.2rem + 1.8vw, 2.65rem);
 }
 
 .ledger-figures .is-muted,
@@ -2348,13 +2373,13 @@ details[open] > summary .toggle::after {
 }
 
 .purpose-statement .muted {
-  max-width: 24em;
+  max-width: 34em;
   margin-top: var(--s-5);
-  color: var(--ink-3);
-  font-size: var(--text-heading);
-  font-stretch: 95%;
-  line-height: 1.12;
-  letter-spacing: -0.03em;
+  color: var(--ink-2);
+  font-size: var(--text-lede);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
 }
 
 .purpose-close {
@@ -3472,6 +3497,7 @@ details[open] > summary .toggle::after {
 
 .is-observed .figure-num {
   color: var(--over);
+  font-size: clamp(2.25rem, 1.3rem + 2.2vw, 3.35rem);
 }
 
 .is-excluded .figure-num {
@@ -3675,19 +3701,57 @@ details[open] > summary .toggle::after {
 /* ---------- Motion ---------- */
 
 @media (prefers-reduced-motion: no-preference) {
-  /* Text rises a short distance. Nothing waits on it to be readable. */
-  .reveal[data-ready="true"]:not(.is-in) {
-    opacity: 0;
-    transform: translateY(16px);
+  /* The hero is the one entrance. The title rises through a mask; the
+     supporting lines follow a short beat later. */
+  .hero-line > span {
+    animation: line-rise 680ms var(--ease) both;
   }
 
-  .reveal.is-in {
+  .hero-line + .hero-line > span {
+    animation-delay: 80ms;
+  }
+
+  .hero .label,
+  .approach-hero .label {
+    animation: support-in 420ms var(--ease) 160ms both;
+  }
+
+  .hero .lede,
+  .approach-hero .lede {
+    animation: support-in 420ms var(--ease) 240ms both;
+  }
+
+  .hero .cta-row,
+  .approach-hero .cta-row {
+    animation: support-in 420ms var(--ease) 320ms both;
+  }
+
+  /* Section headlines fade. The paragraph beside them does not. */
+  .reveal[data-motion="headline"][data-ready="true"]:not(.is-in) :is(h1, h2) {
+    opacity: 0;
+  }
+
+  .reveal[data-motion="headline"].is-in :is(h1, h2) {
     opacity: 1;
-    transform: none;
-    transition:
-      opacity var(--t-reveal) var(--ease),
-      transform var(--t-reveal) var(--ease);
-    transition-delay: var(--reveal-delay, 0ms);
+    transition: opacity 480ms var(--ease);
+  }
+
+  .reveal[data-motion="statement"][data-ready="true"]:not(.is-in) .statement {
+    opacity: 0;
+  }
+
+  .reveal[data-motion="statement"].is-in .statement {
+    opacity: 1;
+    transition: opacity 640ms var(--ease);
+  }
+
+  .reveal[data-motion="footer"][data-ready="true"]:not(.is-in) {
+    opacity: 0;
+  }
+
+  .reveal[data-motion="footer"].is-in {
+    opacity: 1;
+    transition: opacity 780ms var(--ease);
   }
 
   /* Lines draw. */
@@ -3706,14 +3770,32 @@ details[open] > summary .toggle::after {
     animation-delay: calc(var(--i, 0) * 28ms);
   }
 
-  /* The waterfall steps in, one amount at a time. */
-  .reveal[data-ready="true"]:not(.is-in) .flow-track i {
+  /* One diagram at a time: the evidence stack, then the amount waterfall. */
+  .reveal[data-motion="diagram"][data-ready="true"]:not(.is-in) .evidence-stage {
+    opacity: 0;
+    clip-path: inset(12% 6%);
+  }
+
+  .reveal[data-motion="diagram"].is-in .evidence-stage {
+    opacity: 1;
+    clip-path: inset(0);
+    transition:
+      opacity 720ms var(--ease),
+      clip-path 780ms var(--ease);
+  }
+
+  .reveal[data-motion="diagram"].is-in .evidence-list li {
+    animation: support-in 420ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+
+  .reveal[data-motion="diagram"][data-ready="true"]:not(.is-in) .flow-track i {
     transform: scaleX(0);
   }
 
-  .reveal.is-in .flow-track i {
-    animation: flow-in 700ms var(--ease) backwards;
-    animation-delay: calc(var(--n, 0) * 220ms + 200ms);
+  .reveal[data-motion="diagram"].is-in .flow-track i {
+    animation: flow-in 680ms var(--ease) backwards;
+    animation-delay: calc(var(--n, 0) * 90ms);
   }
 
   /* Overbilled invoices stand up in order, are read, then come back as credit. */
@@ -3735,9 +3817,31 @@ details[open] > summary .toggle::after {
   }
 
   .hero .plate-stage {
-    animation: plate-in 1100ms var(--ease) both;
+    animation: plate-in 680ms var(--ease) 80ms both;
   }
 
+  .focus-item .finding-loop,
+  .evidence-stage .axo {
+    transition: transform 420ms var(--ease);
+  }
+
+  .focus-item:hover .finding-loop,
+  .evidence:hover .evidence-stage .axo {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes line-rise {
+  from {
+    transform: translateY(108%);
+  }
+}
+
+@keyframes support-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 }
 
 @keyframes found-then-credited {
@@ -3781,6 +3885,7 @@ details[open] > summary .toggle::after {
 @keyframes plate-in {
   from {
     opacity: 0;
+    transform: translateY(18px);
   }
 }
 
