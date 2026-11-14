@@ -240,19 +240,21 @@ export default function ExposureCalculator() {
       </div>
 
       <div className="exhibit-total calc-total">
-        <div aria-live="polite">
+        <div className="calc-sum-block" aria-live="polite">
           <p className="figure-num num calc-sum">{formatUsd(Math.round(shown))}</p>
+          <p className="micro calc-kicker">Observed over {months} months</p>
+        </div>
+        <div className="calc-notes">
           <p className="exhibit-formula">
             {formatCount(units)} units × {months} months × {formatUsd(excess, 2)} ={" "}
             {formatUsd(model.total)}
           </p>
+          <p className="micro">
+            <span className="is-over">
+              If it continues, another {formatUsd(model.perYear)} a year. Not cash recovered.
+            </span>
+          </p>
         </div>
-        <p className="micro exhibit-state">
-          <strong>Observed over {months} months</strong>
-          <span className="is-over">
-            If it continues, another {formatUsd(model.perYear)} a year. Not cash recovered.
-          </span>
-        </p>
       </div>
 
       <form

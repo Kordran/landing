@@ -135,7 +135,13 @@ export default function PlateField({
             data-col={hover.col}
             data-row={hover.row}
             data-state={
-              hover.resolved ? "resolved" : hover.raised ? "above" : "agreed"
+              hover.resolved
+                ? "resolved"
+                : hover.tone === "back"
+                  ? "back"
+                  : hover.raised
+                    ? "above"
+                    : "agreed"
             }
             style={pinned(hover.col, hover.row)}
             aria-hidden="true"
@@ -144,11 +150,11 @@ export default function PlateField({
               <span className="plate-tag-ref">
                 Line {pad(hover.row)} · Invoice {pad(hover.col)}
               </span>
-              {hover.resolved ? (
+              {hover.resolved || hover.tone === "back" ? (
                 <>
-                  <strong>Corrected to {formatUsd(prices.agreed, 2)}</strong>
+                  <strong>Brought back to {formatUsd(prices.agreed, 2)}</strong>
                   <span>
-                    {formatUsd(prices.excess, 2)} a unit corrected
+                    Was {formatUsd(prices.billed, 2)} a unit
                   </span>
                 </>
               ) : hover.raised ? (
@@ -174,7 +180,8 @@ export default function PlateField({
 
       <figcaption className="plate-key" aria-hidden="true">
         <p className="plate-progress">
-          Raised tiles are billed above the agreement. Point at one to read it.
+          Red is billed above the agreement. Green has been brought back.
+          Point at a tile to read it.
         </p>
         <ul className="plate-legend">
           <li>
@@ -182,8 +189,12 @@ export default function PlateField({
             Billed as agreed
           </li>
           <li>
-            <i className="plate-swatch is-raised" />
+            <i className="plate-swatch is-over" />
             Billed above agreement
+          </li>
+          <li>
+            <i className="plate-swatch is-back" />
+            Brought back
           </li>
         </ul>
       </figcaption>

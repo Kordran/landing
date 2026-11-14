@@ -11,9 +11,11 @@ import {
   SETTLED,
   SIZE,
   TONES,
+  WIDTH,
   cameraDirection,
   datumSegments,
   tileOrigin,
+  toneAt,
   varianceAt,
 } from "./model";
 
@@ -22,6 +24,7 @@ export type PlateHover = {
   row: number;
   raised: boolean;
   resolved: boolean;
+  tone: "over" | "back" | "agreed";
 } | null;
 
 export type PlateHandle = {
@@ -55,6 +58,8 @@ const tileVertex = /* glsl */ `
   uniform float uBase;
   uniform float uSettled;
   uniform float uTime;
+  uniform float uWidth;
+  uniform float uOrigin;
   varying vec2 vUv;
   varying vec3 vFace;
   varying float vKind;
@@ -75,7 +80,14 @@ const tileVertex = /* glsl */ `
     if (aKind > 0.5) {
       float done = smoothstep(aResolveAt, aResolveAt + ${RESOLVE_TIME.toFixed(2)}, uTime);
       vResolving = done * (1.0 - smoothstep(aResolveAt + 0.4, aResolveAt + 1.6, uTime));
-      height = mix(aLift, uSettled, max(uAlign, done));
+      float target = mix(aLift, uSettled, max(uAlign, done));
+      float along = clamp((vOrigin.x - uOrigin) / uWidth, 0.0, 1.0);
+      float rise = smoothstep(0.0, 1.0, clamp((uTime - along * 0.85) / 0.5, 0.0, 1.0));
+      float breathe = 0.0;
+      if (aKind < 1.5) {
+        breathe = sin(uTime * 1.6 + along * 5.0) * 0.07 * target * rise * (1.0 - uAlign);
+      }
+      height = mix(0.04, target, rise) + breathe;
       lift = uBase;
     }
     vec3 p = position;
@@ -96,6 +108,11 @@ const tileFragment = /* glsl */ `
   uniform vec3 uCapShade;
   uniform vec3 uEdge;
   uniform vec3 uCapEdge;
+  uniform vec3 uBackTop;
+  uniform vec3 uBackLit;
+  uniform vec3 uBackShade;
+  uniform vec3 uBackEdge;
+  uniform float uTime;
   uniform float uEdgeOpacity;
   uniform float uCapEdgeOpacity;
   uniform vec3 uBeam;
@@ -111,11 +128,21 @@ const tileFragment = /* glsl */ `
 
   void main() {
     bool cap = vKind > 0.5;
+    bool brought = vKind > 1.5;
     bool top = vFace.y > 0.5;
+    vec3 topC = brought ? uBackTop : uCapTop;
+    vec3 litC = brought ? uBackLit : uCapLit;
+    vec3 shadeC = brought ? uBackShade : uCapShade;
+    vec3 edgeC = brought ? uBackEdge : uCapEdge;
     vec3 color;
-    if (top) color = cap ? uCapTop : uTop;
-    else if (abs(vFace.x) > 0.5) color = cap ? uCapLit : uLit;
-    else color = cap ? uCapShade : uShade;
+    if (top) color = cap ? topC : uTop;
+    else if (abs(vFace.x) > 0.5) color = cap ? litC : uLit;
+    else color = cap ? shadeC : uShade;
+
+    if (top && cap && !brought) {
+      float sheen = 0.5 + 0.5 * sin(uTime * 1.3 + vAcross * 0.22);
+      color = mix(color, edgeC, sheen * 0.16);
+    }
 
     // The line under the pointer is read across its whole length.
     float onRow = uHoverOn * (1.0 - step(0.5, abs(vOrigin.y - uHoverRow)));
@@ -123,12 +150,12 @@ const tileFragment = /* glsl */ `
 
     vec2 away = abs(vOrigin - uHover);
     float hover = uHoverOn * (1.0 - step(0.5, max(away.x, away.y)));
-    if (cap) color = mix(color, uCapEdge, hover * 0.35 + vResolving * 0.5);
+    if (cap) color = mix(color, edgeC, hover * 0.35 + vResolving * 0.5);
 
     vec2 w = max(fwidth(vUv), vec2(1e-5));
     vec2 d = min(vUv, 1.0 - vUv) / w;
     float line = 1.0 - smoothstep(0.5, 1.4, min(d.x, d.y));
-    vec3 edge = cap ? uCapEdge : mix(uEdge, uCapLit, hover);
+    vec3 edge = cap ? edgeC : mix(uEdge, uCapLit, hover);
     float strength = cap ? uCapEdgeOpacity : uEdgeOpacity;
     strength = mix(strength, 1.0, hover);
     gl_FragColor = vec4(mix(color, edge, line * strength), 1.0);
@@ -195,7 +222,9 @@ export function mountPlate(
   const lift = new Float32Array(total);
   const kind = new Float32Array(total);
   const resolveAt = new Float32Array(total).fill(NEVER);
-  const uTime = { value: 0 };
+  // Past the rise, so the live scene replaces the drawing without a drop.
+  // The sheen and the slow lift are what keep moving.
+  const uTime = { value: 1.7 };
   const uAlign = { value: 0 };
   const uHoverOn = { value: 0 };
   const material = new THREE.ShaderMaterial({
@@ -218,6 +247,12 @@ export function mountPlate(
       uCapShade: { value: rgb(TONES.capShade) },
       uEdge: { value: rgb(TONES.edge) },
       uCapEdge: { value: rgb(TONES.capEdge) },
+      uBackTop: { value: rgb(TONES.backTop) },
+      uBackLit: { value: rgb(TONES.backLit) },
+      uBackShade: { value: rgb(TONES.backShade) },
+      uBackEdge: { value: rgb(TONES.backEdge) },
+      uWidth: { value: WIDTH },
+      uOrigin: { value: -WIDTH / 2 },
       uEdgeOpacity: { value: EDGE_OPACITY },
       uCapEdgeOpacity: { value: CAP_EDGE_OPACITY },
     },
@@ -240,7 +275,7 @@ export function mountPlate(
   for (const tile of raised) {
     place(tile.col, tile.row);
     lift[index] = tile.h;
-    kind[index] = 1;
+    kind[index] = toneAt(tile.col, tile.row) === "back" ? 2 : 1;
     capIndex.set(`${tile.col}:${tile.row}`, index);
     index += 1;
   }
@@ -346,6 +381,7 @@ export function mountPlate(
           row: tile.row,
           raised: true,
           resolved: isResolved(tile.col, tile.row),
+          tone: toneAt(tile.col, tile.row) ?? "over",
         };
       }
     }
@@ -360,7 +396,7 @@ export function mountPlate(
     const [x, z] = tileOrigin(col, row);
     if (Math.abs(hit.x - x) > SIZE / 2 || Math.abs(hit.z - z) > SIZE / 2)
       return null;
-    return { col, row, raised: false, resolved: false };
+    return { col, row, raised: false, resolved: false, tone: "agreed" };
   };
 
   const setHover = (next: PlateHover) => {

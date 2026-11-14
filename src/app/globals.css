@@ -4,10 +4,11 @@
  * Kordran design system.
  *
  * One drawn world: warm paper, ink, and a blue-leaning teal. A brick red and
- * a green are used only to name money: red for what was billed over, green
- * for what came back or was stopped. Records are sheets that sit on the
- * paper. Everything dimensional is drawn in the same axonometric projection
- * as the hero plate. The footer painting is the only place the palette warms up.
+ * a green name money, and the same two colors mark the hero plate: red for
+ * what was billed over, green for what was brought back. Records are sheets
+ * that sit on the paper. Everything dimensional is drawn in the same
+ * axonometric projection as the hero plate. The footer painting is the only
+ * place the palette warms up.
  *
  * Tokens first, then base, layout, components, sections, motion.
  */
@@ -898,12 +899,21 @@ select {
 }
 
 .plate-tag[data-state="above"]::before {
-  background: var(--teal);
-  border-color: var(--teal);
+  background: var(--over);
+  border-color: var(--over);
 }
 
 .plate-tag[data-state="above"] .plate-tag-body {
-  border-top: 2px solid var(--teal);
+  border-top: 2px solid var(--over);
+}
+
+.plate-tag[data-state="back"]::before {
+  background: var(--back);
+  border-color: var(--back);
+}
+
+.plate-tag[data-state="back"] .plate-tag-body {
+  border-top: 2px solid var(--back);
 }
 
 .plate-tag[data-state="resolved"] .plate-tag-body {
@@ -957,9 +967,15 @@ select {
   border: 1px solid var(--line-strong);
 }
 
-.plate-swatch.is-raised {
-  background: var(--teal);
-  border-color: var(--teal);
+.plate-swatch.is-raised,
+.plate-swatch.is-over {
+  background: #9a3b36;
+  border-color: #9a3b36;
+}
+
+.plate-swatch.is-back {
+  background: #1c7a4e;
+  border-color: #1c7a4e;
 }
 
 .hero-rail-wrap {
@@ -1479,6 +1495,31 @@ select {
   margin-top: var(--s-2);
 }
 
+.calc-total {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-5);
+}
+
+.calc-sum-block {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.calc-kicker {
+  color: var(--ink);
+}
+
+.calc-notes {
+  display: grid;
+  gap: var(--s-2);
+  max-width: 42em;
+}
+
+.calc-notes .exhibit-formula {
+  margin-top: 0;
+}
+
 .calc-controls {
   display: grid;
   gap: var(--s-6) var(--gutter);
@@ -1789,6 +1830,87 @@ details[open] > summary .toggle::after {
   color: var(--on-deep);
   font-size: var(--text-lede);
   line-height: 1.55;
+}
+
+.outcome {
+  margin-top: var(--s-8);
+}
+
+.outcome-story {
+  max-width: 38em;
+  color: var(--on-deep);
+  font-size: var(--text-lede);
+  line-height: 1.55;
+}
+
+.outcome-rows {
+  display: grid;
+  gap: var(--s-6);
+  margin-top: var(--s-7);
+}
+
+.outcome-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.outcome-meta strong {
+  font-size: clamp(1.5rem, 1.05rem + 1.3vw, 2.25rem);
+  font-weight: 500;
+  font-stretch: 92%;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.outcome-track {
+  height: 16px;
+  margin-top: var(--s-3);
+  background: rgba(244, 242, 237, 0.12);
+}
+
+.outcome-fill {
+  display: block;
+  height: 100%;
+  width: calc(var(--w) * 100%);
+  transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .outcome-fill {
+    animation: outcome-bar 680ms var(--ease) both;
+    animation-delay: calc(var(--i) * 140ms);
+  }
+}
+
+@keyframes outcome-bar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.outcome-fill.is-over {
+  background: #b5524c;
+}
+
+.outcome-fill.is-back {
+  background: #1f7a52;
+}
+
+.outcome-fill.is-ahead {
+  background: #7dcea8;
+}
+
+.outcome-foot {
+  max-width: 40em;
+  margin-top: var(--s-6);
+  color: var(--on-deep-2);
+  font-size: var(--text-small);
+  line-height: 1.5;
 }
 
 .ledger-figures {

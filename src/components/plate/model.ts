@@ -32,11 +32,15 @@ export const TONES = {
   top: "#fdfcfa",
   lit: "#dedbd3",
   shade: "#c3c0b7",
-  capTop: "#27506b",
-  capLit: "#1c3d57",
-  capShade: "#142e42",
+  capTop: "#9a3b36",
+  capLit: "#732c28",
+  capShade: "#541f1c",
   edge: "#161a1d",
-  capEdge: "#9bb8c6",
+  capEdge: "#f0b4ae",
+  backTop: "#1c7a4e",
+  backLit: "#14663f",
+  backShade: "#0d4a2d",
+  backEdge: "#b7ead0",
   /** The inspection light as it crosses the flush surface. */
   beam: "#b9cfda",
 } as const;
@@ -45,12 +49,15 @@ export const EDGE_OPACITY = 0.3;
 export const CAP_EDGE_OPACITY = 0.38;
 export const DATUM_OPACITY = 0.42;
 
+export type CapTone = "over" | "back";
+
 type Run = {
   row: number;
   from: number;
   to: number;
   h: number;
   every?: number;
+  tone?: CapTone;
 };
 
 /**
@@ -59,7 +66,7 @@ type Run = {
  * isolated mismatch.
  */
 const RUNS: Run[] = [
-  { row: 2, from: 16, to: 27, h: 0.42 },
+  { row: 2, from: 16, to: 27, h: 0.42, tone: "back" },
   { row: 5, from: 7, to: 12, h: 0.26 },
   { row: 5, from: 13, to: 27, h: 0.6 },
   { row: 8, from: 3, to: 27, every: 4, h: 0.34 },
@@ -75,6 +82,21 @@ export function varianceAt(col: number, row: number): number {
     h = Math.max(h, run.h);
   }
   return h;
+}
+
+/** Red is still over the agreement. Green is a line already brought back. */
+export function toneAt(col: number, row: number): CapTone | null {
+  let best = 0;
+  let tone: CapTone | null = null;
+  for (const run of RUNS) {
+    if (run.row !== row || col < run.from || col > run.to) continue;
+    if (run.every && (col - run.from) % run.every !== 0) continue;
+    if (run.h > best) {
+      best = run.h;
+      tone = run.tone ?? "over";
+    }
+  }
+  return tone;
 }
 
 export type Vec3 = [number, number, number];
@@ -226,7 +248,7 @@ export type PlateDrawing = {
   viewBox: string;
   aspect: number;
   tile: ReturnType<typeof boxFaces>;
-  caps: { id: string; faces: ReturnType<typeof boxFaces> }[];
+  caps: { id: string; tone: CapTone; faces: ReturnType<typeof boxFaces> }[];
   /** Back to front. `cap` names the cap symbol drawn on top of the tile. */
   placements: { x: string; y: string; cap?: string }[];
   datum: string;
@@ -238,10 +260,9 @@ let cache: PlateDrawing | null = null;
 export function plateDrawing(): PlateDrawing {
   if (cache) return cache;
 
-  const heights = Array.from(new Set(RUNS.map((run) => run.h))).sort(
-    (a, b) => a - b
-  );
-  const capId = (h: number) => `plate-cap-${heights.indexOf(h)}`;
+  const capId = (h: number, tone: CapTone) =>
+    `plate-cap-${tone}-${String(h).replace(".", "")}`;
+  const caps = new Map<string, { id: string; tone: CapTone; h: number }>();
 
   const tiles: { near: number; x: string; y: string; cap?: string }[] = [];
   for (let row = 0; row < ROWS; row += 1) {
@@ -249,11 +270,17 @@ export function plateDrawing(): PlateDrawing {
       const [x, z] = tileOrigin(col, row);
       const [sx, sy] = toSvg([x, 0, z]);
       const h = varianceAt(col, row);
+      const tone = h > 0 ? toneAt(col, row) : null;
+      let cap: string | undefined;
+      if (h > 0 && tone) {
+        cap = capId(h, tone);
+        caps.set(cap, { id: cap, tone, h });
+      }
       tiles.push({
         near: nearness([x, 0, z]),
         x: fix(sx),
         y: fix(sy),
-        cap: h > 0 ? capId(h) : undefined,
+        cap,
       });
     }
   }
@@ -271,7 +298,13 @@ export function plateDrawing(): PlateDrawing {
     viewBox: `0 0 ${fix(FRAME.width * UNIT)} ${fix(FRAME.height * UNIT)}`,
     aspect: FRAME.width / FRAME.height,
     tile: boxFaces(BASE, 0),
-    caps: heights.map((h) => ({ id: capId(h), faces: boxFaces(h, BASE) })),
+    caps: Array.from(caps.values())
+      .sort((a, b) => a.h - b.h)
+      .map((cap) => ({
+        id: cap.id,
+        tone: cap.tone,
+        faces: boxFaces(cap.h, BASE),
+      })),
     placements: tiles.map(({ x, y, cap }) => ({ x, y, cap })),
     datum,
   };

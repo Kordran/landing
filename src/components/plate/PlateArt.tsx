@@ -33,19 +33,36 @@ export default function PlateArt() {
           <polygon points={drawing.tile.shade} fill={TONES.shade} />
           <polygon points={drawing.tile.top} fill={TONES.top} />
         </g>
-        {drawing.caps.map((cap) => (
-          <g
-            key={cap.id}
-            id={cap.id}
-            stroke={TONES.capEdge}
-            strokeOpacity={CAP_EDGE_OPACITY}
-            strokeLinejoin="round"
-          >
-            <polygon points={cap.faces.lit} fill={TONES.capLit} />
-            <polygon points={cap.faces.shade} fill={TONES.capShade} />
-            <polygon points={cap.faces.top} fill={TONES.capTop} />
-          </g>
-        ))}
+        {drawing.caps.map((cap) => {
+          const tone = cap.tone === "back" ? "back" : "over";
+          const fill =
+            tone === "back"
+              ? {
+                  lit: TONES.backLit,
+                  shade: TONES.backShade,
+                  top: TONES.backTop,
+                  edge: TONES.backEdge,
+                }
+              : {
+                  lit: TONES.capLit,
+                  shade: TONES.capShade,
+                  top: TONES.capTop,
+                  edge: TONES.capEdge,
+                };
+          return (
+            <g
+              key={cap.id}
+              id={cap.id}
+              stroke={fill.edge}
+              strokeOpacity={CAP_EDGE_OPACITY}
+              strokeLinejoin="round"
+            >
+              <polygon points={cap.faces.lit} fill={fill.lit} />
+              <polygon points={cap.faces.shade} fill={fill.shade} />
+              <polygon points={cap.faces.top} fill={fill.top} />
+            </g>
+          );
+        })}
       </defs>
       <path
         d={drawing.datum}
