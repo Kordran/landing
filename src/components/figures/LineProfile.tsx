@@ -1,7 +1,6 @@
 import type { CSSProperties } from "react";
 import {
   annualPrevented,
-  excludedExposure,
   formatUsd,
   formatUsdShort,
   monthlyDifference,
@@ -56,10 +55,9 @@ export default function LineProfile() {
   return (
     <figure className="outcome">
       <p className="outcome-story">
-        Below zero, two years of overbilling reach {formatUsd(potentialDiscrepancy)}.
-        Above it, {formatUsd(supportedExposure)} is the opportunity the records
-        can support. If the price is corrected, the next year is{" "}
-        {formatUsd(annualPrevented)} not billed.
+        Above zero are the wins. The records can support {formatUsd(supportedExposure)},
+        and a corrected price keeps {formatUsd(annualPrevented)} from being billed
+        the next year. Below zero, the loss reaches {formatUsd(potentialDiscrepancy)}.
       </p>
 
       <div className="vbars">
@@ -83,7 +81,7 @@ export default function LineProfile() {
               key={`found-${bar.step}`}
               className="vbar"
               style={{ "--i": bar.step } as CSSProperties}
-              title={`Quarter ${bar.step}. Loss ${formatUsd(bar.observed)}. Opportunity ${formatUsd(bar.opportunity)}.`}
+              title={`Quarter ${bar.step}. Loss ${formatUsd(bar.observed)}. Win ${formatUsd(bar.opportunity)}.`}
             >
               <span
                 className="vbar-fill is-loss"
@@ -120,29 +118,29 @@ export default function LineProfile() {
 
       <ul className="outcome-legend micro">
         <li>
-          <i className="is-loss" />
-          Loss
-        </li>
-        <li>
           <i className="is-win" />
-          Opportunity
+          Win
         </li>
         <li>
           <i className="is-ahead" />
-          Not billed, if corrected
+          Not billed
+        </li>
+        <li>
+          <i className="is-loss" />
+          Loss
         </li>
       </ul>
 
       <p className="outcome-foot">
-        {formatUsd(excludedExposure)} of the finding sits on other terms. The
-        year ahead is future cost avoidance, if buying continues.
+        The year not billed is future cost avoidance, if the price is corrected
+        and buying continues.
       </p>
 
       <ul className="sr-only">
         <li>After one year, a loss of {formatUsd(quarter * 4)}.</li>
         <li>
-          After two years, a loss of {formatUsd(potentialDiscrepancy)} and an
-          opportunity of {formatUsd(supportedExposure)}.
+          After two years, a loss of {formatUsd(potentialDiscrepancy)} and a win
+          of {formatUsd(supportedExposure)}.
         </li>
         <li>
           A year after a corrected price, {formatUsd(annualPrevented)} is not
