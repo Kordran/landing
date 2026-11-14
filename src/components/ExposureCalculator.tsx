@@ -246,8 +246,10 @@ export default function ExposureCalculator() {
         </div>
         <div className="calc-notes">
           <p className="exhibit-formula">
-            {formatCount(units)} units × {months} months × {formatUsd(excess, 2)} ={" "}
-            {formatUsd(model.total)}
+            <span>
+              {formatCount(units)} units × {months} months × {formatUsd(excess, 2)}
+            </span>
+            <span className="exhibit-equals num">= {formatUsd(model.total)}</span>
           </p>
           <p className="micro">
             <span className="is-over">

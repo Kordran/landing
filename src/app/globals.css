@@ -72,13 +72,13 @@
   --s-8: 64px;
   --s-9: 96px;
   --s-10: 128px;
-  --section: clamp(84px, 10vw, 148px);
-  --stack: clamp(48px, 5.6vw, 84px);
+  --section: clamp(104px, 11.5vw, 168px);
+  --stack: clamp(64px, 6.8vw, 104px);
 
   /* Layout */
   --page: 1312px;
-  --margin: clamp(20px, 4.4vw, 64px);
-  --gutter: clamp(16px, 2vw, 24px);
+  --margin: clamp(24px, 4.8vw, 72px);
+  --gutter: clamp(20px, 2.2vw, 32px);
   --header-h: 72px;
 
   /* Motion */
@@ -417,7 +417,7 @@ select {
 /* Heading on the left, supporting copy on the right, baselines shared. */
 .head-split {
   display: grid;
-  gap: var(--s-6) var(--gutter);
+  gap: var(--s-7) var(--gutter);
 }
 
 @media (min-width: 900px) {
@@ -577,7 +577,7 @@ select {
 }
 
 .section-link {
-  margin-top: var(--s-7);
+  margin-top: var(--s-8);
 }
 
 /* ---------- Header ---------- */
@@ -717,26 +717,32 @@ select {
 .hero-body {
   position: relative;
   z-index: 2;
-  padding-top: clamp(40px, 7vw, 72px);
+  padding-top: clamp(56px, 8vw, 88px);
 }
 
 .hero-body .display-hero {
-  margin-top: var(--s-6);
+  margin-top: var(--s-7);
 }
 
 .hero-body .lede {
   max-width: 30em;
-  margin-top: var(--s-6);
+  margin-top: var(--s-7);
 }
 
 .hero-body .cta-row {
-  margin-top: var(--s-7);
+  margin-top: var(--s-8);
+}
+
+@media (max-width: 430px) {
+  .hero-body > .label {
+    letter-spacing: 0.04em;
+  }
 }
 
 .plate {
   position: relative;
   order: 2;
-  margin: var(--s-6) 0 0;
+  margin: var(--s-8) 0 0;
   pointer-events: none;
 }
 
@@ -782,9 +788,9 @@ select {
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  gap: var(--s-2) var(--s-5);
+  gap: var(--s-3) var(--s-5);
   width: min(var(--page), calc(100% - (2 * var(--margin))));
-  margin: var(--s-4) auto 0;
+  margin: var(--s-6) auto 0;
   font-family: var(--mono);
   font-size: 0.6875rem;
   font-weight: 500;
@@ -982,14 +988,14 @@ select {
   position: relative;
   z-index: 2;
   order: 3;
-  margin-top: var(--s-7);
+  margin-top: var(--s-8);
 }
 
 .hero-rail {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s-5) var(--gutter);
-  padding: var(--s-5) 0 var(--s-6);
+  gap: var(--s-6) var(--gutter);
+  padding: var(--s-6) 0 var(--s-7);
   border-top: 1px solid var(--line-strong);
 }
 
@@ -1021,27 +1027,27 @@ select {
 @media (min-width: 1120px) {
   .hero {
     display: block;
-    min-height: min(880px, calc(100svh - var(--header-h)));
-    padding-bottom: 120px;
+    min-height: min(920px, calc(100svh - var(--header-h)));
+    padding-bottom: 168px;
   }
 
   .hero-body {
-    padding-top: clamp(64px, 11.5vh, 128px);
+    padding-top: clamp(72px, 12vh, 136px);
   }
 
   .hero-body .display-hero {
-    margin-top: var(--s-6);
+    margin-top: var(--s-7);
   }
 
   .hero-body .lede {
     /* Three even lines, so the copy ends well short of the plate. */
     max-width: 26em;
-    margin-top: var(--s-6);
+    margin-top: var(--s-7);
     text-wrap: balance;
   }
 
   .hero-body .cta-row {
-    margin-top: var(--s-7);
+    margin-top: var(--s-8);
   }
 
   .plate {
@@ -1055,10 +1061,10 @@ select {
     top: 50%;
     left: 43%;
     /* Sized by the shorter of the two axes so it never crowds the copy. */
-    width: min(76vw, 118svh);
+    width: min(72vw, 108svh);
     margin: 0;
-    /* Raised at mid widths so the near corner clears the legend. */
-    --plate-rise: -50%;
+    /* Raised so the near corner clears the caption and the rail. */
+    --plate-rise: -58%;
     transform: translateY(var(--plate-rise));
     pointer-events: auto;
   }
@@ -1066,10 +1072,10 @@ select {
   .plate-key {
     position: absolute;
     right: var(--margin);
-    bottom: 96px;
-    width: min(280px, 28vw);
+    bottom: 148px;
+    width: min(320px, 30vw);
     margin: 0;
-    padding: var(--s-3) 0 0 var(--s-4);
+    padding: var(--s-4) 0 var(--s-4) var(--s-5);
     background: var(--paper);
     text-align: right;
   }
@@ -1092,19 +1098,19 @@ select {
 
   .hero-rail {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    padding: var(--s-5) 0;
+    padding: var(--s-6) 0;
   }
 }
 
 @media (min-width: 1360px) {
   .hero-body .lede {
-    max-width: 34em;
+    max-width: 32em;
     text-wrap: pretty;
   }
 
   .plate-stage {
-    left: 37%;
-    --plate-rise: -43%;
+    left: 40%;
+    --plate-rise: -54%;
   }
 }
 
@@ -1218,8 +1224,8 @@ select {
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--s-1) var(--s-4);
-  padding: 14px var(--s-5);
+  gap: var(--s-2) var(--s-5);
+  padding: var(--s-4) var(--s-6);
   border-bottom: 1px solid var(--line);
   font-family: var(--mono);
   font-size: 0.6875rem;
@@ -1228,6 +1234,11 @@ select {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
+}
+
+.sheet-head > span:last-child {
+  margin-left: auto;
+  text-align: right;
 }
 
 .micro {
@@ -1284,6 +1295,28 @@ select {
   padding: var(--s-6) var(--s-6) var(--s-7);
 }
 
+@media (max-width: 720px) {
+  .exhibit-pair > div {
+    padding: var(--s-5) var(--s-5) var(--s-6);
+  }
+}
+
+/* Two prices side by side only when each one has a full line to sit on. */
+@media (max-width: 520px) {
+  .exhibit-pair {
+    grid-template-columns: 1fr;
+  }
+
+  .exhibit-pair > div + div {
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .exhibit-pair > div {
+    padding: var(--s-5) var(--s-5) var(--s-6);
+  }
+}
+
 .exhibit-pair > div + div {
   border-left: 1px solid var(--line);
 }
@@ -1309,8 +1342,31 @@ select {
   grid-template-columns: auto minmax(24px, 1fr) auto;
   align-items: center;
   gap: var(--s-4);
-  padding: var(--s-4) var(--s-5);
+  padding: var(--s-5) var(--s-6);
   border-top: 1px solid var(--line);
+}
+
+@media (max-width: 520px) {
+  .dimension {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "label value"
+      "line line";
+    gap: var(--s-3) var(--s-4);
+    padding: var(--s-5);
+  }
+
+  .dimension .micro {
+    grid-area: label;
+  }
+
+  .dimension-line {
+    grid-area: line;
+  }
+
+  .dimension .figure-num {
+    grid-area: value;
+  }
 }
 
 .dimension-line {
@@ -1340,8 +1396,8 @@ select {
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: var(--s-3) var(--s-5);
-  padding: var(--s-5);
+  gap: var(--s-4) var(--s-6);
+  padding: var(--s-6);
   border-top: 1px solid var(--line-strong);
 }
 
@@ -1350,11 +1406,20 @@ select {
 }
 
 .exhibit-formula {
-  margin-top: var(--s-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35em 0.65em;
+  margin-top: var(--s-4);
   color: var(--ink-3);
   font-family: var(--mono);
   font-size: 0.8125rem;
-  line-height: 1.5;
+  line-height: 1.55;
+}
+
+.exhibit-equals {
+  color: var(--ink);
+  font-weight: 500;
 }
 
 .exhibit-state {
@@ -1369,7 +1434,7 @@ select {
 
 /* The calculator: overbilling stacked month by month. */
 .calc-plot {
-  padding: var(--s-5) var(--s-5) var(--s-4);
+  padding: var(--s-6) var(--s-5) var(--s-5);
   border-top: 1px solid var(--line);
 }
 
@@ -1480,10 +1545,23 @@ select {
 }
 
 .calc-axis {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--s-3);
-  margin-top: var(--s-2);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: var(--s-4);
+  align-items: start;
+  margin-top: var(--s-4);
+}
+
+.calc-axis span:first-child {
+  white-space: nowrap;
+}
+
+.calc-axis span:nth-child(2) {
+  text-align: center;
+}
+
+.calc-axis span:nth-child(3) {
+  text-align: right;
 }
 
 .calc-sum {
@@ -1498,7 +1576,8 @@ select {
 .calc-total {
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--s-5);
+  gap: var(--s-6);
+  padding: var(--s-7) var(--s-6);
 }
 
 .calc-sum-block {
@@ -1512,7 +1591,7 @@ select {
 
 .calc-notes {
   display: grid;
-  gap: var(--s-2);
+  gap: var(--s-4);
   max-width: 42em;
 }
 
@@ -1522,8 +1601,8 @@ select {
 
 .calc-controls {
   display: grid;
-  gap: var(--s-6) var(--gutter);
-  padding: var(--s-5);
+  gap: var(--s-7) var(--gutter);
+  padding: var(--s-6) var(--s-6) var(--s-7);
   border-top: 1px solid var(--line);
   background: var(--paper);
 }
@@ -1623,6 +1702,17 @@ select {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  /* Each control is a short column. Stack the name over the number so a long label does not collide with its value. */
+  .calc-slider label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-1);
+  }
+
+  .calc-slider label .micro {
+    min-height: 3em;
+  }
+
   .calc-reset {
     grid-column: 1 / -1;
   }
@@ -1675,7 +1765,7 @@ details[open] > summary .toggle::after {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--s-6);
-  padding: var(--s-7) 0;
+  padding: var(--s-8) 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -1729,10 +1819,9 @@ details[open] > summary .toggle::after {
 }
 
 .focus-records {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-1) var(--s-3);
-  margin-top: var(--s-5);
+  display: grid;
+  gap: var(--s-1);
+  margin-top: var(--s-6);
 }
 
 .focus-records dd {
@@ -1746,12 +1835,12 @@ details[open] > summary .toggle::after {
 
   .focus-item {
     align-content: start;
-    padding: var(--s-6) var(--s-6) var(--s-2) 0;
+    padding: var(--s-7) var(--s-7) var(--s-7) 0;
     border-bottom: none;
   }
 
   .focus-item + .focus-item {
-    padding-left: var(--s-6);
+    padding-left: var(--s-7);
     border-left: 1px solid var(--line);
   }
 
@@ -1897,18 +1986,18 @@ details[open] > summary .toggle::after {
 .turn-story {
   max-width: 42em;
   min-height: 3.2em;
-  margin-top: var(--s-5);
+  margin-top: var(--s-6);
   color: var(--on-deep);
   font-size: var(--text-lede);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .trail {
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
-  column-gap: var(--s-3);
-  row-gap: var(--s-3);
-  margin-top: var(--s-6);
+  grid-template-columns: 64px minmax(0, 1fr);
+  column-gap: var(--s-4);
+  row-gap: var(--s-4);
+  margin-top: var(--s-7);
   cursor: ew-resize;
   touch-action: none;
 }
@@ -2080,8 +2169,8 @@ details[open] > summary .toggle::after {
 .trail-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-3) var(--s-5);
-  margin-top: var(--s-5);
+  gap: var(--s-3) var(--s-6);
+  margin-top: var(--s-6);
   color: var(--on-deep-2);
 }
 
@@ -2110,7 +2199,7 @@ details[open] > summary .toggle::after {
 }
 
 .turn-play {
-  margin-top: var(--s-4);
+  margin-top: var(--s-6);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -2727,7 +2816,7 @@ details[open] > summary .toggle::after {
   .track-steps {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--gutter);
-    margin-top: var(--s-6);
+    margin-top: var(--s-8);
   }
 
   .track-step {
@@ -2809,8 +2898,8 @@ details[open] > summary .toggle::after {
   align-items: center;
   justify-content: space-between;
   gap: var(--s-5);
-  min-height: 76px;
-  padding: var(--s-5) 0;
+  min-height: 88px;
+  padding: var(--s-6) 0;
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.3;
@@ -2834,7 +2923,7 @@ details[open] > summary .toggle::after {
 
 .faq-item p {
   max-width: 40em;
-  padding: 0 var(--s-7) var(--s-6) 0;
+  padding: 0 var(--s-8) var(--s-7) 0;
   color: var(--ink-2);
 }
 
@@ -2873,7 +2962,7 @@ details[open] > summary .toggle::after {
   grid-template-columns: 40px minmax(0, 1fr);
   gap: var(--s-4);
   align-items: baseline;
-  padding: var(--s-5) 0;
+  padding: var(--s-6) 0;
   border-bottom: 1px solid var(--line);
   color: var(--ink-2);
 }
@@ -2886,7 +2975,7 @@ details[open] > summary .toggle::after {
 }
 
 .contact-mail {
-  margin-top: var(--s-5);
+  margin-top: var(--s-6);
 }
 
 .form-sheet,
@@ -2897,7 +2986,7 @@ details[open] > summary .toggle::after {
 
 .form-body,
 .form-success {
-  padding: var(--s-5);
+  padding: var(--s-6);
 }
 
 .form-steps {
@@ -2990,7 +3079,7 @@ details[open] > summary .toggle::after {
 
 .form-grid {
   display: grid;
-  gap: var(--s-6);
+  gap: var(--s-7);
 }
 
 .form-field textarea::placeholder {
@@ -3106,7 +3195,7 @@ details[open] > summary .toggle::after {
 
   .form-body,
   .form-success {
-    padding: var(--s-6);
+    padding: var(--s-7);
   }
 }
 
@@ -3263,14 +3352,14 @@ details[open] > summary .toggle::after {
 }
 
 .site-footer {
-  padding-bottom: var(--s-6);
+  padding-bottom: var(--s-8);
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s-6) var(--gutter);
-  padding-top: var(--s-5);
+  gap: var(--s-7) var(--gutter);
+  padding-top: var(--s-6);
   border-top: 1px solid var(--line-deep);
 }
 
@@ -3325,8 +3414,8 @@ details[open] > summary .toggle::after {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: var(--s-2) var(--s-5);
-  margin-top: var(--s-6);
+  gap: var(--s-3) var(--s-5);
+  margin-top: var(--s-7);
 }
 
 /* Plain footer for the legal pages. */
@@ -3372,7 +3461,7 @@ details[open] > summary .toggle::after {
 /* ---------- Approach ---------- */
 
 .approach-hero {
-  padding-block: clamp(48px, 7vw, 96px) var(--section);
+  padding-block: clamp(64px, 8vw, 112px) var(--section);
 }
 
 .approach-hero .display-hero {
@@ -3392,13 +3481,13 @@ details[open] > summary .toggle::after {
 
 .stages-figure {
   margin-top: var(--stack);
-  padding-top: var(--s-6);
+  padding-top: var(--s-7);
   border-top: 1px solid var(--line-strong);
 }
 
 .stages-figure ol {
   display: grid;
-  gap: var(--s-6) var(--gutter);
+  gap: var(--s-8) var(--gutter);
 }
 
 .stages-figure li {
@@ -3497,7 +3586,7 @@ details[open] > summary .toggle::after {
   grid-template-columns: 9px minmax(0, 1fr);
   gap: var(--s-4);
   align-items: baseline;
-  padding: var(--s-4) 0;
+  padding: var(--s-5) 0;
   border-top: 1px solid var(--line);
   color: var(--ink-2);
 }
@@ -3542,8 +3631,8 @@ details[open] > summary .toggle::after {
   grid-template-columns: 36px minmax(0, 1fr);
   align-items: baseline;
   width: 100%;
-  min-height: 56px;
-  padding: var(--s-4) 0;
+  min-height: 68px;
+  padding: var(--s-5) 0;
   background: none;
   border: none;
   border-bottom: 1px solid var(--line);
@@ -3604,7 +3693,7 @@ details[open] > summary .toggle::after {
   display: grid;
   place-items: center;
   align-self: start;
-  padding: var(--s-7) var(--s-5) var(--s-6);
+  padding: var(--s-8) var(--s-6) var(--s-7);
   border: 1px solid var(--line-strong);
   background: var(--sheet);
 }
@@ -3673,7 +3762,7 @@ details[open] > summary .toggle::after {
 
 .workflow-step {
   position: relative;
-  padding: var(--s-6) 0;
+  padding: var(--s-7) 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -3782,9 +3871,10 @@ details[open] > summary .toggle::after {
 }
 
 .flow-step {
+  --flow-pad: var(--s-5);
   display: grid;
-  gap: var(--s-3);
-  padding: var(--s-4) var(--s-5);
+  gap: var(--s-4);
+  padding: var(--flow-pad);
 }
 
 .flow-step + .flow-step {
@@ -3804,8 +3894,8 @@ details[open] > summary .toggle::after {
 .flow-track::before {
   content: "";
   position: absolute;
-  top: calc(-1 * var(--s-4));
-  bottom: calc(-1 * var(--s-4));
+  top: calc(-1 * var(--flow-pad));
+  bottom: calc(-1 * var(--flow-pad));
   left: calc(var(--mark) * 100%);
   border-left: 1px dashed var(--line-strong);
 }
@@ -3893,15 +3983,17 @@ details[open] > summary .toggle::after {
   color: var(--ink-3);
   font-family: var(--mono);
   font-size: 0.75rem;
-  line-height: 1.5;
+  line-height: 1.55;
+  text-wrap: balance;
 }
 
 @media (min-width: 900px) {
   .flow-step {
-    grid-template-columns: 180px minmax(0, 1fr) 280px;
+    --flow-pad: var(--s-6);
+    grid-template-columns: minmax(210px, 240px) minmax(0, 1fr) minmax(220px, 300px);
     align-items: center;
-    gap: var(--gutter);
-    padding: var(--s-4) var(--s-6);
+    gap: var(--s-5) var(--gutter);
+    padding: var(--flow-pad) var(--s-6);
   }
 
   .flow-figure {
@@ -3935,8 +4027,8 @@ details[open] > summary .toggle::after {
 .register > div {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr);
-  gap: var(--s-1) var(--gutter);
-  padding: var(--s-5) 0;
+  gap: var(--s-2) var(--gutter);
+  padding: var(--s-6) 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -3987,7 +4079,7 @@ details[open] > summary .toggle::after {
 }
 
 .control-col li {
-  padding: var(--s-3) 0;
+  padding: var(--s-4) 0;
   border-bottom: 1px solid var(--line-deep);
   font-size: var(--text-title);
   font-weight: 500;
