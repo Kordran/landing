@@ -294,12 +294,20 @@ select {
   color: var(--back);
 }
 
+.num.is-claim {
+  color: var(--teal);
+}
+
 .section-deep .is-over {
   color: var(--over-on-deep);
 }
 
 .section-deep .is-back {
   color: var(--back-on-deep);
+}
+
+.ledger-figures .is-claim {
+  color: var(--teal-pale);
 }
 
 .section-deep .micro {
@@ -1805,7 +1813,9 @@ details[open] > summary .toggle::after {
   line-height: 1.1;
 }
 
-.ledger-figures .is-back[data-on="false"] {
+.ledger-figures .is-muted,
+.ledger-figures .is-back[data-on="false"],
+.ledger-figures .is-claim[data-on="false"] {
   color: var(--on-deep-2);
 }
 
@@ -1864,6 +1874,16 @@ details[open] > summary .toggle::after {
 
 .ledger-rise {
   fill: #8d4541;
+}
+
+.ledger-excluded {
+  fill: url("#ledger-hatch");
+}
+
+.ledger-claim {
+  stroke: var(--teal-pale);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
 }
 
 .ledger-recovered {
@@ -1957,13 +1977,23 @@ details[open] > summary .toggle::after {
 
 .ledger-axis span:last-child {
   right: 0;
+  left: auto;
+  transform: none;
+}
+
+.ledger-note {
+  max-width: 46em;
+  margin-top: var(--s-4);
+  color: var(--on-deep-2);
+  font-size: var(--text-small);
+  line-height: 1.5;
 }
 
 .ledger-phases {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--s-4) var(--gutter);
-  margin-top: var(--s-6);
+  margin-top: var(--s-5);
 }
 
 .ledger-phases button {
@@ -2007,6 +2037,14 @@ details[open] > summary .toggle::after {
   color: var(--back-on-deep);
 }
 
+.ledger-phases button[aria-pressed="true"][data-tone="claim"] {
+  border-top-color: var(--teal-pale);
+}
+
+.ledger-phases button[aria-pressed="true"][data-tone="claim"] span:last-child {
+  color: var(--teal-pale);
+}
+
 .ledger-phases button:hover {
   color: var(--on-deep);
 }
@@ -2048,8 +2086,23 @@ details[open] > summary .toggle::after {
   background: #7dcea8;
 }
 
+.ledger-legend .is-excluded {
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 3px,
+    var(--over-on-deep) 3px 4px
+  );
+  box-shadow: inset 0 0 0 1px var(--over-on-deep);
+}
+
+.ledger-legend .is-claim {
+  height: 0;
+  border-top: 2px solid var(--teal-pale);
+}
+
 @media (min-width: 720px) {
-  .ledger-figures {
+  .ledger-figures,
+  .ledger-phases {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
@@ -3339,7 +3392,7 @@ details[open] > summary .toggle::after {
   border-top: 1px solid var(--line);
 }
 
-.flow-step.is-ahead {
+.flow-step.is-forward {
   border-top: 1px dashed var(--line-strong);
 }
 
@@ -3370,12 +3423,12 @@ details[open] > summary .toggle::after {
     transform var(--t-state) var(--ease);
 }
 
-.is-found .flow-track i {
+.is-observed .flow-track i {
   background: var(--over-soft);
   box-shadow: inset 0 0 0 1px var(--over);
 }
 
-.is-out .flow-track i {
+.is-excluded .flow-track i {
   background: repeating-linear-gradient(
     -45deg,
     transparent 0 4px,
@@ -3384,15 +3437,11 @@ details[open] > summary .toggle::after {
   box-shadow: inset 0 0 0 1px var(--ink-3);
 }
 
-.is-proven .flow-track i {
+.is-claim .flow-track i {
   background: var(--teal-mid);
 }
 
-.is-recovered .flow-track i {
-  background: var(--back);
-}
-
-.is-ahead .flow-track i {
+.is-forward .flow-track i {
   background: repeating-linear-gradient(
     90deg,
     var(--back-soft) 0 10px,
@@ -3401,20 +3450,19 @@ details[open] > summary .toggle::after {
   box-shadow: inset 0 0 0 1px var(--back);
 }
 
-.flow-step.is-found:hover .flow-track i {
+.flow-step.is-observed:hover .flow-track i {
   box-shadow: inset 0 0 0 2px var(--over);
 }
 
-.flow-step.is-out:hover .flow-track i {
+.flow-step.is-excluded:hover .flow-track i {
   box-shadow: inset 0 0 0 2px var(--ink-3);
 }
 
-.flow-step.is-proven:hover .flow-track i {
+.flow-step.is-claim:hover .flow-track i {
   box-shadow: inset 0 0 0 2px var(--teal);
 }
 
-.flow-step.is-recovered:hover .flow-track i,
-.flow-step.is-ahead:hover .flow-track i {
+.flow-step.is-forward:hover .flow-track i {
   box-shadow: inset 0 0 0 2px var(--back);
 }
 
@@ -3422,20 +3470,19 @@ details[open] > summary .toggle::after {
   font-size: clamp(1.75rem, 1.2rem + 1.2vw, 2.375rem);
 }
 
-.is-found .figure-num {
+.is-observed .figure-num {
   color: var(--over);
 }
 
-.is-out .figure-num {
+.is-excluded .figure-num {
   color: var(--ink-3);
 }
 
-.is-proven .figure-num {
+.is-claim .figure-num {
   color: var(--teal);
 }
 
-.is-recovered .figure-num,
-.is-ahead .figure-num {
+.is-forward .figure-num {
   color: var(--back);
 }
 
@@ -3593,6 +3640,13 @@ details[open] > summary .toggle::after {
 
 .legal-content {
   padding-block: var(--s-8) var(--section);
+}
+
+.legal-back {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-5);
+  margin-bottom: var(--s-6);
 }
 
 .legal-back a {

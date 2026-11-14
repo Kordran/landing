@@ -47,10 +47,12 @@ object in `model.ts` must stay in step.
 
 - Teal marks a difference, the primary action, or the brand mark. It is not
   used for decoration, section backgrounds, or large fills.
-- Red (`--over`) is only for money billed above the agreement. Green
-  (`--back`) is only for money recovered or stopped. They color the number,
-  and the part of a chart that number names. They are not used for buttons,
-  links, section backgrounds, or the plate.
+- Red (`--over`) is only for an observed difference, money billed above
+  the agreement. Green (`--back`) is only for a future run-rate reduction,
+  and the label says it is cost avoidance, not cash already recovered. Teal
+  marks a supported claim. They color the number and the part of a chart
+  that number names. They are not used for buttons, links, section
+  backgrounds, or the plate.
 - No amber. Bright cyan is outside the palette.
 - The deep ground appears once per page before the close.
 - Text contrast, measured: ink on paper 15.7:1, body 8.0:1, labels 5.2:1

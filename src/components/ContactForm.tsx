@@ -6,70 +6,9 @@ import { contactEmail } from "@/lib/site";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-const issues = [
-  "Price above agreement",
-  "Price increase",
-  "Surcharge or fee",
-  "Something else",
-];
-
-const durations = ["Just noticed", "A few months", "A year or more", "Not sure"];
-
-const spend = ["Under $1M", "$1M–$5M", "$5M–$25M", "Over $25M"];
-
-function Choices({
-  legend,
-  name,
-  options,
-  multiple = false,
-  value,
-  onChange,
-}: {
-  legend: string;
-  name: string;
-  options: string[];
-  multiple?: boolean;
-  value: string[];
-  onChange: (value: string[]) => void;
-}) {
-  return (
-    <fieldset className="choices">
-      <legend>{legend}</legend>
-      <div className="choices-row">
-        {options.map((option) => {
-          const checked = value.includes(option);
-          return (
-            <label key={option} className="choice" data-on={checked || undefined}>
-              <input
-                type={multiple ? "checkbox" : "radio"}
-                name={name}
-                value={option}
-                checked={checked}
-                onChange={() => {
-                  if (!multiple) onChange([option]);
-                  else
-                    onChange(
-                      checked
-                        ? value.filter((item) => item !== option)
-                        : [...value, option]
-                    );
-                }}
-              />
-              <span>{option}</span>
-            </label>
-          );
-        })}
-      </div>
-    </fieldset>
-  );
-}
-
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
-  const [area, setArea] = useState<string[]>([]);
-  const [timeline, setTimeline] = useState<string[]>([]);
-  const [annual, setAnnual] = useState<string[]>([]);
   const successRef = useRef<HTMLHeadingElement>(null);
   const started = useRef(false);
 
@@ -87,10 +26,7 @@ export default function ContactForm() {
     const data = new FormData(form);
     const supplier = String(data.get("supplier") || "").trim();
     const details = String(data.get("situation") || "").trim();
-    const context = [
-      supplier ? `Supplier: ${supplier}` : "",
-      annual[0] ? `Annual spend with supplier: ${annual[0]}` : "",
-    ].filter(Boolean);
+    const context = [supplier ? `Supplier: ${supplier}` : ""].filter(Boolean);
 
     try {
       const response = await fetch("/api/contact", {
@@ -103,8 +39,8 @@ export default function ContactForm() {
           situation: [...context, ...(context.length ? [""] : []), details].join(
             "\n"
           ),
-          area: area.join(", "),
-          timeline: timeline[0] ?? "",
+          area: "",
+          timeline: "",
         }),
       });
 
@@ -123,9 +59,6 @@ export default function ContactForm() {
       track("contact_submit", { status: "success" });
       setStatus("success");
       form.reset();
-      setArea([]);
-      setTimeline([]);
-      setAnnual([]);
     } catch (err) {
       track("contact_submit", { status: "error" });
       setStatus("error");
@@ -175,31 +108,6 @@ export default function ContactForm() {
         <span>We reply directly</span>
       </p>
       <div className="form-body">
-        <div className="form-steps">
-          <Choices
-            legend="What are you seeing?"
-            name="area"
-            options={issues}
-            multiple
-            value={area}
-            onChange={setArea}
-          />
-          <Choices
-            legend="How long has it been going on?"
-            name="timeline"
-            options={durations}
-            value={timeline}
-            onChange={setTimeline}
-          />
-          <Choices
-            legend="Yearly spend with this supplier"
-            name="annual"
-            options={spend}
-            value={annual}
-            onChange={setAnnual}
-          />
-        </div>
-
         <div className="form-grid">
           <div className="form-field">
             <label htmlFor="name">Name</label>
@@ -238,13 +146,12 @@ export default function ContactForm() {
               id="situation"
               name="situation"
               required
-              rows={5}
+              rows={4}
               aria-describedby="situation-hint"
-              placeholder="For example: our price on a machined part went up 6% in March, but the agreement caps increases at 3%."
+              placeholder="A sentence is enough. For example: a machined part went up 6% in March, and the agreement caps increases at 3%."
             />
             <p id="situation-hint" className="form-hint">
-              Mention any invoices, price notices, or agreements you have.
-              We&apos;ll set up a secure way to share them.
+              We&apos;ll reply, then ask for the records that would help.
             </p>
           </div>
         </div>
@@ -275,7 +182,7 @@ export default function ContactForm() {
             {status === "submitting" ? "Sending…" : "Send it to us"}
             <span className="btn-glyph" aria-hidden="true" />
           </button>
-          <p className="form-required">Takes about a minute.</p>
+          <p className="form-required">A short note is enough.</p>
         </div>
       </div>
     </form>

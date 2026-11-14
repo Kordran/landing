@@ -119,12 +119,12 @@ export function getHomeJsonLd() {
       {
         "@type": "ProfessionalService",
         "@id": serviceId,
-        name: "Supplier overbilling recovery",
+        name: "Supplier overbilling investigation",
         url: siteUrl,
         description: siteDescription,
         provider: { "@id": organizationId },
         serviceType: [
-          "Supplier overbilling recovery",
+          "Supplier overbilling investigation",
           "Contract and invoice reconciliation",
           "Supplier price increase review",
           "Contractual surcharge review",

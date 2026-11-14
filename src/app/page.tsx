@@ -48,7 +48,7 @@ export const metadata: Metadata = {
 const facts = [
   { term: "Who it is for", detail: "Industrial manufacturers" },
   { term: "What we check", detail: "Agreements, orders, invoices" },
-  { term: "What you get", detail: "Money back, prices corrected" },
+  { term: "What you get", detail: "A supported case" },
   { term: "Where to start", detail: "One supplier" },
 ];
 
@@ -88,19 +88,19 @@ const steps = [
   {
     index: "02",
     title: "Resolve",
-    body: "We build the case and work it through to a credit and a corrected price.",
+    body: "We build the case and help pursue a supported credit or pricing correction.",
   },
   {
     index: "03",
     title: "Prevent",
-    body: "We fix the cause so the next invoice is right.",
+    body: "We help fix the cause so the next invoice can be right.",
   },
 ];
 
 const next = [
   "Tell us about the supplier and what you're seeing.",
   "We review it and come back to you with what we'd check and what it could be worth.",
-  "We get to work: reconcile, recover, and correct.",
+  "If you want to go further, we reconcile, build the case, and help pursue a correction.",
 ];
 
 export default function HomePage() {
@@ -126,8 +126,8 @@ export default function HomePage() {
               Verified and resolved.
             </h1>
             <p className="lede">
-              We help industrial manufacturers find supplier overbilling,
-              recover what&apos;s owed, and stop it from happening again.
+              We help industrial manufacturers find where a supplier billed
+              more than was agreed, build the case, and pursue a correction.
             </p>
             <div className="cta-row">
               <TrackLink
@@ -190,7 +190,8 @@ export default function HomePage() {
                 contract update that never reached purchasing. Left alone, this
                 one keeps adding{" "}
                 <span className="num is-over">{formatUsd(annualPrevented)}</span> a
-                year.
+                year. That yearly figure is what continues, not cash already
+                recovered.
               </p>
               <p className="split-link">
                 <TrackLink
@@ -290,8 +291,9 @@ export default function HomePage() {
                 </h2>
               </div>
               <p className="lede">
-                Most reviews stop at a report. We stay through the credit, the
-                corrected price, and the fix that keeps it from coming back.
+                Most reviews stop at a report. We stay through the case, the
+                supplier conversation, and a correction that can keep it from
+                coming back.
               </p>
             </Reveal>
 
@@ -306,8 +308,8 @@ export default function HomePage() {
                 <div className="track-phase is-execution">
                   <p className="label">Execution</p>
                   <p>
-                    Work the issue with your team and the supplier until the
-                    credit lands and the price is right.
+                    Work the issue with your team and the supplier, and help
+                    pursue a supported credit or pricing correction.
                   </p>
                 </div>
               </div>

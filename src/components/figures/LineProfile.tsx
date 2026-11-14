@@ -4,52 +4,62 @@ import { useState, type CSSProperties, type KeyboardEvent, type PointerEvent } f
 import {
   annualPrevented,
   example,
+  excludedExposure,
   formatUsd,
   formatUsdShort,
+  monthlyDifference,
   potentialDiscrepancy,
-  unitDelta,
+  supportedExposure,
 } from "@/lib/example";
 
 /**
- * The homepage example over 24 months.
+ * The same machined-housing example as the Approach page.
  *
- * The overbilling climbs with the price left alone. At month 12 the credit
- * returns what was already billed over, and the corrected price stops the
- * rest. Moving across a month reads all four amounts.
+ * Twenty-four months are observed. Part of that is excluded. The rest is a
+ * supported claim we help pursue. A corrected price would change the run rate
+ * later. None of those later figures is cash already recovered.
  */
 
 const MONTHS = example.months;
-const CORRECTED = 12;
-const perMonth = Math.round(unitDelta * example.unitsPerMonth);
-const found = perMonth * CORRECTED;
+const CLAIM_AT = Math.round(supportedExposure / monthlyDifference);
 
 const W = 240;
 const H = 100;
 const TOP = 14;
 
-const phases = [
+type Stage = "observed" | "validated" | "accepted" | "realized";
+
+const phases: Array<{
+  id: Stage;
+  tone: "over" | "claim" | "back";
+  label: string;
+  detail: string;
+}> = [
   {
-    id: "verify",
-    at: CORRECTED - 1,
+    id: "observed",
     tone: "over",
-    label: "Verify",
-    detail: `${formatUsd(found)} built up`,
+    label: "Observed",
+    detail: `${formatUsd(potentialDiscrepancy)} identified`,
   },
   {
-    id: "resolve",
-    at: 17,
-    tone: "back",
-    label: "Resolve",
-    detail: `${formatUsd(found)} recovered`,
+    id: "validated",
+    tone: "claim",
+    label: "Validated",
+    detail: `${formatUsd(supportedExposure)} supported`,
   },
   {
-    id: "prevent",
-    at: MONTHS - 1,
-    tone: "back",
-    label: "Prevent",
-    detail: `${formatUsd(annualPrevented)} stopped`,
+    id: "accepted",
+    tone: "claim",
+    label: "Accepted",
+    detail: "Claim we pursue",
   },
-] as const;
+  {
+    id: "realized",
+    tone: "back",
+    label: "Realized",
+    detail: `${formatUsd(annualPrevented)} a year, if corrected`,
+  },
+];
 
 function x(boundary: number): number {
   return (boundary / MONTHS) * W;
@@ -59,20 +69,22 @@ function y(value: number): number {
   return TOP + (H - TOP) * (1 - value / potentialDiscrepancy);
 }
 
-function aloneAt(monthIndex: number): number {
-  return perMonth * (monthIndex + 1);
+function through(monthIndex: number): number {
+  return monthlyDifference * (monthIndex + 1);
 }
 
-function story(at: number): string {
+function story(stage: Stage, at: number): string {
   const month = at + 1;
-  const alone = aloneAt(at);
-  if (at < CORRECTED) {
-    return `Month ${month}. ${formatUsd(alone)} has been billed over the agreement, climbing by ${formatUsd(perMonth)} a month. Left alone, it reaches ${formatUsd(potentialDiscrepancy)}.`;
+  if (stage === "observed") {
+    return `Month ${month} of ${MONTHS}. ${formatUsd(through(at))} observed so far, at ${formatUsd(monthlyDifference)} a month. Over ${MONTHS} months, that is ${formatUsd(potentialDiscrepancy)}.`;
   }
-  if (at === CORRECTED) {
-    return `The credit lands. ${formatUsd(found)} comes back, and the price is corrected to ${formatUsd(example.agreedUnit, 2)}. The ${formatUsd(perMonth)} that would have been billed this month is stopped.`;
+  if (stage === "validated") {
+    return `${formatUsd(potentialDiscrepancy)} observed. ${formatUsd(excludedExposure)} was bought on separate terms, so it comes out. ${formatUsd(supportedExposure)} is what the records support.`;
   }
-  return `Month ${month}. Left alone, this would be ${formatUsd(alone)}. ${formatUsd(found)} has come back. ${formatUsd(alone - found)} was never billed.`;
+  if (stage === "accepted") {
+    return `We build the case and help pursue a supported credit or pricing correction for the ${formatUsd(supportedExposure)}. Whether it is accepted depends on the supplier and your decision.`;
+  }
+  return `If the price is corrected to ${formatUsd(example.agreedUnit, 2)} and buying continues, about ${formatUsd(annualPrevented)} a year is not billed. That is future cost avoidance, not cash already recovered.`;
 }
 
 function points(pairs: Array<[number, number]>): string {
@@ -80,69 +92,59 @@ function points(pairs: Array<[number, number]>): string {
 }
 
 export default function LineProfile() {
+  const [stage, setStage] = useState<Stage>("realized");
   const [at, setAt] = useState(MONTHS - 1);
-  const alone = aloneAt(at);
-  const increasing = Math.min(alone, found);
-  const recovered = at >= CORRECTED ? found : 0;
-  const stopped = at >= CORRECTED ? alone - found : 0;
-  const phase = at < CORRECTED ? "verify" : at < MONTHS - 1 ? "resolve" : "prevent";
-  const boundary = at + 1;
-  const actual = at < CORRECTED ? alone : 0;
-  const text = story(at);
-
-  const climbEnd = Math.min(boundary, CORRECTED);
-  const after = boundary > CORRECTED;
+  const showSplit = stage !== "observed";
+  const boundary = showSplit ? MONTHS : at + 1;
+  const observed = showSplit ? potentialDiscrepancy : through(at);
+  const text = story(stage, showSplit ? MONTHS - 1 : at);
 
   const climb: Array<[number, number]> = [];
-  for (let b = 0; b <= climbEnd; b++) climb.push([x(b), y(perMonth * b)]);
+  for (let b = 0; b <= boundary; b++) climb.push([x(b), y(monthlyDifference * b)]);
+
   const ahead: Array<[number, number]> = [];
-  for (let b = after ? CORRECTED : boundary; b <= MONTHS; b++) {
-    ahead.push([x(b), y(perMonth * b)]);
+  if (boundary < MONTHS) {
+    for (let b = boundary; b <= MONTHS; b++) ahead.push([x(b), y(monthlyDifference * b)]);
   }
 
-  const riseArea = points([...climb, [x(climbEnd), y(0)], [x(0), y(0)]]);
-  const recoveredArea = after
-    ? points([
-        [x(CORRECTED), y(found)],
-        [x(boundary), y(found)],
-        [x(boundary), y(0)],
-        [x(CORRECTED), y(0)],
-      ])
-    : null;
-  const stoppedPairs: Array<[number, number]> = [];
-  if (after) {
-    for (let b = CORRECTED; b <= boundary; b++) {
-      stoppedPairs.push([x(b), y(perMonth * b)]);
-    }
-    stoppedPairs.push([x(boundary), y(found)], [x(CORRECTED), y(found)]);
+  const riseArea = points([...climb, [x(boundary), y(0)], [x(0), y(0)]]);
+
+  const tip: Array<[number, number]> = [];
+  if (showSplit) {
+    for (let b = CLAIM_AT; b <= MONTHS; b++) tip.push([x(b), y(monthlyDifference * b)]);
+    tip.push([x(MONTHS), y(supportedExposure)], [x(CLAIM_AT), y(supportedExposure)]);
   }
-  const stoppedArea = after ? points(stoppedPairs) : null;
 
-  const ticks = [potentialDiscrepancy, found, 0];
+  const ticks = showSplit
+    ? [potentialDiscrepancy, supportedExposure, 0]
+    : [potentialDiscrepancy, 0];
 
-  function moveTo(index: number) {
-    setAt(Math.max(0, Math.min(MONTHS - 1, index)));
+  function show(next: Stage, monthIndex = MONTHS - 1) {
+    setStage(next);
+    setAt(monthIndex);
   }
 
   function onPointer(event: PointerEvent<HTMLDivElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
     const ratio = (event.clientX - rect.left) / rect.width;
-    moveTo(Math.floor(ratio * MONTHS));
+    const index = Math.max(0, Math.min(MONTHS - 1, Math.floor(ratio * MONTHS)));
+    show("observed", index);
   }
 
   function onKey(event: KeyboardEvent<HTMLDivElement>) {
+    const current = showSplit ? MONTHS - 1 : at;
     if (event.key === "ArrowRight" || event.key === "ArrowUp") {
       event.preventDefault();
-      moveTo(at + 1);
+      show("observed", Math.min(MONTHS - 1, current + 1));
     } else if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
       event.preventDefault();
-      moveTo(at - 1);
+      show("observed", Math.max(0, current - 1));
     } else if (event.key === "Home") {
       event.preventDefault();
-      moveTo(0);
+      show("observed", 0);
     } else if (event.key === "End") {
       event.preventDefault();
-      moveTo(MONTHS - 1);
+      show("observed", MONTHS - 1);
     }
   }
 
@@ -150,29 +152,29 @@ export default function LineProfile() {
     <figure className="ledger">
       <figcaption className="profile-head micro">
         <span>
-          Same example · {formatUsd(perMonth)} a month
+          Same example · {formatUsd(monthlyDifference)} a month
         </span>
-        <span>Credit at month {CORRECTED}</span>
+        <span>{MONTHS} months observed</span>
       </figcaption>
 
       <p className="ledger-story">{text}</p>
 
       <div className="ledger-figures">
         <p className="is-over">
-          <span className="micro">{at < CORRECTED ? "Increasing" : "Increased"}</span>
-          <strong className="num">{formatUsd(increasing)}</strong>
+          <span className="micro">Observed</span>
+          <strong className="num">{formatUsd(observed)}</strong>
         </p>
-        <p className="is-over">
-          <span className="micro">Would have been</span>
-          <strong className="num">{formatUsd(alone)}</strong>
+        <p className="is-muted">
+          <span className="micro">Excluded</span>
+          <strong className="num">{formatUsd(excludedExposure)}</strong>
         </p>
-        <p className="is-back" data-on={recovered > 0 ? "true" : "false"}>
-          <span className="micro">Recovered</span>
-          <strong className="num">{formatUsd(recovered)}</strong>
+        <p className="is-claim" data-on={showSplit ? "true" : "false"}>
+          <span className="micro">Supported claim</span>
+          <strong className="num">{formatUsd(supportedExposure)}</strong>
         </p>
-        <p className="is-back" data-on={stopped > 0 ? "true" : "false"}>
-          <span className="micro">Stopped</span>
-          <strong className="num">{formatUsd(stopped)}</strong>
+        <p className="is-back" data-on={stage === "realized" ? "true" : "false"}>
+          <span className="micro">A year, if corrected</span>
+          <strong className="num">{formatUsd(annualPrevented)}</strong>
         </p>
       </div>
 
@@ -202,39 +204,34 @@ export default function LineProfile() {
             onKeyDown={onKey}
           >
             <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <pattern
+                  id="ledger-hatch"
+                  width="5"
+                  height="5"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <path d="M0 5 L5 0" stroke="#f0b4ae" strokeWidth="0.7" />
+                </pattern>
+              </defs>
               <polygon className="ledger-rise" points={riseArea} />
-              {recoveredArea && <polygon className="ledger-recovered" points={recoveredArea} />}
-              {stoppedArea && <polygon className="ledger-stopped" points={stoppedArea} />}
-              {after && (
+              {showSplit && <polygon className="ledger-excluded" points={points(tip)} />}
+              {showSplit && (
                 <line
-                  className="ledger-level"
-                  x1={x(CORRECTED)}
-                  x2={x(boundary)}
-                  y1={y(found)}
-                  y2={y(found)}
+                  className="ledger-claim"
+                  x1={x(CLAIM_AT)}
+                  x2={x(MONTHS)}
+                  y1={y(supportedExposure)}
+                  y2={y(supportedExposure)}
                 />
               )}
-              <polyline className="ledger-ahead-halo" points={points(ahead)} />
-              <polyline className="ledger-ahead" points={points(ahead)} />
+              {ahead.length > 1 && (
+                <>
+                  <polyline className="ledger-ahead-halo" points={points(ahead)} />
+                  <polyline className="ledger-ahead" points={points(ahead)} />
+                </>
+              )}
               <polyline className="ledger-climb" points={points(climb)} />
-              {after && (
-                <line
-                  className="ledger-drop"
-                  x1={x(CORRECTED)}
-                  x2={x(CORRECTED)}
-                  y1={y(found)}
-                  y2={y(0)}
-                />
-              )}
-              {after && (
-                <line
-                  className="ledger-flat"
-                  x1={x(CORRECTED)}
-                  x2={x(boundary)}
-                  y1={y(0)}
-                  y2={y(0)}
-                />
-              )}
               <line
                 className="ledger-cursor"
                 x1={x(boundary)}
@@ -244,19 +241,18 @@ export default function LineProfile() {
               />
             </svg>
             <span
-              className={at < CORRECTED ? "ledger-dot is-over" : "ledger-dot is-back"}
+              className="ledger-dot is-over"
               style={
                 {
                   left: `${(boundary / MONTHS) * 100}%`,
-                  top: `${(y(actual) / H) * 100}%`,
+                  top: `${(y(monthlyDifference * boundary) / H) * 100}%`,
                 } as CSSProperties
               }
             />
           </div>
           <div className="ledger-axis micro" aria-hidden="true">
             <span>Month 1</span>
-            <span>Credit</span>
-            <span>Month 24</span>
+            <span>Month {MONTHS}</span>
           </div>
         </div>
       </div>
@@ -264,21 +260,22 @@ export default function LineProfile() {
       <ul className="ledger-legend micro">
         <li>
           <i className="is-rise" />
-          Increasing
+          Observed
         </li>
         <li>
-          <i className="is-ahead" />
-          Would have been
+          <i className="is-excluded" />
+          Excluded
         </li>
         <li>
-          <i className="is-recovered" />
-          Recovered
-        </li>
-        <li>
-          <i className="is-stopped" />
-          Stopped
+          <i className="is-claim" />
+          Supported claim
         </li>
       </ul>
+
+      <p className="ledger-note">
+        Illustration of one part. A supported claim is not an accepted credit.
+        The yearly figure is future cost avoidance, not cash already recovered.
+      </p>
 
       <div className="ledger-phases">
         {phases.map((item) => (
@@ -286,8 +283,8 @@ export default function LineProfile() {
             key={item.id}
             type="button"
             data-tone={item.tone}
-            aria-pressed={phase === item.id}
-            onClick={() => moveTo(item.at)}
+            aria-pressed={stage === item.id}
+            onClick={() => show(item.id)}
           >
             <span className="micro">{item.label}</span>
             <span>{item.detail}</span>

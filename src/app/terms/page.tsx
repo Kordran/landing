@@ -23,13 +23,13 @@ export default function TermsPage() {
       <Header />
       <main id="content" className="site-main">
         <div className="container legal-content">
-          <p className="label legal-back mb-6">
-            <Link href="/">
-              ← Kordran
-            </Link>
-          </p>
+          <nav className="label legal-back" aria-label="Site">
+            <Link href="/">Home</Link>
+            <Link href="/approach">Approach</Link>
+            <Link href="/#contact">Contact</Link>
+          </nav>
           <h1>Terms</h1>
-          <p>Last updated: November 11, 2026</p>
+          <p>Last updated: November 13, 2026</p>
           <p>
             By using this website, you agree to these terms of use. This site is
             operated by Kordran Inc. (“Kordran”).
@@ -37,10 +37,12 @@ export default function TermsPage() {
 
           <h2>Purpose of the site</h2>
           <p>
-            This website provides general information about Kordran’s
-            supplier cost verification and resolution work. Nothing on this site
-            constitutes an offer of services, a commitment to engage, legal
-            advice, financial advice, or a guarantee of outcomes.
+            This website describes how Kordran investigates supplier invoices
+            against agreements, prepares a supported case, and helps a customer
+            pursue a credit or a pricing correction when the customer authorizes
+            it. Illustrations on the site are hypothetical. Nothing here is an
+            offer of services, a commitment to engage, legal advice, financial
+            advice, or a guarantee of a credit, a recovery, or future savings.
           </p>
 
           <h2>No customer relationship</h2>
@@ -81,7 +83,7 @@ export default function TermsPage() {
           <h2>Contact</h2>
           <p>
             Questions regarding these terms may be sent to{" "}
-            <a href="mailto:contact@kordran.com" className="text-accent hover:underline">
+            <a href="mailto:contact@kordran.com" className="inline-link">
               contact@kordran.com
             </a>
             .

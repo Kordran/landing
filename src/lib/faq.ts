@@ -2,7 +2,7 @@
 export const questions = [
   {
     q: "What does Kordran do?",
-    a: "We find where suppliers have billed you more than you agreed to pay, recover the difference, and correct the pricing so it stays right. We handle the investigation and the follow-through, working alongside your team.",
+    a: "We find where suppliers have billed you more than you agreed to pay, build a supported case, and help pursue a credit or a pricing correction. We handle the investigation and the follow-through, working alongside your team.",
   },
   {
     q: "Who do you work with?",
@@ -14,7 +14,7 @@ export const questions = [
   },
   {
     q: "How does it work?",
-    a: "You tell us what you're seeing. We review it, ask for the records that matter, reconcile them, and show you exactly what was overbilled and what it is worth. Then we work with your team to recover it and correct the price going forward.",
+    a: "You tell us what you're seeing. We review it, ask for the records that matter, and show you what was observed and what the records support. Then we help pursue a credit or a pricing correction. The outcome depends on the evidence, the supplier, and your decision.",
   },
   {
     q: "What do you need from us?",

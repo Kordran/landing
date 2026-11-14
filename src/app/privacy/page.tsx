@@ -23,25 +23,26 @@ export default function PrivacyPage() {
       <Header />
       <main id="content" className="site-main">
         <div className="container legal-content">
-          <p className="label legal-back mb-6">
-            <Link href="/">
-              ← Kordran
-            </Link>
-          </p>
+          <nav className="label legal-back" aria-label="Site">
+            <Link href="/">Home</Link>
+            <Link href="/approach">Approach</Link>
+            <Link href="/#contact">Contact</Link>
+          </nav>
           <h1>Privacy</h1>
-          <p>Last updated: November 11, 2026</p>
+          <p>Last updated: November 13, 2026</p>
           <p>
-            Kordran Inc. (“Kordran,” “we,” “us”) respects the
-            confidentiality of information shared through this website,
-            particularly information concerning supplier pricing and
-            purchasing matters.
+            Kordran Inc. (“Kordran,” “we,” “us”) investigates supplier
+            invoices against agreements for industrial manufacturers. This
+            policy describes information shared through this website, including
+            notes about supplier pricing.
           </p>
 
           <h2>Information we collect</h2>
           <p>
-            When you submit the contact form, we collect the details you
-            provide: your name, company, work email, and a brief description
-            of the supplier cost issue.
+            The inquiry form asks for your name, company, and work email, plus
+            a short description of what you are seeing. A supplier name is
+            optional. We ask for agreements, invoices, and other records only
+            after we reply, and only if you choose to continue.
           </p>
           <p>
             We may also collect basic technical data such as browser type,
@@ -81,7 +82,7 @@ export default function PrivacyPage() {
           <h2>Contact</h2>
           <p>
             For privacy questions, contact{" "}
-            <a href="mailto:contact@kordran.com" className="text-accent hover:underline">
+            <a href="mailto:contact@kordran.com" className="inline-link">
               contact@kordran.com
             </a>
             .

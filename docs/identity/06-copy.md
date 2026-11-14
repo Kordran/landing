@@ -263,25 +263,25 @@ are labelled as such in the exhibit header.
 - **Sheet header:** Example continued · Machined housing · One square = 100
   units — Hypothetical figures
 
+The homepage chart and the Approach waterfall use this one case.
+
 | State | Figure | Arithmetic | Definition |
 | ----- | ------ | ---------- | ---------- |
-| 01 Observed discrepancy | $2.00 / unit | $44.00 billed − $42.00 agreed | A documented difference between relevant records. |
-| 02 Potential exposure | $36,000 | 18,000 × $2.00 | The estimated financial value associated with that difference. |
-| 03 Validated claim | $30,000 | 15,000 × $2.00 · $6,000 excluded | An amount supported by the applicable evidence and ready for resolution. |
-| 04 Realized outcome | Not assumed | Depends on the supplier response | A credit received, corrected invoice, applied adjustment, or actual cost reduction. |
+| 01 Observed | $312,000 | 5,000 × $2.60 × 24 | The difference identified over 24 months. |
+| 02 Excluded | −$52,000 | 20,000 × $2.60 | Units bought on separate terms, taken out of the claim. |
+| 03 Supported claim | $260,000 | $312,000 − $52,000 | What the records support. Not an accepted credit. |
+| 04 If corrected, a year | $156,000 | 5,000 × $2.60 × 12 | Future cost avoidance if volume continues and the unit price is corrected. Not cash already recovered. |
 
 - **Caption:** Hypothetical example for illustration only. Not a Kordran
   customer result.
 - **Case copy:**
-  - The review tests whether all 18,000 units were actually subject to the
-    $42.00 price. Some could fall outside the agreement or be covered by a
-    valid amendment.
-  - If 15,000 units qualify and 3,000 do not, the supported difference is
-    $30,000. You may then pursue a credit, a pricing correction, or another
-    negotiated resolution.
-  - That amount is not collected cash, and the supplier has not been
-    assumed to accept it. If the cause was an outdated purchasing price,
-    updated controls reduce the chance of a repeat.
+  - Of the 120,000 units observed, 20,000 were bought on separate terms and
+    come out of the claim.
+  - The other 100,000 units support a $260,000 claim. Kordran helps pursue a
+    credit or a pricing correction. Acceptance is not assumed.
+  - If the price returns to $42.00 and buying continues, about $156,000 a
+    year is not billed. That is future cost avoidance, not cash already
+    recovered.
 
 ### 05 What you receive
 

@@ -58,7 +58,7 @@ const stages = [
   },
   {
     title: "Resolution",
-    body: "The difference comes back as a credit, and the price is corrected on every invoice after.",
+    body: "Where the records support it, we help pursue a credit or a pricing correction. The outcome depends on the supplier and your decision.",
     scene: resolveScene,
   },
 ];
@@ -106,13 +106,13 @@ const workflow = [
   },
   {
     title: "Resolve",
-    body: "Build the case and work it with the supplier, alongside you, to a credit and a corrected price.",
+    body: "Build the case and help pursue a supported credit or pricing correction, alongside you.",
     you: "Decide what to pursue and approve supplier contact.",
   },
   {
     title: "Verify",
-    body: "Confirm the credit landed and the corrected price is on new invoices.",
-    you: "Confirm what came back.",
+    body: "Confirm what was actually accepted: a credit, a corrected price, or another outcome.",
+    you: "Confirm what was received or corrected.",
   },
   {
     title: "Prevent",
@@ -136,11 +136,11 @@ const outputs = [
   },
   {
     title: "Resolution support",
-    body: "Hands-on help through to the credit and the corrected price.",
+    body: "Hands-on help pursuing an authorized credit or pricing correction.",
   },
   {
-    title: "Recovery confirmation",
-    body: "Proof the credit landed and new invoices are right.",
+    title: "Outcome record",
+    body: "What was actually accepted, and what changed on new invoices.",
   },
   {
     title: "Prevention plan",
@@ -150,45 +150,37 @@ const outputs = [
 
 const scale = potentialDiscrepancy;
 
-/** From the first difference to the credit in hand, as a waterfall. */
+/** The same illustration as the homepage, from observed difference to a conditional run rate. */
 const flow = [
   {
-    key: "found",
-    title: "Found",
+    key: "observed",
+    title: "Observed",
     value: formatUsd(potentialDiscrepancy),
-    math: `${formatCount(totalUnits)} units × ${formatUsd(unitDelta, 2)} over agreement`,
+    math: `${formatCount(example.unitsPerMonth)} × ${formatUsd(unitDelta, 2)} × ${example.months} months`,
     from: 0,
     to: potentialDiscrepancy,
   },
   {
-    key: "out",
-    title: "Set aside",
+    key: "excluded",
+    title: "Excluded",
     value: `−${formatUsd(excludedExposure)}`,
-    math: `${formatCount(excludedUnits)} units bought under separate terms`,
+    math: `${formatCount(excludedUnits)} units on separate terms`,
     from: supportedExposure,
     to: potentialDiscrepancy,
   },
   {
-    key: "proven",
-    title: "Proven",
+    key: "claim",
+    title: "Supported claim",
     value: formatUsd(supportedExposure),
-    math: `${formatCount(qualifiedUnits)} units, documented invoice by invoice`,
+    math: `${formatUsd(potentialDiscrepancy)} − ${formatUsd(excludedExposure)}`,
     from: 0,
     to: supportedExposure,
   },
   {
-    key: "recovered",
-    title: "Recovered",
-    value: formatUsd(supportedExposure),
-    math: "Credit issued by the supplier",
-    from: 0,
-    to: supportedExposure,
-  },
-  {
-    key: "ahead",
-    title: "Every year after",
+    key: "forward",
+    title: "A year, if corrected",
     value: formatUsd(annualPrevented),
-    math: `Corrected to ${formatUsd(example.agreedUnit, 2)} on every new invoice`,
+    math: `${formatCount(example.unitsPerMonth)} × ${formatUsd(unitDelta, 2)} × 12, if volume continues`,
     from: 0,
     to: annualPrevented,
   },
@@ -213,9 +205,9 @@ export default function ApproachPage() {
               From supplier records to money back.
             </h1>
             <p className="lede">
-              How we find overbilling, prove it, recover it, and keep it from
-              coming back. It starts with one supplier and ends with a
-              corrected invoice.
+              How we find the difference, prove what the records support, and
+              help pursue a credit or a corrected price. It starts with one
+              supplier.
             </p>
             <div className="cta-row">
               <TrackLink
@@ -349,7 +341,7 @@ export default function ApproachPage() {
                   Workflow
                 </p>
                 <h2 id="workflow-heading" className="heading">
-                  A clear path to money back.
+                  A clear path through the work.
                 </h2>
               </div>
               <p className="lede">
@@ -396,13 +388,13 @@ export default function ApproachPage() {
                   Results
                 </p>
                 <h2 id="measure-heading" className="heading">
-                  From finding to money back.
+                  A finding is not a recovery.
                 </h2>
               </div>
               <p className="lede">
-                Every engagement is tracked from the first difference to the
-                credit in hand, so you always know what was found, what holds
-                up, and what came back.
+                The same machined housing as the homepage, from what was
+                observed to what the records support, and what a correction
+                would be worth later.
               </p>
             </Reveal>
 
@@ -446,22 +438,22 @@ export default function ApproachPage() {
 
             <div className="case-copy">
               <p>
-                The review confirms which of the {formatCount(totalUnits)} units
-                were billed under the agreement. Here,{" "}
-                {formatCount(excludedUnits)} were bought on a separate order
-                with its own terms, so they come out.
+                Of the {formatCount(totalUnits)} units observed,{" "}
+                {formatCount(excludedUnits)} were bought on a separate order.
+                They come out of the claim.
               </p>
               <p>
                 The other {formatCount(qualifiedUnits)} units support a{" "}
-                <span className="num is-back">{formatUsd(supportedExposure)}</span>{" "}
-                claim, documented invoice by invoice. That is the case we take
-                to the supplier with you.
+                <span className="num is-claim">{formatUsd(supportedExposure)}</span>{" "}
+                claim. We build that case and help pursue a credit or a pricing
+                correction. Acceptance is not assumed.
               </p>
               <p>
-                The supplier issues a credit, new invoices go back to{" "}
-                {formatUsd(example.agreedUnit, 2)}, and the fix is worth{" "}
+                If the price goes back to {formatUsd(example.agreedUnit, 2)} and
+                buying continues, about{" "}
                 <span className="num is-back">{formatUsd(annualPrevented)}</span>{" "}
-                every year after.
+                a year is not billed. That is future cost avoidance, not cash
+                already recovered.
               </p>
             </div>
           </div>
@@ -484,8 +476,8 @@ export default function ApproachPage() {
                 </h2>
               </div>
               <p className="lede">
-                Clear findings, a case that holds up, and the follow-through to
-                collect.
+                Clear findings, a case that holds up, and follow-through on
+                what you decide to pursue.
               </p>
             </Reveal>
             <dl className="register">
@@ -537,7 +529,7 @@ export default function ApproachPage() {
                 <ul>
                   <li>Investigation and evidence</li>
                   <li>The supplier case</li>
-                  <li>Follow-through to recovery</li>
+                  <li>Follow-through on what you decide to pursue</li>
                 </ul>
               </Reveal>
             </div>

@@ -148,7 +148,7 @@ export default function PlateField({
                 <>
                   <strong>Corrected to {formatUsd(prices.agreed, 2)}</strong>
                   <span>
-                    {formatUsd(prices.excess, 2)} a unit recovered
+                    {formatUsd(prices.excess, 2)} a unit corrected
                   </span>
                 </>
               ) : hover.raised ? (

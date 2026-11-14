@@ -248,9 +248,9 @@ export default function ExposureCalculator() {
           </p>
         </div>
         <p className="micro exhibit-state">
-          <strong>Overbilled in {months} months</strong>
+          <strong>Observed over {months} months</strong>
           <span className="is-over">
-            Another {formatUsd(model.perYear)} a year until it is corrected
+            If it continues, another {formatUsd(model.perYear)} a year. Not cash recovered.
           </span>
         </p>
       </div>

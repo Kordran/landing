@@ -12,20 +12,29 @@ export const example = {
 export const illustrativeLabel = "Example";
 
 export const unitDelta = round2(example.billedUnit - example.agreedUnit);
+export const monthlyDifference = round2(example.unitsPerMonth * unitDelta);
 export const totalUnits = example.unitsPerMonth * example.months;
-export const potentialDiscrepancy = round2(totalUnits * unitDelta);
 
-/** Units outside the agreement's terms once the records are checked. */
+/** Observed difference over the full period. Not a recovery. */
+export const potentialDiscrepancy = round2(monthlyDifference * example.months);
+
+/** Units on separate terms, taken out of the claim. */
 export const excludedUnits = 20_000;
 export const qualifiedUnits = totalUnits - excludedUnits;
-export const supportedExposure = round2(qualifiedUnits * unitDelta);
 export const excludedExposure = round2(excludedUnits * unitDelta);
 
-/** What the corrected price is worth each year after the fix. */
-export const annualPrevented = round2(example.unitsPerMonth * 12 * unitDelta);
+/** What the records support. Not an accepted credit. */
+export const supportedExposure = round2(qualifiedUnits * unitDelta);
+
+/**
+ * Future annual run-rate reduction if the unit price is corrected and
+ * purchasing volume continues. Not cash already recovered.
+ */
+export const annualPrevented = round2(monthlyDifference * 12);
 
 if (
   unitDelta !== 2.6 ||
+  monthlyDifference !== 13_000 ||
   totalUnits !== 120_000 ||
   potentialDiscrepancy !== 312_000 ||
   supportedExposure !== 260_000 ||
@@ -34,7 +43,7 @@ if (
   potentialDiscrepancy - excludedExposure !== supportedExposure
 ) {
   throw new Error(
-    "Example must equal 120,000 × ($44.60 − $42.00) = $312,000, with 100,000 qualifying units supporting $260,000."
+    "Example must be 5,000 × $2.60 = $13,000 a month, $312,000 observed over 24 months, $52,000 excluded, $260,000 supported, and $156,000 a year if corrected."
   );
 }
 
