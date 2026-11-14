@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import Axo from "@/components/figures/Axo";
 import type { AxoScene } from "@/components/figures/axo";
 
@@ -23,7 +23,7 @@ export default function EvidenceStack({
     <div className="evidence">
       <ol className="evidence-list">
         {records.map((record, index) => (
-          <li key={record.id}>
+          <li key={record.id} style={{ "--i": index } as CSSProperties}>
             <button
               type="button"
               aria-pressed={active === record.id}
