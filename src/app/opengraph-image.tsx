@@ -15,7 +15,7 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#FFFFFF",
+          background: "#F4F2ED",
           color: "#161A1D",
           padding: "64px 72px 56px",
           fontFamily: "Helvetica Neue, Arial, sans-serif",
@@ -66,7 +66,7 @@ export default function OpenGraphImage() {
               textTransform: "uppercase",
             }}
           >
-            Supplier cost intelligence + execution
+            Industrial cost intelligence + execution
           </div>
           <div
             style={{
@@ -86,8 +86,8 @@ export default function OpenGraphImage() {
         <div
           style={{
             display: "flex",
-            background: "#FFFFFF",
-            border: "1px solid #D8DDE1",
+            background: "#FCFBF8",
+            border: "1px solid #AEABA1",
           }}
         >
           <div
@@ -99,7 +99,7 @@ export default function OpenGraphImage() {
               flex: 1,
             }}
           >
-            <div style={{ display: "flex", fontSize: 14, color: "#5C6770" }}>
+            <div style={{ display: "flex", fontSize: 14, color: "#5D6771" }}>
               Agreed unit price
             </div>
             <div style={{ display: "flex", fontSize: 32, fontWeight: 500 }}>
@@ -113,10 +113,10 @@ export default function OpenGraphImage() {
               gap: 8,
               padding: "18px 28px",
               flex: 1,
-              borderLeft: "1px solid #D8DDE1",
+              borderLeft: "1px solid #DCD9D0",
             }}
           >
-            <div style={{ display: "flex", fontSize: 14, color: "#5C6770" }}>
+            <div style={{ display: "flex", fontSize: 14, color: "#5D6771" }}>
               Billed unit price
             </div>
             <div
@@ -137,10 +137,10 @@ export default function OpenGraphImage() {
               gap: 8,
               padding: "18px 28px",
               flex: 1.15,
-              borderLeft: "1px solid #D8DDE1",
+              borderLeft: "1px solid #DCD9D0",
             }}
           >
-            <div style={{ display: "flex", fontSize: 14, color: "#5C6770" }}>
+            <div style={{ display: "flex", fontSize: 14, color: "#5D6771" }}>
               Difference
             </div>
             <div

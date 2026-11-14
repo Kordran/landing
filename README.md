@@ -7,6 +7,18 @@ Supplier cost verification and resolution site for Kordran Inc.
 - Next.js (App Router)
 - TypeScript
 - Tailwind CSS v4
+- three.js (hero scene only, loaded on idle)
+
+## Design
+
+The identity, design system, copy, and the research behind them are documented
+in [`docs/identity/`](docs/identity/README.md). Start there before changing
+layout, color, type, motion, or the hero drawing.
+
+The hero is one drawing with two renderers that share
+`src/components/plate/model.ts`: a server-rendered SVG (first paint, reduced
+motion, no WebGL) and a lazy-loaded three.js scene that takes over when the
+browser can run it. Change the geometry in the model, not in either renderer.
 
 ## Develop
 
@@ -71,7 +83,8 @@ deployment environment and redeploy.
 
 ## Pages and discovery
 
-- `/` - landing page
+- `/` - homepage
+- `/approach` - how an engagement works, from records to resolution
 - `/privacy` - privacy policy
 - `/terms` - terms of use
 - `POST /api/contact` - situation discussion form

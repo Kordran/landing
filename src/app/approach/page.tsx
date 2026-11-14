@@ -352,14 +352,14 @@ export default function ApproachPage() {
                 </h2>
               </div>
               <p className="lede">
-                Each step has work we do and a decision that stays with you.
+                Each step has work we do and a part that stays with you.
               </p>
             </Reveal>
             <div className="workflow">
               <p className="workflow-head micro" aria-hidden="true">
                 <span>Step</span>
                 <span>Kordran</span>
-                <span>You decide</span>
+                <span>Your part</span>
               </p>
               <ol>
                 {workflow.map((step, i) => (
@@ -370,7 +370,7 @@ export default function ApproachPage() {
                     <h3 className="title">{step.title}</h3>
                     <p className="body">{step.body}</p>
                     <p className="workflow-you">
-                      <span className="micro">You decide</span>
+                      <span className="micro">Your part</span>
                       {step.you}
                     </p>
                   </li>
