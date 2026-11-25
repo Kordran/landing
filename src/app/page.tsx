@@ -75,30 +75,31 @@ export default function Home() {
                 <h1 className="text-balance font-display text-display-sm font-normal tracking-[-0.025em] text-ink-primary lg:text-display-md">
                   Kordran recovers{" "}
                   <span className="underline decoration-ink-primary/25 decoration-1 underline-offset-[6px]">
-                    lost margin in supplier billing, tariffs, and material
+                    lost cash across supplier billing, tariffs, and material
                     spend
                   </span>
                   .
                 </h1>
 
                 <p className="mt-7 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
-                  Manufacturers lose six to seven figures a year between
-                  purchasing, customs, and accounts payable. Buyers negotiate
-                  the terms. Brokers file the entries. AP pays the bill. Nobody
-                  reconciles all three.{" "}
+                  Manufacturers lose six to seven figures a year in the gaps
+                  between purchasing, customs, and accounts payable. Buyers
+                  negotiate terms, brokers file entries, and AP pays invoices,
+                  while nobody reconciles all three against each other.{" "}
                   <span className="bg-highlight px-[4px] py-[1px] underline decoration-ink-primary/25 decoration-1 underline-offset-[4px] box-decoration-clone">
-                    Kordran audits your ERP, trade records, and supplier
-                    invoices line by line,
+                    Kordran audits the records, runs the recovery, and closes
+                    the leaks:
                   </span>{" "}
-                  pinpointing supplier tariff overbilling, material-surcharge
+                  resolving supplier tariff overbilling, material surcharge
                   errors, freight waste, and underpriced scrap.
                 </p>
 
                 <p className="mt-5 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
-                  Every finding includes the source page, so your team can act
-                  on it and put that money back into EBITDA. After the cash is
-                  recovered, Kordran reviews new invoices, surcharges, and scrap
-                  settlements each month.
+                  Most advisors hand you a report and leave your team to do the
+                  work. We take ownership of the execution. Kordran builds
+                  source-backed claims, works directly with your suppliers,
+                  brokers, and floor teams to recover cash, and monitors
+                  incoming billing every month so those leaks stay closed.
                 </p>
 
                 <div className="mt-8">
