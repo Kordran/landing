@@ -1,5 +1,4 @@
 import Link from "next/link";
-import CopyEmailButton from "@/components/CopyEmailButton";
 import Logo from "@/components/Logo";
 import { contactEmail } from "@/lib/site";
 
@@ -83,38 +82,32 @@ export default function Home() {
                 </h1>
 
                 <p className="mt-7 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
-                  Manufacturers lose six to seven figures a year in the gap
-                  between purchasing, customs, and accounts payable. Buyers
-                  negotiate the terms, brokers file the entries, and AP pays
-                  the bill—nobody reconciles all three streams against each
-                  other.{" "}
+                  Manufacturers lose six to seven figures a year between
+                  purchasing, customs, and accounts payable. Buyers negotiate
+                  the terms. Brokers file the entries. AP pays the bill. Nobody
+                  reconciles all three.{" "}
                   <span className="bg-highlight px-[4px] py-[1px] underline decoration-ink-primary/25 decoration-1 underline-offset-[4px] box-decoration-clone">
                     Kordran audits your ERP, trade records, and supplier
-                    invoices line by line:
+                    invoices line by line,
                   </span>{" "}
                   pinpointing supplier tariff overbilling, material-surcharge
                   errors, freight waste, and underpriced scrap.
                 </p>
 
                 <p className="mt-5 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
-                  Every finding comes backed by source-page evidence your team
-                  can act on immediately—turning silent billing and trade
-                  leakage directly back into EBITDA. Once historical cash is
-                  recovered, Kordran monitors incoming invoices, surcharges,
-                  and scrap settlements every month so those leaks stay
-                  closed.
+                  Every finding includes the source page, so your team can act
+                  on it and put that money back into EBITDA. After the cash is
+                  recovered, Kordran reviews new invoices, surcharges, and scrap
+                  settlements each month.
                 </p>
 
-                <div className="mt-8 flex flex-wrap gap-3">
+                <div className="mt-8">
                   <a
                     className={`${cta} inline-flex border-brand-blue bg-brand-blue text-white`}
                     href={`mailto:${contactEmail}`}
                   >
-                    Get in touch
+                    Contact
                   </a>
-                  <CopyEmailButton
-                    className={`${cta} border-border-subtle bg-canvas text-ink-primary hover:border-ink-primary`}
-                  />
                 </div>
               </div>
             </div>
