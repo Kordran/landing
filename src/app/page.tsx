@@ -75,19 +75,19 @@ export default function Home() {
                 <h1 className="text-balance font-display text-display-sm font-normal tracking-[-0.025em] text-ink-primary lg:text-display-md">
                   Kordran recovers{" "}
                   <span className="underline decoration-ink-primary/25 decoration-1 underline-offset-[6px]">
-                    leaked metal and landed-cost margin
+                    metal and landed-cost margin
                   </span>{" "}
                   for precision manufacturers.
                 </h1>
 
                 <p className="mt-7 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
-                  Mid-market aerospace, defense, and industrial manufacturers
-                  across Southern California and Baja lose six figures a year
-                  in the blind spots between purchasing, customs records, and
-                  supplier billing.{" "}
+                  Aerospace, defense, and precision manufacturers across Southern
+                  California and Baja lose six figures a year in the blind
+                  spots between purchasing, customs records, and supplier
+                  billing.{" "}
                   <span className="bg-highlight px-[4px] py-[1px] underline decoration-ink-primary/25 decoration-1 underline-offset-[4px] box-decoration-clone">
                     Kordran reconciles ERP purchase orders, trade data, and
-                    mill invoices into one forensic audit:
+                    mill invoices into one line-level audit:
                   </span>{" "}
                   surfacing supplier tariff overbilling, alloy-surcharge
                   drift, freight waste, and undervalued titanium or superalloy
@@ -95,11 +95,12 @@ export default function Home() {
                 </p>
 
                 <p className="mt-5 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
-                  We work strictly upstream of your customs broker and finance
-                  team—auditing past records, flagging billing discrepancies
-                  with source-page evidence, and monitoring ongoing AP leakage
-                  without filing entries or taking title to metal. Built for
-                  $30M–$300M metal-heavy manufacturers.
+                  We work directly for your finance team and alongside your
+                  customs broker—auditing historical records, backing every
+                  discrepancy with source-page evidence, and monitoring ongoing
+                  AP leakage without replacing your broker or touching
+                  inventory. Built for mid-market manufacturers with complex
+                  metal spend.
                 </p>
 
                 <div className="mt-8">
