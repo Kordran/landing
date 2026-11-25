@@ -73,33 +73,29 @@ export default function Home() {
             <div className="min-w-0 lg:px-8">
               <div className="w-full lg:mx-auto lg:max-w-[min(50vw,41.8rem)]">
                 <h1 className="text-balance font-display text-display-sm font-normal tracking-[-0.025em] text-ink-primary lg:text-display-md">
-                  Kordran recovers{" "}
-                  <span className="underline decoration-ink-primary/25 decoration-1 underline-offset-[6px]">
-                    lost cash across supplier billing, tariffs, and material
-                    spend
-                  </span>
-                  .
+                  Kordran finds where you&apos;re losing cash on suppliers,
+                  tariffs, and scrap. Then we go get it back.
                 </h1>
 
                 <p className="mt-7 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
-                  Manufacturers lose six to seven figures a year in the gaps
-                  between purchasing, customs, and accounts payable. Buyers
-                  negotiate terms, brokers file entries, and AP pays invoices,
-                  while nobody reconciles all three against each other.{" "}
-                  <span className="bg-highlight px-[4px] py-[1px] underline decoration-ink-primary/25 decoration-1 underline-offset-[4px] box-decoration-clone">
-                    Kordran audits the records, runs the recovery, and closes
-                    the leaks:
-                  </span>{" "}
-                  resolving supplier tariff overbilling, material surcharge
-                  errors, freight waste, and underpriced scrap.
+                  Most manufacturers overpay in the gap between purchasing,
+                  customs, and accounts payable. Suppliers bill surcharges that
+                  don&apos;t match the contract. Supplier tariff charges never
+                  get refunded. Freight gets rushed. Scrap leaves the building
+                  for pennies.
                 </p>
 
                 <p className="mt-5 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
-                  Most advisors hand you a report and leave your team to do the
-                  work. We take ownership of the execution. Kordran builds
-                  source-backed claims, works directly with your suppliers,
-                  brokers, and floor teams to recover cash, and monitors
-                  incoming billing every month so those leaks stay closed.
+                  <span className="font-medium">Kordran owns the fix.</span> We
+                  go through your data, walk your floor, and work with your
+                  suppliers, haulers, and processors, on your terms, to recover
+                  the money. Your broker files with customs. We handle
+                  everything else.
+                </p>
+
+                <p className="mt-5 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
+                  Then we stay on it. Every month we check new bills before
+                  they&apos;re paid, so the same problems don&apos;t come back.
                 </p>
 
                 <div className="mt-8">
