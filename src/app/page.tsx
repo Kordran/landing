@@ -1,5 +1,5 @@
 import Link from "next/link";
-import CopyEmailButton from "@/components/CopyEmailButton";
+import CaliforniaBear from "@/components/CaliforniaBear";
 import Logo from "@/components/Logo";
 import { contactEmail } from "@/lib/site";
 
@@ -47,24 +47,24 @@ export default function Home() {
 
         <div className="hero-pad mx-auto w-full px-10 pt-4 pb-14 md:max-w-[680px] md:px-8 md:pt-12 md:pb-16 lg:max-w-kordran lg:px-12 lg:pt-[clamp(6rem,18vh,11rem)] lg:pb-16">
           <div className="kordran-grid items-start">
-            <nav
-              className="flex flex-row gap-6 pt-6 pb-8 md:pt-0 lg:flex-col lg:items-start lg:gap-3 lg:pt-[6px] lg:pr-4 lg:pb-0 lg:pl-4"
-              aria-label="Primary"
-            >
-              <Link
-                href="/"
-                className="relative font-display text-nav font-medium tracking-[-0.01em] text-brand-blue underline decoration-brand-blue decoration-2 underline-offset-4 lg:no-underline lg:before:absolute lg:before:top-[2px] lg:before:-left-[17px] lg:before:h-[18px] lg:before:w-[2px] lg:before:bg-brand-blue lg:before:content-['']"
-                aria-current="page"
-              >
-                Home
-              </Link>
-              <a
-                className="font-display text-nav font-normal tracking-[-0.01em] text-ink-muted"
-                href={`mailto:${contactEmail}`}
-              >
-                Contact
-              </a>
-            </nav>
+            {/* Rail is parked. The empty track stays so the hairlines do not move when it returns. */}
+            <div className="max-lg:hidden">
+              <nav className="hidden" aria-label="Primary">
+                <Link
+                  href="/"
+                  className="relative font-display text-nav font-medium tracking-[-0.01em] text-brand-blue underline decoration-brand-blue decoration-2 underline-offset-4 lg:no-underline lg:before:absolute lg:before:top-[2px] lg:before:-left-[17px] lg:before:h-[18px] lg:before:w-[2px] lg:before:bg-brand-blue lg:before:content-['']"
+                  aria-current="page"
+                >
+                  Home
+                </Link>
+                <a
+                  className="font-display text-nav font-normal tracking-[-0.01em] text-ink-muted"
+                  href={`mailto:${contactEmail}`}
+                >
+                  Contact
+                </a>
+              </nav>
+            </div>
 
             <p className="mb-3 font-sans text-index font-medium tracking-[0.06em] text-ink-muted tabular-nums lg:mb-0 lg:pt-[8px] lg:pl-4">
               01
@@ -100,14 +100,13 @@ export default function Home() {
                 metal-heavy manufacturers.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-8">
                 <a
-                  className={`${cta} inline-flex border-ink-primary bg-ink-primary text-white`}
+                  className={`${cta} inline-flex border-brand-blue bg-brand-blue text-white`}
                   href={`mailto:${contactEmail}`}
                 >
                   Contact
                 </a>
-                <CopyEmailButton className={`${cta} border-border-subtle bg-canvas text-ink-primary hover:border-ink-primary`} />
               </div>
             </div>
           </div>
@@ -117,9 +116,10 @@ export default function Home() {
       <footer className="bg-canvas">
         <div className="mx-auto flex w-full flex-col items-start gap-4 px-5 py-8 md:max-w-[680px] md:flex-row md:items-center md:justify-between md:px-8 md:py-9 lg:max-w-kordran lg:px-12 lg:py-10">
           <Logo className="h-5 w-auto lg:ml-4 lg:h-[24px]" priority />
-          <p className="font-sans text-meta font-normal tracking-[0.01em] text-ink-muted md:text-right">
-            <span>Southern California · Baja</span>
-            <span aria-hidden="true"> · </span>
+          <p className="flex items-center gap-2 font-sans text-meta font-normal tracking-[0.01em] text-ink-muted md:text-right">
+            <CaliforniaBear className="h-[22px] w-auto shrink-0" />
+            <span>Based in California</span>
+            <span aria-hidden="true">·</span>
             <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
           </p>
         </div>
