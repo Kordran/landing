@@ -1,111 +1,9 @@
-import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
-import Script from "next/script";
-import {
-  defaultTitle,
-  legalName,
-  ogDescription,
-  siteDescription,
-  siteName,
-  llmAlternates,
-  siteUrl,
-} from "@/lib/site";
+import type { Metadata } from "next";
 import "./globals.css";
 
-// Variable weight and width. Display sizes run slightly condensed.
-const instrumentSans = Instrument_Sans({
-  variable: "--font-instrument-sans",
-  subsets: ["latin"],
-  axes: ["wdth"],
-  display: "swap",
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
-
-const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
-
-export const viewport: Viewport = {
-  themeColor: "#F4F2ED",
-  colorScheme: "light",
-};
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: defaultTitle,
-    template: `%s | ${siteName}`,
-  },
-  description: siteDescription,
-  applicationName: siteName,
-  authors: [{ name: legalName, url: siteUrl }],
-  creator: legalName,
-  publisher: legalName,
-  keywords: [
-    "supplier overbilling",
-    "recover supplier overcharges",
-    "supplier cost recovery",
-    "invoice vs contract price",
-    "purchase price variance",
-    "contract price reconciliation",
-    "supplier price increase review",
-    "contractual surcharge recovery",
-    "manufacturing procurement costs",
-    "industrial supplier audit",
-  ],
-  category: "business",
-  alternates: {
-    canonical: "/",
-    types: llmAlternates,
-  },
-  openGraph: {
-    title: defaultTitle,
-    description: ogDescription,
-    url: siteUrl,
-    siteName,
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@kordran_",
-    creator: "@kordran_",
-    title: defaultTitle,
-    description: ogDescription,
-  },
-  icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
-      { url: "/favicon.ico", sizes: "48x48" },
-    ],
-    apple: [
-      {
-        url: "/apple-touch-icon.png",
-        sizes: "180x180",
-        type: "image/png",
-      },
-    ],
-    shortcut: "/favicon.ico",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
-  ...(googleVerification
-    ? { verification: { google: googleVerification } }
-    : {}),
+  title: "Blank",
+  description: "Blank canvas",
 };
 
 export default function RootLayout({
@@ -113,35 +11,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
-
   return (
-    <html
-      lang="en"
-      className={`${instrumentSans.variable} ${ibmPlexMono.variable} h-full`}
-    >
-      <body className="min-h-full flex flex-col antialiased">
-        <a className="skip-link" href="#content">
-          Skip to content
-        </a>
-        {children}
-        {gaId ? (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga-init" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaId}');
-              `}
-            </Script>
-          </>
-        ) : null}
-      </body>
+    <html lang="en">
+      <body>{children}</body>
     </html>
   );
 }
