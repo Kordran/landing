@@ -70,8 +70,8 @@ export default function Home() {
               01
             </p>
 
-            <div className="min-w-0 lg:px-12">
-              <div className="w-full lg:mx-auto lg:max-w-[min(50vw,38rem)]">
+            <div className="min-w-0 lg:px-8">
+              <div className="w-full lg:mx-auto lg:max-w-[min(50vw,41.8rem)]">
                 <h1 className="text-balance font-display text-display-sm font-normal tracking-[-0.025em] text-ink-primary lg:text-display-md">
                   Kordran recovers{" "}
                   <span className="underline decoration-ink-primary/25 decoration-1 underline-offset-[6px]">
