@@ -23,12 +23,11 @@ export default function PrivacyPage() {
       <main id="content" className="site-main">
         <div className="container legal-content">
           <h1>Privacy</h1>
-          <p>Last updated: November 13, 2026</p>
+          <p>Last updated: November 25, 2026</p>
           <p>
-            Kordran Inc. (“Kordran,” “we,” “us”) investigates supplier
-            invoices against agreements for industrial manufacturers. This
-            policy describes information shared through this website, including
-            notes about supplier pricing.
+            Kordran Inc. (“Kordran,” “we,” “us”) reconciles purchase orders,
+            customs entries, and mill invoices for precision manufacturers.
+            This policy describes information shared through this website.
           </p>
 
           <h2>Information we collect</h2>

@@ -14,8 +14,8 @@ export default function Footer({ plain = false }: { plain?: boolean }) {
           <div className="footer-brand">
             <Logo variant="full" surface="dark" className="logo" />
             <p>
-              Finding supplier overbilling, and helping pursue the correction,
-              for industrial manufacturers.
+              Lining up purchase orders, customs entries, and mill invoices
+              for precision manufacturers.
             </p>
           </div>
 

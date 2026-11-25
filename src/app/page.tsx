@@ -46,9 +46,9 @@ export const metadata: Metadata = {
 };
 
 const facts = [
-  { term: "Who it is for", detail: "Industrial manufacturers" },
-  { term: "What we check", detail: "Agreements, orders, invoices" },
-  { term: "What you get", detail: "A supported case" },
+  { term: "Who it is for", detail: "Precision manufacturers" },
+  { term: "What we line up", detail: "Orders, entries, mill invoices" },
+  { term: "What you keep", detail: "Title to the metal" },
   { term: "Where to start", detail: "One supplier" },
 ];
 
@@ -56,51 +56,51 @@ const focus = [
   {
     index: "A",
     kind: "compliance",
-    title: "Prices above agreement",
-    body: "Invoices billed above the agreed price, line by line, often for months after a contract was signed.",
-    records: "Agreement · Invoice",
-    found: "Billed above agreement",
+    title: "Purchase orders",
+    body: "What you ordered, and what accounts payable recorded, line by line.",
+    records: "Purchase order · AP export",
+    found: "Ordered one price",
   },
   {
     index: "B",
     kind: "increase",
-    title: "Increases beyond terms",
-    body: "Price increases that went further, or started sooner, than the contract allows.",
-    records: "Price notice · Contract terms",
-    found: "Increase beyond the cap",
+    title: "Customs entries",
+    body: "What already crossed, read from the entry reports you export. We do not file.",
+    records: "Entry summary · Your ACE export",
+    found: "Entry doesn't match",
   },
   {
     index: "C",
     kind: "surcharge",
-    title: "Surcharges that stayed",
-    body: "Fuel, material, and freight charges that kept coming after the conditions behind them ended.",
-    records: "Surcharge terms · Billing history",
-    found: "Charge still billed",
+    title: "Mill invoices and scrap",
+    body: "What the mill billed, and what the scrap ticket says came back.",
+    records: "Mill invoice · Scrap ticket",
+    found: "Billed above the order",
   },
 ] as const;
 
 const steps = [
   {
     index: "01",
-    title: "Verify",
-    body: "We reconcile the records and put a number on what was overbilled.",
+    title: "Reconcile",
+    body: "We line up the order, the entry, and the mill invoice, and put a number on the gap.",
   },
   {
     index: "02",
-    title: "Resolve",
-    body: "We build the case and help pursue a supported credit or pricing correction.",
+    title: "Pursue",
+    body: "We help you take a supported finding to the supplier. Your broker or counsel files.",
   },
   {
     index: "03",
-    title: "Prevent",
-    body: "We help fix the cause so the next invoice can be right.",
+    title: "Watch",
+    body: "We keep the next invoice, duty line, and scrap ticket from drifting apart.",
   },
 ];
 
 const next = [
-  "Tell us about the supplier and what you're seeing.",
-  "We review it and come back to you with what we'd check and what it could be worth.",
-  "If you want to go further, we reconcile, build the case, and help pursue a correction.",
+  "Tell us the supplier, and whether the gap is in the price, the duty, or the scrap.",
+  "We come back with what we would line up, and what it could be worth.",
+  "If you want to go further, we reconcile the records and help pursue a correction.",
 ];
 
 export default function HomePage() {
@@ -118,16 +118,17 @@ export default function HomePage() {
           <div className="container hero-body">
             <p className="label">
               <span className="mark" aria-hidden="true" />
-              Industrial cost intelligence + execution
+              Orders, entries, and mill invoices
             </p>
             <h1 id="hero-heading" className="display-hero">
-              Supplier costs.
+              Three records.
               <br />
-              Verified and resolved.
+              One number.
             </h1>
             <p className="lede">
-              We help industrial manufacturers find where a supplier billed
-              more than was agreed, build the case, and pursue a correction.
+              We line up purchase orders, customs entries, and mill invoices
+              for precision manufacturers. Then we help pursue what the
+              records support.
             </p>
             <div className="cta-row">
               <TrackLink
@@ -136,7 +137,7 @@ export default function HomePage() {
                 event="cta_click"
                 eventParams={{ location: "hero", target: "contact" }}
               >
-                Send us a supplier issue
+                Send us one supplier
                 <span className="btn-glyph" aria-hidden="true" />
               </TrackLink>
               <TrackLink
@@ -170,7 +171,7 @@ export default function HomePage() {
             <Reveal className="split-copy">
               <p className="label">
                 <span className="label-index">01</span>
-                The problem
+                The gap
               </p>
               <h2 id="problem-heading" className="heading">
                 Small differences.
@@ -179,16 +180,14 @@ export default function HomePage() {
               </h2>
               <p className="lede">
                 A <span className="num is-over">{formatUsd(unitDelta, 2)}</span>{" "}
-                gap on one part number is easy to miss. Billed{" "}
-                {formatCount(example.unitsPerMonth)} times a month for two
-                years, it is{" "}
+                gap between the purchase order and the mill invoice is easy to
+                miss. Billed {formatCount(example.unitsPerMonth)} times a month
+                for two years, it is{" "}
                 <span className="num is-over">{formatUsd(potentialDiscrepancy)}</span>.
               </p>
               <p className="body">
-                It hides in invoices that look normal: an increase that went
-                further than agreed, a surcharge that never came off, a
-                contract update that never reached purchasing. Left alone, this
-                one keeps adding{" "}
+                The same kind of gap hides in a duty line or a scrap ticket.
+                Left alone, this one keeps adding{" "}
                 <span className="num is-over">{formatUsd(annualPrevented)}</span> a
                 year. That yearly figure is what continues, not cash already
                 recovered.
@@ -223,16 +222,15 @@ export default function HomePage() {
               <div>
                 <p className="label">
                   <span className="label-index">02</span>
-                  What we examine
+                  Three records
                 </p>
                 <h2 id="focus-heading" className="heading">
-                  Where overbilling hides.
+                  Where the money hides.
                 </h2>
               </div>
               <p className="lede">
-                We check what you were billed against what you agreed to, on
-                every invoice, and show exactly where the two part ways. Then
-                we bring them back together.
+                We put the purchase order, the customs entry, and the mill
+                invoice on the same line. The difference is the work.
               </p>
             </Reveal>
             <Reveal className="focus-grid" delay={80}>
@@ -266,7 +264,7 @@ export default function HomePage() {
                 event="cta_click"
                 eventParams={{ location: "focus", target: "workflow" }}
               >
-                See how we investigate
+                See how the work runs
               </TrackLink>
             </p>
           </div>
@@ -284,32 +282,31 @@ export default function HomePage() {
               <div>
                 <p className="label">
                   <span className="label-index">03</span>
-                  Intelligence + execution
+                  Follow-through
                 </p>
                 <h2 id="value-heading" className="display">
                   The finding is only the beginning.
                 </h2>
               </div>
               <p className="lede">
-                Most reviews stop at a report. We stay through the case, the
-                supplier conversation, and a correction that can keep it from
-                coming back.
+                A report is not a correction. We stay through the case. Your
+                broker files. You decide, and you keep the metal.
               </p>
             </Reveal>
 
             <Reveal className="track" delay={80}>
               <div className="track-phases">
                 <div className="track-phase">
-                  <p className="label">Intelligence</p>
+                  <p className="label">Reconcile</p>
                   <p>
-                    Find it. Reconcile the records. Put a number on it.
+                    Line up the three records. Put a number on the gap.
                   </p>
                 </div>
                 <div className="track-phase is-execution">
-                  <p className="label">Execution</p>
+                  <p className="label">Pursue</p>
                   <p>
-                    Work the issue with your team and the supplier, and help
-                    pursue a supported credit or pricing correction.
+                    Help take a supported finding to the supplier. Filings stay
+                    with your broker or counsel.
                   </p>
                 </div>
               </div>
@@ -334,7 +331,7 @@ export default function HomePage() {
                 event="cta_click"
                 eventParams={{ location: "value", target: "approach" }}
               >
-                Read the full approach
+                Read how it runs
               </TrackLink>
             </p>
           </div>
@@ -352,17 +349,17 @@ export default function HomePage() {
             </p>
             <Reveal className="purpose-statement">
               <h2 id="purpose-heading" className="display">
-                Better economics for physical industry.
+                The economics of metal, in and out.
               </h2>
               <p className="muted">
-                Industrial companies depend on complex supplier relationships.
-                We believe the economics behind those relationships should be
-                understood, verified, and acted upon.
+                Precision manufacturers live on the gap between what was
+                bought, what crossed the border, and what was billed. That gap
+                should be visible, and acted on.
               </p>
             </Reveal>
             <div className="purpose-close">
               <div className="ruler" aria-hidden="true" />
-              <p>Understand the cost. Act on the evidence.</p>
+              <p>Line up the records. Act on the difference.</p>
             </div>
           </div>
         </section>
@@ -409,12 +406,12 @@ export default function HomePage() {
                 Contact
               </p>
               <h2 id="contact-heading" className="heading">
-                Send us what you&apos;re seeing.
+                Send us one supplier.
               </h2>
               <p className="lede">
-                A price increase that doesn&apos;t look right, a surcharge that
-                never went away, or a supplier you just want checked. Start
-                with one supplier. We&apos;ll take a look.
+                A mill invoice that doesn&apos;t match the order, a duty line
+                that doesn&apos;t match the entry, or scrap that left for less
+                than it was worth. Start with one supplier.
               </p>
               <ol className="next-steps">
                 {next.map((item, index) => (

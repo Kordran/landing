@@ -82,33 +82,33 @@ export const resolveScene = axoScene({
 export const evidenceRecords = [
   {
     id: "quotation",
-    name: "Supplier quotation",
-    what: "The price a supplier offered, the quantities it covered, and how long the offer stood.",
-  },
-  {
-    id: "agreement",
-    name: "Pricing agreement",
-    what: "The agreed price, its effective dates, and any terms for escalation or surcharges.",
-  },
-  {
-    id: "amendment",
-    name: "Contract amendment",
-    what: "What changed after signing, and the date the change took effect.",
-  },
-  {
-    id: "approval",
-    name: "Approved price change",
-    what: "Which revisions your company actually accepted, and from when.",
-  },
-  {
-    id: "order",
     name: "Purchase order",
     what: "What was ordered, in what quantity, and at what stated price.",
   },
   {
+    id: "agreement",
+    name: "Payables export",
+    what: "What accounts payable recorded against that order.",
+  },
+  {
+    id: "amendment",
+    name: "Customs entry",
+    what: "What already crossed, from a report you export. We do not file it.",
+  },
+  {
+    id: "approval",
+    name: "Mill invoice",
+    what: "What the mill or distributor billed, including surcharges.",
+  },
+  {
+    id: "order",
+    name: "Scrap ticket",
+    what: "What left the shop, and what the settlement said it was worth.",
+  },
+  {
     id: "invoice",
-    name: "Supplier invoice",
-    what: "What was billed. This is the record the others are tested against.",
+    name: "Pricing terms",
+    what: "The agreement the other records are tested against.",
   },
 ] as const;
 

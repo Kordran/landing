@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
+import { Alexandria, SUSE } from "next/font/google";
 import Script from "next/script";
 import {
   defaultTitle,
@@ -12,18 +12,15 @@ import {
 } from "@/lib/site";
 import "./globals.css";
 
-// Variable weight and width. Display sizes run slightly condensed.
-const instrumentSans = Instrument_Sans({
-  variable: "--font-instrument-sans",
+const alexandria = Alexandria({
+  variable: "--font-alexandria",
   subsets: ["latin"],
-  axes: ["wdth"],
   display: "swap",
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
+const suse = SUSE({
+  variable: "--font-suse",
   subsets: ["latin"],
-  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -46,16 +43,14 @@ export const metadata: Metadata = {
   creator: legalName,
   publisher: legalName,
   keywords: [
-    "supplier overbilling",
-    "recover supplier overcharges",
-    "supplier cost recovery",
-    "invoice vs contract price",
-    "purchase price variance",
-    "contract price reconciliation",
-    "supplier price increase review",
-    "contractual surcharge recovery",
-    "manufacturing procurement costs",
-    "industrial supplier audit",
+    "purchase order reconciliation",
+    "customs entry reconciliation",
+    "mill invoice audit",
+    "alloy surcharge review",
+    "scrap settlement audit",
+    "precision manufacturing costs",
+    "Baja California manufacturers",
+    "Southern California machine shops",
   ],
   category: "business",
   alternates: {
@@ -118,7 +113,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${ibmPlexMono.variable} h-full`}
+      className={`${alexandria.variable} ${suse.variable} h-full`}
     >
       <body className="min-h-full flex flex-col antialiased">
         <a className="skip-link" href="#content">

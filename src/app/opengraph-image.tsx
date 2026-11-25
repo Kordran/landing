@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Kordran finds supplier overbilling and builds the case. An illustration: $42.00 agreed, $44.60 billed, $312,000 observed over 24 months.";
+  "Kordran lines up purchase orders, customs entries, and mill invoices. An illustration: $42.00 ordered, $44.60 billed, $312,000 over 24 months.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -66,7 +66,7 @@ export default function OpenGraphImage() {
               textTransform: "uppercase",
             }}
           >
-            Industrial cost intelligence + execution
+            Orders, entries, and mill invoices
           </div>
           <div
             style={{
@@ -78,8 +78,8 @@ export default function OpenGraphImage() {
               letterSpacing: "-0.035em",
             }}
           >
-            <div>Supplier costs.</div>
-            <div>Verified and resolved.</div>
+            <div>Three records.</div>
+            <div>One number.</div>
           </div>
         </div>
 
