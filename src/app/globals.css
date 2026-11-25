@@ -38,6 +38,8 @@
 
   --text-display-lg: 2.5rem;
   --text-display-lg--line-height: 1.14;
+  --text-display-md: 2rem;
+  --text-display-md--line-height: 1.16;
   --text-display-sm: 1.75rem;
   --text-display-sm--line-height: 1.14;
   --text-body: 1rem;
@@ -61,12 +63,9 @@
   display: grid;
   grid-template-columns: 1fr;
 
+  /* 1 bit of space, 2–3 close, a wide center, then a medium gap to 5. */
   @media (min-width: 1024px) {
-    grid-template-columns: 176px 56px minmax(0, 1fr) 96px;
-  }
-
-  @media (min-width: 1280px) {
-    grid-template-columns: 208px 64px minmax(0, 1fr) 192px;
+    grid-template-columns: 9rem 2.75rem minmax(0, 1fr) 11rem;
   }
 }
 
