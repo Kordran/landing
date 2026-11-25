@@ -1,6 +1,6 @@
-/** The worked example used across the site. One supplier, one part number. */
+/** The worked example used across the site. One mill invoice against one order. */
 export const example = {
-  item: "Machined housing",
+  item: "Titanium bar",
   agreementRef: "PA-4418",
   invoiceRef: "INV-20441",
   agreedUnit: 42,

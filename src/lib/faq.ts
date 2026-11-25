@@ -2,38 +2,30 @@
 export const questions = [
   {
     q: "What does Kordran do?",
-    a: "We find where suppliers have billed you more than you agreed to pay, build a supported case, and help pursue a credit or a pricing correction. We handle the investigation and the follow-through, working alongside your team.",
+    a: "We line up purchase orders, customs entries, and mill invoices, including scrap tickets, and put a number on where they disagree. Then we help pursue what the records support.",
   },
   {
     q: "Who do you work with?",
-    a: "Industrial manufacturers: finance, procurement, and operations leaders who buy parts and materials from many suppliers under negotiated terms.",
+    a: "Precision manufacturers in Southern California and Baja California. Finance, procurement, and operations leaders who buy metal, machine it, and move it across a border.",
   },
   {
-    q: "What kinds of issues do you find?",
-    a: "Prices billed above the agreement, increases beyond what the contract allows, surcharges that outlived their conditions, tiered or volume pricing that was never applied, and contract changes that never reached the purchasing system.",
+    q: "Do you file customs entries?",
+    a: "No. We read the entry reports you already have and compare them with your orders and invoices. A licensed broker or counsel files anything that has to be filed.",
   },
   {
-    q: "How does it work?",
-    a: "You tell us what you're seeing. We review it, ask for the records that matter, and show you what was observed and what the records support. Then we help pursue a credit or a pricing correction. The outcome depends on the evidence, the supplier, and your decision.",
+    q: "What about the scrap?",
+    a: "We audit the settlement. You keep title to the metal. We do not buy it, haul it, or take a commission from the processor.",
   },
   {
     q: "What do you need from us?",
-    a: "Usually the supplier agreement or price list, recent invoices, and purchase orders for the items in question. We start with whatever you have and tell you exactly what else would help.",
+    a: "A purchase-order or payables export, recent mill invoices, scrap tickets, and customs reports you can already download. Spreadsheets and PDFs are enough.",
   },
   {
     q: "Do we need to connect our systems?",
-    a: "No. Exports, PDFs, and spreadsheets work. We can start from a handful of documents for one supplier.",
-  },
-  {
-    q: "How do you work with our suppliers?",
-    a: "Alongside your team and on your terms. We prepare the evidence and the case, and can lead or support the conversation with the supplier, so the relationship stays intact.",
+    a: "No. We start from exports. Nothing has to be integrated.",
   },
   {
     q: "How do you keep our information secure?",
-    a: "Records are shared through a secure channel we set up with you, used only for your engagement, and covered by confidentiality terms agreed before anything is sent.",
-  },
-  {
-    q: "How do we get started?",
-    a: "Send us a short note about one supplier or one issue. We'll look at it, come back with what we'd review and what it could be worth, and take it from there.",
+    a: "Records move through a secure channel we set up with you, and are used only for your engagement. We do not want drawings, CAD, or defense technical data.",
   },
 ] as const;

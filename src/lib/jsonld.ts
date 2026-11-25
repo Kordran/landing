@@ -19,12 +19,12 @@ const webpageId = `${siteUrl}/#webpage`;
 const serviceId = `${siteUrl}/#service`;
 
 const knowsAbout = [
-  "Supplier overbilling",
-  "Invoice and contract price reconciliation",
-  "Purchase price variance",
-  "Supplier price increases",
-  "Contractual surcharge review",
-  "Industrial procurement cost recovery",
+  "Purchase order and invoice reconciliation",
+  "Customs entry reconciliation",
+  "Mill invoice review",
+  "Alloy surcharge review",
+  "Scrap settlement audit",
+  "Precision manufacturing costs",
 ];
 
 function organization() {
@@ -119,19 +119,19 @@ export function getHomeJsonLd() {
       {
         "@type": "ProfessionalService",
         "@id": serviceId,
-        name: "Supplier overbilling investigation",
+        name: "Purchase, customs, and mill-invoice reconciliation",
         url: siteUrl,
         description: siteDescription,
         provider: { "@id": organizationId },
         serviceType: [
-          "Supplier overbilling investigation",
-          "Contract and invoice reconciliation",
-          "Supplier price increase review",
-          "Contractual surcharge review",
+          "Purchase order reconciliation",
+          "Customs entry reconciliation",
+          "Mill invoice review",
+          "Scrap settlement audit",
         ],
         audience: {
           "@type": "BusinessAudience",
-          audienceType: "Industrial manufacturers",
+          audienceType: "Precision manufacturers",
         },
       },
       {

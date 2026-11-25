@@ -1,6 +1,6 @@
 # Kordran Landing
 
-Supplier overbilling site for Kordran Inc.
+Site for Kordran Inc. Purchase orders, customs entries, and mill invoices, reconciled.
 
 ## Stack
 

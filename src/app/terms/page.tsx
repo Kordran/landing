@@ -31,10 +31,9 @@ export default function TermsPage() {
 
           <h2>Purpose of the site</h2>
           <p>
-            This website describes how Kordran investigates supplier invoices
-            against agreements, prepares a supported case, and helps a customer
-            pursue a credit or a pricing correction when the customer authorizes
-            it. Illustrations on the site are hypothetical. Nothing here is an
+            This website describes how Kordran reconciles purchase orders,
+            customs entries, and mill invoices, then helps a customer pursue a
+            correction when the customer authorizes it. Illustrations on the site are hypothetical. Nothing here is an
             offer of services, a commitment to engage, legal advice, financial
             advice, or a guarantee of a credit, a recovery, or future savings.
           </p>

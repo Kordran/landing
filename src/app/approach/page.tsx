@@ -48,17 +48,17 @@ export const metadata: Metadata = {
 const stages = [
   {
     title: "Records",
-    body: "Quotes, agreements, orders, and invoices describe the same purchase. When they disagree, money moves.",
+    body: "The purchase order, the customs entry, and the mill invoice describe the same metal. When they disagree, money moves.",
     scene: recordsScene,
   },
   {
     title: "Reconciliation",
-    body: "Set side by side, the records show exactly where the billed price left the agreed one.",
+    body: "Set side by side, the records show where the price, the duty, or the scrap ticket left the others.",
     scene: reconcileScene,
   },
   {
     title: "Resolution",
-    body: "Where the records support it, we help pursue a credit or a pricing correction. The outcome depends on the supplier and your decision.",
+    body: "Where the records support it, we help pursue a correction. Your broker or counsel files. You keep the metal.",
     scene: resolveScene,
   },
 ];
@@ -73,50 +73,50 @@ const index = [
 ];
 
 const starts = [
-  "Invoices don't seem to match the agreed price.",
-  "A price increase went further than the contract allows.",
-  "A surcharge stayed on after its conditions ended.",
-  "Pricing changed in the contract but not in the purchasing system.",
-  "A supplier dispute needs a clear, documented case.",
+  "Mill invoices don't match the purchase order.",
+  "A duty line doesn't match the entry you already have.",
+  "Scrap left the shop for less than the ticket supports.",
+  "A price change reached the mill and not purchasing.",
+  "A supplier credit needs a documented case.",
 ];
 
 const sendUs = [
-  "The supplier agreement or current price list",
-  "A few recent invoices",
-  "Purchase orders for the items in question",
-  "Any price-increase or surcharge notices",
+  "Purchase orders and a payables export",
+  "Recent mill and distributor invoices",
+  "Scrap tickets",
+  "Customs reports you can already download",
   "Whatever you have already flagged",
 ];
 
 const workflow = [
   {
     title: "Scope",
-    body: "Pin down the supplier, the issue, the invoices affected, and the records we need.",
+    body: "Pin down the supplier, the lane, and which of the three records is in question.",
     you: "Pick the supplier and the issue.",
   },
   {
     title: "Reconcile",
-    body: "Line up agreements, orders, and invoices, and put a number on every difference.",
-    you: "Share the records through a secure channel.",
+    body: "Line up orders, entries, and mill invoices, and put a number on every difference.",
+    you: "Share exports through a secure channel.",
   },
   {
     title: "Validate",
-    body: "Test each difference against dates, amendments, and terms so the case holds up.",
-    you: "Tell us about any context you know of.",
+    body: "Test each difference against dates, terms, and what was actually shipped or scrapped.",
+    you: "Tell us the context you already know.",
   },
   {
-    title: "Resolve",
-    body: "Build the case and help pursue a supported credit or pricing correction, alongside you.",
-    you: "Decide what to pursue and approve supplier contact.",
+    title: "Pursue",
+    body: "Build the case and help pursue a supported correction. We do not file entries.",
+    you: "Decide what to pursue, and instruct your broker or counsel.",
   },
   {
-    title: "Verify",
-    body: "Confirm what was actually accepted: a credit, a corrected price, or another outcome.",
+    title: "Confirm",
+    body: "Confirm what was accepted: a credit, a corrected price, or another outcome.",
     you: "Confirm what was received or corrected.",
   },
   {
-    title: "Prevent",
-    body: "Put simple checks in place so the same issue does not return.",
+    title: "Watch",
+    body: "Keep the next invoice, duty line, and scrap ticket from drifting apart.",
     you: "Choose which checks to keep.",
   },
 ];
@@ -124,27 +124,27 @@ const workflow = [
 const outputs = [
   {
     title: "Findings register",
-    body: "Every difference we found, with the invoice and agreement behind it.",
+    body: "Every difference, with the order, entry, or mill invoice behind it.",
   },
   {
     title: "Value summary",
-    body: "What each issue is worth, looking back and going forward.",
+    body: "What each gap is worth, looking back and going forward.",
   },
   {
     title: "Supplier case",
-    body: "The evidence package for the conversation with the supplier.",
+    body: "The package for the conversation with the supplier.",
   },
   {
-    title: "Resolution support",
-    body: "Hands-on help pursuing an authorized credit or pricing correction.",
+    title: "Follow-through",
+    body: "Help pursuing what you decide. Filings stay with your broker or counsel.",
   },
   {
     title: "Outcome record",
-    body: "What was actually accepted, and what changed on new invoices.",
+    body: "What was accepted, and what changed on the next invoice.",
   },
   {
-    title: "Prevention plan",
-    body: "Simple checks that keep the same issue from coming back.",
+    title: "Watch list",
+    body: "The checks that keep the same gap from coming back.",
   },
 ];
 
@@ -202,12 +202,12 @@ export default function ApproachPage() {
               Approach
             </p>
             <h1 id="approach-heading" className="display-hero">
-              From supplier records to money back.
+              Three records, then a correction.
             </h1>
             <p className="lede">
-              How we find the difference, prove what the records support, and
-              help pursue a credit or a corrected price. It starts with one
-              supplier.
+              How we line up the purchase order, the customs entry, and the
+              mill invoice, then help pursue what they support. It starts with
+              one supplier.
             </p>
             <div className="cta-row">
               <TrackLink
@@ -216,7 +216,7 @@ export default function ApproachPage() {
                 event="cta_click"
                 eventParams={{ location: "approach-hero", target: "contact" }}
               >
-                Send us a supplier issue
+                Send us one supplier
                 <span className="btn-glyph" aria-hidden="true" />
               </TrackLink>
             </div>
@@ -268,12 +268,12 @@ export default function ApproachPage() {
                   Where to start
                 </p>
                 <h2 id="fit-heading" className="heading">
-                  Start with what you&apos;re seeing.
+                  Start with one supplier.
                 </h2>
               </div>
               <p className="lede">
-                Most engagements begin with a hunch about one supplier. These
-                are the patterns we see most, and what helps us move fast.
+                Most work begins with one lane that looks wrong. These are the
+                patterns we see, and the records that let us move.
               </p>
             </Reveal>
             <div className="fit-grid">
@@ -310,12 +310,12 @@ export default function ApproachPage() {
                   Evidence
                 </p>
                 <h2 id="evidence-heading" className="heading">
-                  Follow the pricing evidence.
+                  Follow the metal through the records.
                 </h2>
               </div>
               <p className="lede">
-                A pricing issue usually spans several records. We line them up
-                to show which terms apply and exactly where the money went.
+                The same purchase shows up as an order, an entry, a mill
+                invoice, and sometimes a scrap ticket. We line them up.
               </p>
             </Reveal>
             <Reveal delay={80}>
@@ -392,9 +392,9 @@ export default function ApproachPage() {
                 </h2>
               </div>
               <p className="lede">
-                The same machined housing as the homepage, from what was
-                observed to what the records support, and what a correction
-                would be worth later.
+                The same titanium bar as the homepage, from what was observed
+                to what the records support, and what a correction would be
+                worth later.
               </p>
             </Reveal>
 
@@ -445,8 +445,8 @@ export default function ApproachPage() {
               <p>
                 The other {formatCount(qualifiedUnits)} units support a{" "}
                 <span className="num is-claim">{formatUsd(supportedExposure)}</span>{" "}
-                claim. We build that case and help pursue a credit or a pricing
-                correction. Acceptance is not assumed.
+                finding. We help pursue a correction. Your broker or counsel
+                files. Acceptance is not assumed.
               </p>
               <p>
                 If the price goes back to {formatUsd(example.agreedUnit, 2)} and
@@ -511,8 +511,8 @@ export default function ApproachPage() {
                 </h2>
               </div>
               <p className="lede">
-                You keep the supplier relationship and every decision. We do
-                the digging, build the case, and work it through with you.
+                You keep the supplier relationship, the metal, and every
+                decision. We do the reconciliation and the follow-through.
               </p>
             </Reveal>
             <div className="control-grid">
@@ -520,22 +520,22 @@ export default function ApproachPage() {
                 <h3 className="label">Stays with you</h3>
                 <ul>
                   <li>The supplier relationship</li>
-                  <li>Purchasing approvals</li>
+                  <li>Title to the metal</li>
                   <li>Every commercial decision</li>
                 </ul>
               </Reveal>
               <Reveal className="control-col is-kordran" delay={80}>
                 <h3 className="label">Kordran provides</h3>
                 <ul>
-                  <li>Investigation and evidence</li>
+                  <li>The reconciliation</li>
                   <li>The supplier case</li>
-                  <li>Follow-through on what you decide to pursue</li>
+                  <li>Follow-through on what you decide</li>
                 </ul>
               </Reveal>
             </div>
             <p className="control-note">
-              Everything you share stays confidential and is used only for your
-              engagement.
+              We advise and audit. We do not file customs entries, and we do
+              not take title to scrap. Everything you share stays confidential.
             </p>
           </div>
         </section>
@@ -554,8 +554,8 @@ export default function ApproachPage() {
                 Bring us the problem.
               </h2>
               <p className="lede">
-                One supplier, one invoice that doesn&apos;t look right, or one
-                price increase is enough to start.
+                One supplier, one invoice, or one scrap ticket is enough to
+                start.
               </p>
             </div>
             <div className="cta-row">
@@ -565,7 +565,7 @@ export default function ApproachPage() {
                 event="cta_click"
                 eventParams={{ location: "approach-close", target: "contact" }}
               >
-                Send us a supplier issue
+                Send us one supplier
                 <span className="btn-glyph" aria-hidden="true" />
               </TrackLink>
             </div>

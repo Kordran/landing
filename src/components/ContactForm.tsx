@@ -140,7 +140,7 @@ export default function ContactForm() {
               required
               rows={4}
               aria-describedby="situation-hint"
-              placeholder="The supplier, and what looks wrong. A sentence is enough."
+              placeholder="The supplier, and whether it is the price, the duty, or the scrap."
             />
             <p id="situation-hint" className="form-hint">
               We&apos;ll reply, then ask about timing, spend, and records.
