@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CopyEmailButton from "@/components/CopyEmailButton";
 import Logo from "@/components/Logo";
 import { contactEmail } from "@/lib/site";
 
@@ -75,41 +76,45 @@ export default function Home() {
                 <h1 className="text-balance font-display text-display-sm font-normal tracking-[-0.025em] text-ink-primary lg:text-display-md">
                   Kordran recovers{" "}
                   <span className="underline decoration-ink-primary/25 decoration-1 underline-offset-[6px]">
-                    metal and landed-cost margin
-                  </span>{" "}
-                  for precision manufacturers.
+                    lost margin in supplier billing, tariffs, and material
+                    spend
+                  </span>
+                  .
                 </h1>
 
                 <p className="mt-7 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
-                  Aerospace, defense, and precision manufacturers across Southern
-                  California and Baja lose six figures a year in the blind
-                  spots between purchasing, customs records, and supplier
-                  billing.{" "}
+                  Manufacturers lose six to seven figures a year in the gap
+                  between purchasing, customs, and accounts payable. Buyers
+                  negotiate the terms, brokers file the entries, and AP pays
+                  the bill—nobody reconciles all three streams against each
+                  other.{" "}
                   <span className="bg-highlight px-[4px] py-[1px] underline decoration-ink-primary/25 decoration-1 underline-offset-[4px] box-decoration-clone">
-                    Kordran reconciles ERP purchase orders, trade data, and
-                    mill invoices into one line-level audit:
+                    Kordran audits your ERP, trade records, and supplier
+                    invoices line by line:
                   </span>{" "}
-                  surfacing supplier tariff overbilling, alloy-surcharge
-                  drift, freight waste, and undervalued titanium or superalloy
-                  scrap.
+                  pinpointing supplier tariff overbilling, material-surcharge
+                  errors, freight waste, and underpriced scrap.
                 </p>
 
                 <p className="mt-5 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
-                  We work directly for your finance team and alongside your
-                  customs broker—auditing historical records, backing every
-                  discrepancy with source-page evidence, and monitoring ongoing
-                  AP leakage without replacing your broker or touching
-                  inventory. Built for mid-market manufacturers with complex
-                  metal spend.
+                  Every finding comes backed by source-page evidence your team
+                  can act on immediately—turning silent billing and trade
+                  leakage directly back into EBITDA. Once historical cash is
+                  recovered, Kordran monitors incoming invoices, surcharges,
+                  and scrap settlements every month so those leaks stay
+                  closed.
                 </p>
 
-                <div className="mt-8">
+                <div className="mt-8 flex flex-wrap gap-3">
                   <a
                     className={`${cta} inline-flex border-brand-blue bg-brand-blue text-white`}
                     href={`mailto:${contactEmail}`}
                   >
-                    Contact
+                    Get in touch
                   </a>
+                  <CopyEmailButton
+                    className={`${cta} border-border-subtle bg-canvas text-ink-primary hover:border-ink-primary`}
+                  />
                 </div>
               </div>
             </div>

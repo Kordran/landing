@@ -5,4 +5,4 @@ export const siteName = "Kordran";
 export const contactEmail = "contact@kordran.com";
 
 export const siteDescription =
-  "Kordran recovers metal and landed-cost margin for precision manufacturers.";
+  "Kordran recovers lost margin in supplier billing, tariffs, and material spend.";
