@@ -80,7 +80,7 @@ export default function Home() {
                   for precision manufacturers.
                 </h1>
 
-                <p className="mt-7 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-ink-body">
+                <p className="mt-7 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
                   Mid-market aerospace, defense, and industrial manufacturers
                   across Southern California and Baja lose six figures a year
                   in the blind spots between purchasing, customs records, and
@@ -94,7 +94,7 @@ export default function Home() {
                   scrap.
                 </p>
 
-                <p className="mt-5 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-ink-body">
+                <p className="mt-5 text-pretty font-sans text-body-sm font-normal tracking-[-0.005em] text-black">
                   We work strictly upstream of your customs broker and finance
                   team—auditing past records, flagging billing discrepancies
                   with source-page evidence, and monitoring ongoing AP leakage
