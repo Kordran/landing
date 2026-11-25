@@ -1,6 +1,6 @@
-# Landing
+# Kordran
 
-Blank canvas. Same stack, no content yet.
+Editorial landing page.
 
 ## Stack
 

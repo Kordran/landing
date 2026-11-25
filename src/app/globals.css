@@ -1,1 +1,105 @@
 @import "tailwindcss";
+
+/*
+ * Kordran editorial tokens.
+ * Canvas is pure white. Swap --bg-canvas to #f8f8f7 for warm paper.
+ * --kordran-blue is the existing brand blue (#1c3d57).
+ */
+
+:root {
+  --kordran-blue: #1c3d57;
+  --bg-canvas: #ffffff;
+  --ink-primary: #111111;
+  --ink-body: #2e2e32;
+  --ink-muted: #71717a;
+  --brand-blue: var(--kordran-blue);
+  --line-hairline: #e6e5e3;
+  --line-tick: #27272a;
+  --line-border: #d4d4d8;
+  --fill-highlight: #f4f4f2;
+  --radius-base: 0px;
+  --stroke-hairline: 1px;
+  --stroke-active: 2px;
+}
+
+@theme inline {
+  --font-display: var(--font-alexandria), sans-serif;
+  --font-sans: var(--font-suse), sans-serif;
+
+  --color-canvas: var(--bg-canvas);
+  --color-ink-primary: var(--ink-primary);
+  --color-ink-body: var(--ink-body);
+  --color-ink-muted: var(--ink-muted);
+  --color-brand-blue: var(--brand-blue);
+  --color-hairline: var(--line-hairline);
+  --color-tick: var(--line-tick);
+  --color-border-subtle: var(--line-border);
+  --color-highlight: var(--fill-highlight);
+
+  --text-display-lg: 2.5rem;
+  --text-display-lg--line-height: 1.14;
+  --text-display-sm: 1.75rem;
+  --text-display-sm--line-height: 1.14;
+  --text-body: 1rem;
+  --text-body--line-height: 1.68;
+  --text-body-sm: 0.9375rem;
+  --text-body-sm--line-height: 1.68;
+  --text-nav: 0.875rem;
+  --text-nav--line-height: 1.4;
+  --text-cta: 0.8125rem;
+  --text-cta--line-height: 1;
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1.4;
+  --text-index: 0.6875rem;
+  --text-index--line-height: 1;
+
+  --container-kordran: 84rem;
+  --radius-sharp: 0px;
+}
+
+@utility kordran-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 176px 56px minmax(0, 1fr) 96px;
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-columns: 208px 64px minmax(0, 1fr) 192px;
+  }
+}
+
+@utility hairline-fade {
+  mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 72%,
+    transparent 100%
+  );
+}
+
+html {
+  background: var(--bg-canvas);
+}
+
+body {
+  margin: 0;
+  background: var(--bg-canvas);
+  color: var(--ink-body);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: var(--stroke-active) solid var(--brand-blue);
+  outline-offset: 2px;
+}
+
+/* Short desktop heights keep the footer on screen without changing the 900px+ rhythm. */
+@media (min-width: 1024px) and (max-height: 840px) {
+  .hero-pad {
+    padding-top: clamp(3.5rem, 8vh, 6rem);
+    padding-bottom: 1rem;
+  }
+}
