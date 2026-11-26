@@ -60,7 +60,9 @@ export const audience =
 export const scope =
   "Kordran is not a customs broker and does not file customs entries. The client's broker files. Kordran handles suppliers, freight, contracts and scrap.";
 
-export const isIndexingEnabled = process.env.INDEXING_ENABLED === "true";
+// On unless the host explicitly sets INDEXING_ENABLED=false.
+// The value is read when Next builds static routes, so it must be present at build time.
+export const isIndexingEnabled = process.env.INDEXING_ENABLED !== "false";
 
 export const organizationId = `${SITE_URL}/#organization`;
 

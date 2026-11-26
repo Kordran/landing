@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const indexingEnabled = process.env.INDEXING_ENABLED === "true";
+const indexingEnabled = process.env.INDEXING_ENABLED !== "false";
 
 const indexNowKey = process.env.INDEXNOW_KEY?.trim();
 if (indexNowKey && /^[A-Za-z0-9-]{8,128}$/.test(indexNowKey)) {
