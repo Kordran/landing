@@ -15,6 +15,10 @@ export default function Home() {
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-canvas">
+      <nav aria-label="Primary" className="sr-only">
+        <Link href="/">Home</Link>
+        <a href={`mailto:${contactEmail}`}>Contact</a>
+      </nav>
       <main className="relative isolate flex-1">
         <div
           className="pointer-events-none absolute inset-0 -z-10 hidden hairline-fade lg:block"
@@ -53,23 +57,7 @@ export default function Home() {
 
         <div className={`${frame} hero-pad px-10 pt-12 pb-14 lg:px-6 lg:pt-[clamp(6rem,18vh,11rem)] lg:pb-16`}>
           <div className="kordran-grid items-start">
-            <div className="hidden lg:block">
-              <nav className="hidden" aria-label="Primary">
-                <Link
-                  href="/"
-                  className="font-display text-nav font-medium tracking-[-0.01em] text-brand-blue"
-                  aria-current="page"
-                >
-                  Home
-                </Link>
-                <a
-                  className="font-display text-nav font-normal tracking-[-0.01em] text-ink-muted"
-                  href={`mailto:${contactEmail}`}
-                >
-                  Contact
-                </a>
-              </nav>
-            </div>
+            <div className="hidden lg:block" aria-hidden="true" />
 
             <p className="mb-4 font-sans text-index font-medium tracking-[0.06em] text-ink-muted tabular-nums lg:mb-0 lg:pt-2 lg:pl-2">
               01
@@ -121,7 +109,7 @@ export default function Home() {
 
       <footer className="bg-canvas">
         <div className={`${frame} flex flex-col items-start gap-4 px-10 py-8 md:flex-row md:items-center md:justify-between lg:px-6 lg:py-10`}>
-          <Logo className="h-5 w-auto lg:h-[24px]" priority />
+          <Logo className="h-5 w-auto lg:h-[24px]" />
           {notes.length > 0 ? (
             <Link
               href="/notes"

@@ -14,9 +14,7 @@ export default function Logo({ className = "", priority = false }: LogoProps) {
       height={187}
       className={className}
       decoding="async"
-      {...(priority
-        ? { fetchPriority: "high" as const }
-        : { loading: "lazy" as const })}
+      loading={priority ? "eager" : "lazy"}
     />
   );
 }

@@ -48,7 +48,8 @@ export default async function NotePage({
   const faq = extractFaq(note.body);
 
   return (
-    <article className="mx-auto w-full max-w-3xl px-10 py-16">
+    <main className="mx-auto w-full max-w-3xl px-10 py-16">
+    <article>
       <JsonLd data={getNoteGraph(note, faq)} />
       <nav aria-label="Breadcrumb" className="font-sans text-meta text-ink-muted">
         <Link href="/">{siteName}</Link>
@@ -76,5 +77,6 @@ export default async function NotePage({
         The client&apos;s licensed broker files with customs.
       </p>
     </article>
+    </main>
   );
 }
