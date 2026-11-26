@@ -11,19 +11,16 @@ if (indexNowKey && /^[A-Za-z0-9-]{8,128}$/.test(indexNowKey)) {
   writeFileSync(join(dir, `${indexNowKey}.txt`), indexNowKey);
 }
 
-const headers = [
+const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
-  ...(!indexingEnabled
-    ? [
-        {
-          key: "X-Robots-Tag",
-          value: "noindex, nofollow, noarchive",
-        },
-      ]
-    : []),
 ];
+
+const noindexHeader = {
+  key: "X-Robots-Tag",
+  value: "noindex, nofollow, noarchive",
+};
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
@@ -47,8 +44,13 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
-      { source: "/", headers },
-      { source: "/:path*", headers },
+      { source: "/", headers: securityHeaders },
+      {
+        source: "/:path+",
+        headers: indexingEnabled
+          ? securityHeaders
+          : [...securityHeaders, noindexHeader],
+      },
     ];
   },
 };

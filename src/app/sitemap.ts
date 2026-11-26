@@ -3,14 +3,16 @@ import { getPublishedNotes } from "@/lib/content";
 import { isIndexingEnabled, SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  if (!isIndexingEnabled) return [];
+  const home = {
+    url: SITE_URL,
+    changeFrequency: "monthly" as const,
+    priority: 1,
+  };
+
+  if (!isIndexingEnabled) return [home];
 
   return [
-    {
-      url: SITE_URL,
-      changeFrequency: "monthly",
-      priority: 1,
-    },
+    home,
     ...getPublishedNotes().map((note) => ({
       url: `${SITE_URL}/notes/${note.slug}`,
       lastModified: note.updatedAt,

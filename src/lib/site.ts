@@ -20,18 +20,9 @@ export const headline =
 export const organizationDescription =
   "Kordran finds and recovers cash manufacturers lose on supplier surcharges, tariffs, freight and scrap, then monitors monthly billing. Kordran is not a customs broker and does not file customs entries.";
 
-export const shareImagePlaces = "Southern California and Baja";
+export const shareImagePlaces = "Based in California";
 
-export const areasServed = [
-  "Southern California",
-  "Los Angeles",
-  "Orange County",
-  "San Diego",
-  "Inland Empire",
-  "Baja California",
-  "Tijuana",
-  "Mexicali",
-] as const;
+export const areasServed = ["California"] as const;
 
 export const languages = ["English", "Spanish"] as const;
 

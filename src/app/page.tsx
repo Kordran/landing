@@ -1,9 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import { getPublishedNotes } from "@/lib/content";
 import { contactEmail } from "@/lib/site";
 
 export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  robots: { index: true, follow: true },
+};
 
 const cta =
   "h-11 items-center justify-center border border-solid px-[18px] font-display text-cta font-medium tracking-[0.005em] whitespace-nowrap rounded-none shadow-none lg:h-10";
