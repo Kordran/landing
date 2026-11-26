@@ -23,8 +23,8 @@
 }
 
 @theme inline {
-  --font-display: var(--font-alexandria), sans-serif;
-  --font-sans: var(--font-suse), sans-serif;
+  --font-display: var(--font-display), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   --color-canvas: var(--bg-canvas);
   --color-ink-primary: var(--ink-primary);

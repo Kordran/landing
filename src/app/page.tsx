@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import { getPublishedNotes } from "@/lib/content";
 import { contactEmail } from "@/lib/site";
+
+export const dynamic = "force-static";
 
 const cta =
   "h-11 items-center justify-center border border-solid px-[18px] font-display text-cta font-medium tracking-[0.005em] whitespace-nowrap rounded-none shadow-none lg:h-10";
@@ -8,6 +11,8 @@ const cta =
 const frame = "mx-auto w-full max-w-[72rem]";
 
 export default function Home() {
+  const notes = getPublishedNotes();
+
   return (
     <div className="flex min-h-[100dvh] flex-col bg-canvas">
       <main className="relative isolate flex-1">
@@ -117,6 +122,14 @@ export default function Home() {
       <footer className="bg-canvas">
         <div className={`${frame} flex flex-col items-start gap-4 px-10 py-8 md:flex-row md:items-center md:justify-between lg:px-6 lg:py-10`}>
           <Logo className="h-5 w-auto lg:h-[24px]" priority />
+          {notes.length > 0 ? (
+            <Link
+              href="/notes"
+              className="font-sans text-meta font-normal tracking-[0.01em] text-ink-muted"
+            >
+              Notes
+            </Link>
+          ) : null}
           <p className="font-sans text-meta font-normal tracking-[0.01em] text-ink-muted md:text-right">
             <span>Based in California</span>
             <span aria-hidden="true"> · </span>
