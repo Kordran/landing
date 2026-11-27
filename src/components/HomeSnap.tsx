@@ -3,7 +3,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 
 const COMMIT = 28;
-const DURATION = 700;
+const DURATION = 400;
 
 function glide(t: number) {
   return t * t * (3 - 2 * t);
