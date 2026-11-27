@@ -23,6 +23,7 @@ const S={
 const EDGE="-\\|/",LV=64,AR=16/9;
 const BAYER=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5].map(v=>(v+.5)/16);
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const narrow=matchMedia('(max-width: 767px)');
 const cv=document.createElement('canvas'),ctx=cv.getContext('2d',{alpha:false});root.appendChild(cv);
 const buf=document.createElement('canvas'),gx=buf.getContext('2d',{alpha:false});
 let CH=[],N=0,LO=new Uint8Array(256),HI=new Uint8Array(256);
@@ -143,7 +144,7 @@ function tick(now){
  const dt=Math.min(0.1,(now-last)/1000);last=now;
  if(!visible||document.hidden)return;           // pause while off screen or in a background tab
  if(!reduce){t+=dt;dirty=true;
-  if(imgW>cv.width+2){theta+=dt*0.05;pan=0.5+0.5*Math.sin(theta)}else pan=0.5;
+  if(imgW>cv.width+2){theta+=dt*(narrow.matches?0.01:0.05);pan=0.5+0.5*Math.sin(theta)}else pan=0.5;
   if(t>nextGlitch){const g={rows:{},end:t+0.12+Math.random()*0.1},r0=(Math.random()*rows)|0,h=2+((Math.random()*5)|0);
    for(let r=r0;r<r0+h;r++)g.rows[r]=((Math.random()*10)|0)-5;glitch=g;nextGlitch=t+5+Math.random()*7}
   if(glitch&&t>glitch.end)glitch=null}
