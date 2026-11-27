@@ -103,7 +103,7 @@ body {
   inset: 0;
   overflow: hidden;
   background: #fff;
-  opacity: 0.45;
+  opacity: 0.4;
 }
 
 .port-ascii canvas {
