@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Alexandria, SUSE } from "next/font/google";
 import JsonLd from "@/components/JsonLd";
-import PortAscii from "@/components/PortAscii";
 import { getHomeGraph } from "@/lib/jsonld";
 import {
   defaultTitle,
@@ -72,7 +71,6 @@ export default function RootLayout({
       className={`${alexandria.variable} ${suse.variable} h-full`}
     >
       <body className="min-h-full bg-canvas font-sans text-ink-body antialiased">
-        <PortAscii />
         <JsonLd data={getHomeGraph()} />
         {children}
       </body>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import HomeSnap from "@/components/HomeSnap";
 import Logo from "@/components/Logo";
+import PortAscii from "@/components/PortAscii";
 import { getPublishedNotes } from "@/lib/content";
 import { contactEmail } from "@/lib/site";
 
@@ -15,11 +17,41 @@ const cta =
 
 const frame = "mx-auto w-full max-w-[72rem]";
 
+function SiteFooter({
+  notes,
+  inert = false,
+}: {
+  notes: ReturnType<typeof getPublishedNotes>;
+  inert?: boolean;
+}) {
+  return (
+    <footer inert={inert ? true : undefined} aria-hidden={inert || undefined}>
+      <div className={`${frame} flex flex-col items-start gap-4 px-10 py-8 md:flex-row md:items-center md:justify-between lg:px-6 lg:py-10`}>
+        <Logo className="h-5 w-auto lg:h-[24px]" />
+        {notes.length > 0 ? (
+          <Link
+            href="/notes"
+            className="font-sans text-meta font-normal tracking-[0.01em] text-ink-muted"
+          >
+            Notes
+          </Link>
+        ) : null}
+        <p className="font-sans text-meta font-normal tracking-[0.01em] text-ink-muted md:text-right">
+          <span>Based in California</span>
+          <span aria-hidden="true"> · </span>
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+        </p>
+      </div>
+    </footer>
+  );
+}
+
 export default function Home() {
   const notes = getPublishedNotes();
 
   return (
-    <div className="flex min-h-[100dvh] flex-col">
+    <HomeSnap>
+    <div data-snap className="home-screen flex min-h-[100dvh] flex-col bg-canvas">
       <nav aria-label="Primary" className="sr-only">
         <Link href="/">Home</Link>
         <a href={`mailto:${contactEmail}`}>Contact</a>
@@ -112,24 +144,12 @@ export default function Home() {
         </div>
       </main>
 
-      <footer>
-        <div className={`${frame} flex flex-col items-start gap-4 px-10 py-8 md:flex-row md:items-center md:justify-between lg:px-6 lg:py-10`}>
-          <Logo className="h-5 w-auto lg:h-[24px]" />
-          {notes.length > 0 ? (
-            <Link
-              href="/notes"
-              className="font-sans text-meta font-normal tracking-[0.01em] text-ink-muted"
-            >
-              Notes
-            </Link>
-          ) : null}
-          <p className="font-sans text-meta font-normal tracking-[0.01em] text-ink-muted md:text-right">
-            <span>Based in California</span>
-            <span aria-hidden="true"> · </span>
-            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-          </p>
-        </div>
-      </footer>
+      <SiteFooter notes={notes} />
     </div>
+    <section data-snap className="home-port" aria-hidden="true">
+      <PortAscii />
+      <SiteFooter notes={notes} inert />
+    </section>
+    </HomeSnap>
   );
 }

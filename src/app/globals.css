@@ -91,8 +91,61 @@ body {
   font-family: var(--font-sans);
 }
 
+.home-snap {
+  height: 100dvh;
+  overflow-y: auto;
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none;
+}
+
+.home-screen {
+  min-height: 100dvh;
+  scroll-snap-align: start;
+}
+
+.home-port {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100dvh;
+  isolation: isolate;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.home-port footer {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+}
+
+.home-port footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 4.5rem;
+  background: linear-gradient(to bottom, transparent, #fff);
+  pointer-events: none;
+}
+
+html:has(.home-snap),
+body:has(.home-snap) {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-snap {
+    scroll-behavior: auto;
+  }
+}
+
 .port-ascii-layer {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: -2;
   pointer-events: none;
@@ -103,7 +156,7 @@ body {
   inset: 0;
   overflow: hidden;
   background: #fff;
-  opacity: 0.3;
+  opacity: 1;
 }
 
 .port-ascii canvas {
@@ -120,17 +173,11 @@ body {
   background:
     radial-gradient(
       ellipse at center,
-      transparent 28%,
-      rgba(255, 255, 255, 0.45) 62%,
-      #fff 86%
-    ),
-    linear-gradient(
-      to bottom,
-      #fff 0%,
-      transparent 12%,
-      transparent 80%,
+      transparent 68%,
+      rgba(255, 255, 255, 0.72) 88%,
       #fff 100%
-    );
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.35), transparent 12%);
 }
 
 :focus-visible {
