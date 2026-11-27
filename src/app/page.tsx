@@ -19,13 +19,11 @@ const frame = "mx-auto w-full max-w-[72rem]";
 
 function SiteFooter({
   notes,
-  inert = false,
 }: {
   notes: ReturnType<typeof getPublishedNotes>;
-  inert?: boolean;
 }) {
   return (
-    <footer inert={inert ? true : undefined} aria-hidden={inert || undefined}>
+    <footer data-snap>
       <div className={`${frame} flex flex-col items-start gap-4 px-10 py-8 md:flex-row md:items-center md:justify-between lg:px-6 lg:py-10`}>
         <Logo className="h-5 w-auto lg:h-[24px]" />
         {notes.length > 0 ? (
@@ -146,9 +144,8 @@ export default function Home() {
 
       <SiteFooter notes={notes} />
     </div>
-    <section data-snap className="home-port" aria-hidden="true">
+    <section className="home-port" aria-hidden="true">
       <PortAscii />
-      <SiteFooter notes={notes} inert />
     </section>
     </HomeSnap>
   );

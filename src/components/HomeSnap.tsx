@@ -21,6 +21,15 @@ export default function HomeSnap({ children }: { children: ReactNode }) {
     let touchX = 0;
     let touchY = 0;
 
+    const footer = el.querySelector("footer");
+    const syncFooter = () => {
+      if (!footer) return;
+      el.style.setProperty("--footer-h", `${footer.offsetHeight}px`);
+    };
+    syncFooter();
+    const footerObserver = new ResizeObserver(syncFooter);
+    if (footer) footerObserver.observe(footer);
+
     const screens = () =>
       [...el.querySelectorAll<HTMLElement>("[data-snap]")];
 
@@ -83,9 +92,22 @@ export default function HomeSnap({ children }: { children: ReactNode }) {
       if (next < 0 || next >= list.length) return;
       if (dir > 0 && best === 0) {
         const bottom = list[0].offsetTop + list[0].offsetHeight - el.clientHeight;
-        if (el.scrollTop < bottom - 2) return;
+        if (el.scrollTop < bottom - 2) {
+          event.preventDefault();
+          const room = bottom - el.scrollTop;
+          if (event.deltaY < room) {
+            el.scrollTop += event.deltaY;
+            return;
+          }
+          go(next);
+          return;
+        }
       }
-      if (dir < 0 && best === 0 && el.scrollTop > 2) return;
+      if (dir < 0 && best === 0 && el.scrollTop > 2) {
+        event.preventDefault();
+        el.scrollTop = Math.max(0, el.scrollTop + event.deltaY);
+        return;
+      }
       event.preventDefault();
       acc += event.deltaY;
       window.clearTimeout(accTimer);
@@ -112,6 +134,11 @@ export default function HomeSnap({ children }: { children: ReactNode }) {
       const { list, best } = nearest();
       const next = best + (dy > 0 ? 1 : -1);
       if (next < 0 || next >= list.length) return;
+      if (dy > 0 && best === 0) {
+        const bottom = list[0].offsetTop + list[0].offsetHeight - el.clientHeight;
+        if (el.scrollTop < bottom - 2) return;
+      }
+      if (dy < 0 && best === 0 && el.scrollTop > 2) return;
       event.preventDefault();
     };
 
@@ -119,7 +146,12 @@ export default function HomeSnap({ children }: { children: ReactNode }) {
       const dy = touchY - event.changedTouches[0].clientY;
       const dx = touchX - event.changedTouches[0].clientX;
       if (Math.abs(dy) < COMMIT || Math.abs(dy) < Math.abs(dx)) return;
-      const { best } = nearest();
+      const { list, best } = nearest();
+      if (dy > 0 && best === 0) {
+        const bottom = list[0].offsetTop + list[0].offsetHeight - el.clientHeight;
+        if (el.scrollTop < bottom - 2) return;
+      }
+      if (dy < 0 && best === 0 && el.scrollTop > 2) return;
       go(best + (dy > 0 ? 1 : -1));
     };
 
@@ -150,6 +182,7 @@ export default function HomeSnap({ children }: { children: ReactNode }) {
 
     return () => {
       window.clearTimeout(accTimer);
+      footerObserver.disconnect();
       el.removeEventListener("wheel", onWheel);
       el.removeEventListener("touchstart", onTouchStart);
       el.removeEventListener("touchmove", onTouchMove);
