@@ -96,7 +96,7 @@ body {
   height: 100dvh;
   overflow-y: auto;
   scroll-snap-type: y proximity;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   overscroll-behavior-y: none;
 }
 
@@ -123,11 +123,6 @@ body:has(.home-snap) {
   overflow: hidden;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .home-snap {
-    scroll-behavior: auto;
-  }
-}
 
 .port-ascii-layer {
   position: absolute;

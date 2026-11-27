@@ -3,6 +3,11 @@
 import { useEffect, useRef, type ReactNode } from "react";
 
 const COMMIT = 28;
+const DURATION = 1400;
+
+function glide(t: number) {
+  return t * t * (3 - 2 * t);
+}
 
 export default function HomeSnap({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -18,6 +23,8 @@ export default function HomeSnap({ children }: { children: ReactNode }) {
     let acc = 0;
     let accTimer = 0;
     let token = 0;
+    let frame = 0;
+    let travel = 0;
     let touchX = 0;
     let touchY = 0;
 
@@ -48,42 +55,52 @@ export default function HomeSnap({ children }: { children: ReactNode }) {
       return { list, best };
     };
 
-    const finish = (my: number, top: number) => {
-      if (my !== token) return;
-      if (Math.abs(el.scrollTop - top) > 2) {
-        el.scrollTo({ top, behavior: "auto" });
-      }
-      animating = false;
-      el.style.scrollSnapType = "";
-    };
-
     const go = (index: number) => {
       const { list } = nearest();
       const target = list[index];
-      if (!target || animating) return;
+      if (!target) return;
       const top = target.offsetTop;
-      if (Math.abs(el.scrollTop - top) < 2) return;
+      const from = el.scrollTop;
+      if (Math.abs(from - top) < 2) return;
       const my = ++token;
+      const distance = top - from;
       animating = true;
+      travel = distance;
       acc = 0;
       el.style.scrollSnapType = "none";
-      const onEnd = () => {
-        if (my !== token || Math.abs(el.scrollTop - top) > 2) return;
-        el.removeEventListener("scrollend", onEnd);
-        finish(my, top);
+      if (reduce) {
+        el.scrollTop = top;
+        animating = false;
+        travel = 0;
+        el.style.scrollSnapType = "";
+        return;
+      }
+      const start = performance.now();
+      const tick = (now: number) => {
+        if (my !== token) return;
+        const t = Math.min(1, (now - start) / DURATION);
+        el.scrollTop = from + distance * glide(t);
+        if (t < 1) {
+          frame = requestAnimationFrame(tick);
+          return;
+        }
+        el.scrollTop = top;
+        animating = false;
+        travel = 0;
+        el.style.scrollSnapType = "";
       };
-      el.addEventListener("scrollend", onEnd);
-      el.scrollTo({ top, behavior: reduce ? "auto" : "smooth" });
-      window.setTimeout(() => {
-        el.removeEventListener("scrollend", onEnd);
-        finish(my, top);
-      }, reduce ? 80 : 900);
+      frame = requestAnimationFrame(tick);
     };
 
     const onWheel = (event: WheelEvent) => {
       if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
       if (animating) {
         event.preventDefault();
+        if (Math.sign(event.deltaY) !== Math.sign(travel)) {
+          const { list, best } = nearest();
+          const reverse = best + (event.deltaY > 0 ? 1 : -1);
+          if (reverse >= 0 && reverse < list.length) go(reverse);
+        }
         return;
       }
       const { list, best } = nearest();
@@ -182,6 +199,7 @@ export default function HomeSnap({ children }: { children: ReactNode }) {
 
     return () => {
       window.clearTimeout(accTimer);
+      cancelAnimationFrame(frame);
       footerObserver.disconnect();
       el.removeEventListener("wheel", onWheel);
       el.removeEventListener("touchstart", onTouchStart);
