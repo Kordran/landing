@@ -100,6 +100,10 @@ body {
   overscroll-behavior-y: none;
 }
 
+.home-snap-track {
+  backface-visibility: hidden;
+}
+
 .home-screen {
   min-height: 100dvh;
 }

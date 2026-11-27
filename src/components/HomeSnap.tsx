@@ -55,10 +55,21 @@ export default function HomeSnap({ children }: { children: ReactNode }) {
       return { list, best };
     };
 
+    const track = el.querySelector<HTMLElement>(".home-snap-track");
+
+    const commitVisual = () => {
+      if (!track) return;
+      const shift = new DOMMatrix(getComputedStyle(track).transform).m42;
+      if (!shift) return;
+      track.style.transform = "";
+      el.scrollTop -= shift;
+    };
+
     const go = (index: number) => {
       const { list } = nearest();
       const target = list[index];
-      if (!target) return;
+      if (!target || !track) return;
+      commitVisual();
       const top = target.offsetTop;
       const from = el.scrollTop;
       if (Math.abs(from - top) < 2) return;
@@ -75,16 +86,22 @@ export default function HomeSnap({ children }: { children: ReactNode }) {
         el.style.scrollSnapType = "";
         return;
       }
+      track.style.willChange = "transform";
+      document.documentElement.setAttribute("data-snap-glide", "");
       const start = performance.now();
       const tick = (now: number) => {
         if (my !== token) return;
         const t = Math.min(1, (now - start) / DURATION);
-        el.scrollTop = from + distance * glide(t);
+        const y = from + distance * glide(t);
+        track.style.transform = `translate3d(0, ${-(y - from)}px, 0)`;
         if (t < 1) {
           frame = requestAnimationFrame(tick);
           return;
         }
         el.scrollTop = top;
+        track.style.transform = "";
+        track.style.willChange = "";
+        document.documentElement.removeAttribute("data-snap-glide");
         animating = false;
         travel = 0;
         el.style.scrollSnapType = "";
@@ -208,12 +225,15 @@ export default function HomeSnap({ children }: { children: ReactNode }) {
       window.removeEventListener("keydown", onKey);
       token += 1;
       el.style.scrollSnapType = "";
+      document.documentElement.removeAttribute("data-snap-glide");
+      track?.style.removeProperty("transform");
+      track?.style.removeProperty("will-change");
     };
   }, []);
 
   return (
     <div ref={ref} className="home-snap">
-      {children}
+      <div className="home-snap-track">{children}</div>
     </div>
   );
 }

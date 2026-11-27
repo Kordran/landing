@@ -141,6 +141,7 @@ function draw(){
 }
 function tick(now){
  requestAnimationFrame(tick);if(now-last<1000/FPS)return;
+ if(document.documentElement.hasAttribute("data-snap-glide")){last=now;return}
  const dt=Math.min(0.1,(now-last)/1000);last=now;
  if(!visible||document.hidden)return;           // pause while off screen or in a background tab
  if(!reduce){t+=dt;dirty=true;
